@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const server = express.Router();
 
-let userModel = require("../models/user.model");
+let userModel = require("../model/user.model");
 
 server.route("/login").post((req, res, next) => {
   userModel.findOne({ username: req.body.username }, (err, doc) => {
@@ -13,7 +13,7 @@ server.route("/login").post((req, res, next) => {
           if (isRight) {
             delete doc.hash;
             res.json(doc);
-          } else res.json({ msg: "Invalid Credentials!" });
+          } else res.json({ msg: "Invalid login" });
         });
     }
   });
@@ -27,7 +27,7 @@ server.route("/register").post((req, res, next) => {
         if (err) next(err);
         else
           userModel.create(
-            { Username: req.body.username, password: hash },
+            { username: req.body.username, password: hash },
             (err, doc) => {
               if (err) next(err);
               else res.json(doc);

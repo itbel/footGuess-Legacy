@@ -5,9 +5,7 @@ const app = express();
 
 require("dotenv").config();
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+let userModel = require("./model/user.model");
 
 mongoose
   .connect(process.env.DB_CONN, {
@@ -21,8 +19,12 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
+mongoose.set("useCreateIndex", true);
 const usersRouter = require("./routes/users");
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use("/users", usersRouter);
 
 app.listen(process.env.PORT, () => {
