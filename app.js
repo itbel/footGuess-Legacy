@@ -8,7 +8,7 @@ require("dotenv").config();
 let userModel = require("./model/user.model");
 
 mongoose
-  .connect(process.env.DB_CONN, {
+  .connect(process.env.DB_REMOTE, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,

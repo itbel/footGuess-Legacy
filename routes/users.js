@@ -11,9 +11,9 @@ server.route("/login").post((req, res, next) => {
       if (doc !== null)
         bcrypt.compare(req.body.password, doc.password, (err, isRight) => {
           if (isRight) {
-            delete doc.hash;
+            doc.password = "";
             res.json(doc);
-          } else res.json({ msg: "Invalid login" });
+          } else res.status(401).json({ msg: "Invalid login" });
         });
     }
   });
