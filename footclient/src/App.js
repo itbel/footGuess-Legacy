@@ -1,13 +1,17 @@
 import React from "react";
-import logo from "./logo.svg";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import Login from "./components/Login";
 import "./App.css";
 
 function App() {
-  const 
   return (
-    <div className="App">
-
-    </div>
+    <React.Fragment>
+      <Router>
+        <Login className="login" />
+        <Switch></Switch>
+      </Router>
+    </React.Fragment>
   );
 }
 
