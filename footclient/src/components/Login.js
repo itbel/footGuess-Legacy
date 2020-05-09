@@ -35,7 +35,7 @@ const Login = () => {
             console.log("Successfully authenticated.");
             dispatch({
               type: "LOGIN",
-              payload: response.data.username,
+              payload: data.user,
             });
           }
         })
@@ -50,16 +50,6 @@ const Login = () => {
   };
   return (
     <Container fluid className="login pt-2">
-      <Row
-        className="justify-content-end"
-        style={{ backgroundColor: "#efefef", padding: "16px" }}
-      >
-        <Row>
-          <Button style={{ marginRight: "2vw" }} variant="info">
-            Register
-          </Button>
-        </Row>
-      </Row>
       <div className="spacer"></div>
       <Row className="justify-content-center">
         <Col className="loginForm" xs={10} sm={6} lg={3}>
@@ -95,17 +85,24 @@ const Login = () => {
               />
             </Form.Group>
             {data.errorMessage && (
-              <span className="form-error">{data.errorMessage}</span>
+              <span className="form-error">
+                <b>{data.errorMessage}</b>
+              </span>
             )}
-            <Button
-              disabled={data.isSubmitting}
-              onClick={handleSubmit}
-              variant="info"
-              className="w-100"
-              type="submit"
-            >
-              {data.isSubmitting ? "Loading..." : "Login"}
-            </Button>
+            <Row className="justify-content-center">
+              <Button
+                disabled={data.isSubmitting}
+                onClick={handleSubmit}
+                variant="info"
+                className="w-25"
+                type="submit"
+              >
+                {data.isSubmitting ? "Loading..." : "Login"}
+              </Button>
+              <Button className="w-25 ml-2" variant="info">
+                Register
+              </Button>
+            </Row>
           </Form>
         </Col>
       </Row>

@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/Login";
 import Landing from "./components/Landing";
 import "./App.css";
+import Nav from "./components/Nav";
 
 export const AuthContext = React.createContext();
 
@@ -14,11 +15,11 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("user", action.payload.user);
+      localStorage.setItem("user", action.payload);
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.user,
+        user: action.payload,
       };
     case "LOGOUT":
       localStorage.clear();
@@ -42,6 +43,7 @@ function App() {
       }}
     >
       <div className="App">
+        {!state.isAuthenticated ? null : <Nav />}
         {!state.isAuthenticated ? <Login /> : <Landing />}
       </div>
     </AuthContext.Provider>

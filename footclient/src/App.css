@@ -16,3 +16,13 @@
 .spacer {
   min-height: 25vh;
 }
+
+.module {
+  background-color: lightgray;
+  width: 35vw;
+  height: 35vh;
+}
+
+.landing {
+  padding: 8px;
+}
