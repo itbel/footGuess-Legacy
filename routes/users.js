@@ -6,15 +6,19 @@ let userModel = require("../model/user.model");
 
 server.route("/login").post((req, res, next) => {
   userModel.findOne({ username: req.body.username }, (err, doc) => {
-    if (err) next(err);
-    else {
-      if (doc !== null)
+    if (err) {
+      next(err);
+    } else {
+      if (doc !== null) {
         bcrypt.compare(req.body.password, doc.password, (err, isRight) => {
           if (isRight) {
             doc.password = "";
             res.json(doc);
           } else res.status(401).json({ msg: "Invalid login" });
         });
+      } else {
+        res.status(401).json({ msg: "Invalid login" });
+      }
     }
   });
 });
