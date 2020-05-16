@@ -5,8 +5,6 @@ const app = express();
 
 require("dotenv").config();
 
-let userModel = require("./model/user.model");
-
 mongoose
   .connect(process.env.DB_REMOTE, {
     useNewUrlParser: true,
@@ -20,12 +18,15 @@ mongoose
     console.log(error);
   });
 mongoose.set("useCreateIndex", true);
-const usersRouter = require("./routes/users");
+
+const usersRouter = require("./routes/users.route");
+const tournamentRouter = require("./routes/tournaments.route");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/users", usersRouter);
+app.use("/tournaments", tournamentRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port: ${process.env.PORT}`);

@@ -1,8 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { AuthContext } from "../App";
-import Module1 from "./Module1";
-
 const Landing = () => {
   const { state: authState } = React.useContext(AuthContext);
 
@@ -12,12 +10,7 @@ const Landing = () => {
       <h6>Welcome {authState.isAuthenticated ? authState.user : undefined}</h6>
 
       <Col>
-        <Row>
-          <Module1></Module1>
-          <Module1></Module1>
-          <Module1></Module1>
-          <Module1></Module1>
-        </Row>
+        <Row></Row>
       </Col>
     </div>
   );

@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const server = express.Router();
 
-let userModel = require("../model/user.model");
+let userModel = require("../models/user.model");
 
 server.route("/login").post((req, res, next) => {
   userModel.findOne({ username: req.body.username }, (err, doc) => {
@@ -31,7 +31,12 @@ server.route("/register").post((req, res, next) => {
         if (err) next(err);
         else
           userModel.create(
-            { username: req.body.username, password: hash },
+            {
+              username: req.body.username,
+              password: hash,
+              name: req.body.name,
+              email: req.body.email,
+            },
             (err, doc) => {
               if (err) next(err);
               else res.json(doc);
