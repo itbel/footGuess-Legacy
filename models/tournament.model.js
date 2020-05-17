@@ -10,7 +10,7 @@ const Tournament = new Schema({
   users: [
     {
       userid: { type: Schema.Types.ObjectId },
-      guesses: String,
+      guesses: [],
       points: Number,
     },
   ],
