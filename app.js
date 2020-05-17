@@ -10,6 +10,7 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log(`Successfully connected to the database.`);
@@ -21,11 +22,13 @@ mongoose.set("useCreateIndex", true);
 
 const usersRouter = require("./routes/users.route");
 const tournamentRouter = require("./routes/tournaments.route");
+const teamsRouter = require("./routes/teams.route");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/users", usersRouter);
+app.use("/teams", teamsRouter);
 app.use("/tournaments", tournamentRouter);
 
 app.listen(process.env.PORT, () => {
