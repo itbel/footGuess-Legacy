@@ -29,16 +29,16 @@ server.route("/join").post((req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) console.log("shittt ", err.name);
+      if (err) console.log(err);
       else res.json(doc);
     }
   );
 });
 
-server.route("/getteams").get((req, res, next) => {
-  tournamentModel.find({ name: req.body.name }, (err, doc) => {
+server.route("/getmatches").get((req, res, next) => {
+  tournamentModel.find({}, (err, doc) => {
     if (err) next(err);
-    res.json(doc[0].teams);
+    res.json(doc);
   });
 });
 

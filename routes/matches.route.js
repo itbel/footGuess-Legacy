@@ -14,9 +14,9 @@ server.route("/addmatch").post((req, res, next) => {
     (err, doc) => {
       if (err) next(err);
       else {
-        tournamentModel.findByIdAndUpdate(
+        tournamentModel.updateOne(
           { _id: req.body.id },
-          { $addToSet: { match: doc._id } },
+          { $addToSet: { matches: doc._id } },
           (err, doc) => {
             if (err) console.log(err.name);
             else console.log("Successfully edited.");

@@ -6,26 +6,49 @@ let tournamentModel = require("../models/tournament.model");
 server.route("/addteam").post((req, res, next) => {
   // better implementation needed:
   // create adds documents even if they already exist with same tournament id
-  teamModel.create(
-    {
-      tournamentid: req.body.id,
-      teamName: req.body.teamName,
-      teamPoints: 0,
-      teamWins: 0,
-      teamLosses: 0,
-      teamTies: 0,
-    },
+
+  tournamentModel.find(
+    { teams: { $elemMatch: { teamName: req.body.teamName } } },
     (err, doc) => {
-      if (err) next(err);
-      else res.json(doc);
-    }
-  );
-  tournamentModel.findByIdAndUpdate(
-    { _id: req.body.id },
-    { $addToSet: { teams: req.body.teamName } },
-    (err, doc) => {
-      if (err) console.log(err.name);
-      else console.log("Successfully edited.");
+      if (err) console.log(err);
+      else {
+        if (doc.length === 0) {
+          teamModel.create(
+            {
+              tournamentid: req.body.id,
+              teamName: req.body.teamName,
+              teamPoints: 0,
+              teamWins: 0,
+              teamLosses: 0,
+              teamTies: 0,
+            },
+            (err, doc) => {
+              if (err) next(err);
+              else {
+                tournamentModel.updateOne(
+                  { _id: req.body.id },
+                  {
+                    $addToSet: {
+                      teams: {
+                        teamid: doc._id,
+                        teamName: doc.teamName,
+                      },
+                    },
+                  },
+                  (err, doc) => {
+                    if (err) console.log(err);
+                    else console.log("Successfully edited.");
+                  }
+                );
+                res.json(doc);
+              }
+            }
+          );
+        } else {
+          console.log("TEAM ALREADY EXISTS, NOT CREATED");
+          res.json(doc);
+        }
+      }
     }
   );
 });
