@@ -4,7 +4,7 @@ const server = express.Router();
 let matchModel = require("../models/match.model");
 let tournamentModel = require("../models/tournament.model");
 
-server.route("/creatematch").post((req, res, next) => {
+server.route("/addmatch").post((req, res, next) => {
   matchModel.create(
     {
       tournamentid: req.body.id,

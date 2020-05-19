@@ -24,6 +24,7 @@ const usersRouter = require("./routes/users.route");
 const tournamentRouter = require("./routes/tournaments.route");
 const teamsRouter = require("./routes/teams.route");
 const matchesRouter = require("./routes/matches.route");
+const guessRouter = require("./routes/guess.route");
 
 app.use(cors());
 app.use(express.json());
@@ -32,6 +33,7 @@ app.use("/users", usersRouter);
 app.use("/teams", teamsRouter);
 app.use("/tournaments", tournamentRouter);
 app.use("/matches", matchesRouter);
+app.use("/guess", guessRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port: ${process.env.PORT}`);

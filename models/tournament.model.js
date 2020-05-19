@@ -9,12 +9,16 @@ const Tournament = new Schema({
   teams: [],
   users: [
     {
-      userid: { type: Schema.Types.ObjectId },
-      guesses: [],
+      userid: { type: Schema.Types.ObjectId, unique: true },
       points: Number,
     },
   ],
-  match: [{ type: Schema.Types.ObjectId, ref: "match" }],
+  match: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "match",
+    },
+  ],
 });
 
 module.exports = mongoose.model("tournament", Tournament);

@@ -10,7 +10,7 @@ const User = new Schema({
     minlength: 4,
   },
   password: { type: String, required: true },
-  tournaments: { type: Schema.Types.ObjectId, ref: "tournament" },
+  tournaments: [],
   name: { type: String },
   email: { type: String },
 });
