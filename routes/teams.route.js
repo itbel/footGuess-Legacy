@@ -15,7 +15,7 @@ server.route("/addteam").post((req, res, next) => {
         if (doc.length === 0) {
           teamModel.create(
             {
-              tournamentid: req.body.id,
+              tournamentid: req.body.tournamentid,
               teamName: req.body.teamName,
               teamPoints: 0,
               teamWins: 0,
@@ -26,12 +26,13 @@ server.route("/addteam").post((req, res, next) => {
               if (err) next(err);
               else {
                 tournamentModel.updateOne(
-                  { _id: req.body.id },
+                  { _id: req.body.tournamentid },
                   {
                     $addToSet: {
                       teams: {
                         teamid: doc._id,
                         teamName: doc.teamName,
+                        tournamentid: doc.tournamentid,
                       },
                     },
                   },
@@ -55,23 +56,26 @@ server.route("/addteam").post((req, res, next) => {
 
 server.route("/deleteteam").post((req, res, next) => {
   //removing from teams array
-  tournamentModel.findByIdAndUpdate(
-    { _id: req.body.id },
+  console.log(`========== REMOVING FROM ARRAY ==========`);
+  tournamentModel.updateOne(
+    { _id: req.body.tournamentid },
     { $pull: { teams: req.body.teamName } },
     (err, doc) => {
       if (err) console.log(err);
-      else console.log(doc);
     }
   );
+  console.log(`========== FINISHED REMOVE OPERATION ==========`);
+  console.log(`========== REMOVING FROM COLLECTION ==========`);
   //removing from collection
   teamModel.findOneAndDelete(
     { teamName: req.body.teamName },
-    { id: req.body.id },
+    { id: req.body.tournamentid },
     (err, doc) => {
       if (err) res.json(err);
       else res.json(doc);
     }
   );
+  console.log(`========== FINISHED REMOVE OPERATION ==========`);
 });
 
 module.exports = server;

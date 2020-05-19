@@ -2,7 +2,6 @@ const express = require("express");
 const server = express.Router();
 
 let tournamentModel = require("../models/tournament.model");
-let matchModel = require("../models/match.model");
 
 server.route("/createtournament").post((req, res, next) => {
   tournamentModel.create(
@@ -24,6 +23,7 @@ server.route("/join").post((req, res, next) => {
       $addToSet: {
         users: {
           userid: req.body.userid,
+          tournamentid: req.body.tournamentid,
           points: 0,
         },
       },
