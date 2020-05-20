@@ -10,6 +10,7 @@ export const AuthContext = React.createContext();
 const initialState = {
   isAuthenticated: false,
   user: null,
+  userid: null,
 };
 
 const reducer = (state, action) => {

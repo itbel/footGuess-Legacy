@@ -33,6 +33,7 @@ const Login = () => {
           if (response.data.msg === "Invalid Credentials!") {
           } else {
             console.log("Successfully authenticated.");
+            console.log(response.data);
             dispatch({
               type: "LOGIN",
               payload: data.user,
