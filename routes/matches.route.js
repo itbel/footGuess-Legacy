@@ -2,9 +2,9 @@ const express = require("express");
 const server = express.Router();
 
 let matchModel = require("../models/match.model");
-let tournamentModel = require("../models/tournament.model");
 
 server.route("/addmatch").post((req, res, next) => {
+  console.log(`========== ADDING NEW MATCH ==========`);
   matchModel.create(
     {
       tournamentid: req.body.tournamentid,
@@ -13,26 +13,19 @@ server.route("/addmatch").post((req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else {
-        tournamentModel.updateOne(
-          { _id: req.body.tournamentid },
-          {
-            $push: {
-              matches: {
-                tournamentid: doc.tournamentid,
-                matchid: doc._id,
-              },
-            },
-          },
-          (err, doc) => {
-            if (err) console.log(err);
-            else console.log("Successfully edited.");
-          }
-        );
-        res.json(doc);
-      }
+      else res.json(doc);
     }
   );
+  console.log(`========== FINISHED ADDING MATCH OPERATION ==========`);
+});
+
+server.route("/allmatches").get((req, res, next) => {
+  console.log(`========== FETCHING ALL MATCHES IN TOURNAMENT ==========`);
+  matchModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
+    if (err) console.log(err);
+    else res.json(doc);
+  });
+  console.log(`========== FINISHED FETCHING ALL MATCHES OPERATION ==========`);
 });
 
 module.exports = server;

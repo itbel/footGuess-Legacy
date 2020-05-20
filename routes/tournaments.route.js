@@ -4,6 +4,7 @@ const server = express.Router();
 let tournamentModel = require("../models/tournament.model");
 
 server.route("/createtournament").post((req, res, next) => {
+  console.log(`========== CREATING TOURNAMENT ==========`);
   tournamentModel.create(
     {
       name: req.body.name,
@@ -14,9 +15,11 @@ server.route("/createtournament").post((req, res, next) => {
       else res.json(doc);
     }
   );
+  console.log(`========== FINISHED CREATING TOURNAMENT OPERATION ==========`);
 });
 
 server.route("/join").post((req, res, next) => {
+  console.log(`========== ADDING USER TO TOURNAMENT ==========`);
   tournamentModel.findByIdAndUpdate(
     { _id: req.body.tournamentid },
     {
@@ -33,20 +36,7 @@ server.route("/join").post((req, res, next) => {
       else res.json(doc);
     }
   );
-});
-
-server.route("/getmatches").get((req, res, next) => {
-  tournamentModel.find({}, (err, doc) => {
-    if (err) next(err);
-    res.json(doc);
-  });
-});
-
-server.route("/gettournament").get((req, res, next) => {
-  tournamentModel.find({ name: req.body.name }, (err, doc) => {
-    if (err) next(err);
-    res.json(doc);
-  });
+  console.log(`========== FINISHED ADDING USER OPERATION ==========`);
 });
 
 module.exports = server;

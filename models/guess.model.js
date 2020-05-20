@@ -7,11 +7,17 @@ const Guess = new Schema({
     ref: "tournament",
     required: true,
   },
-  teamAguess: { type: Number },
-  teamBguess: { type: Number },
+  matchid: {
+    type: Schema.Types.ObjectId,
+    ref: "match",
+    required: true,
+  },
+  teamAguess: { type: Number, required: true },
+  teamBguess: { type: Number, required: true },
   userid: {
     type: Schema.Types.ObjectId,
     ref: "user",
+    required: true,
   },
 });
 
