@@ -1,17 +1,25 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Row, Col, Dropdown } from "react-bootstrap";
 import { AuthContext } from "../App";
+import Axios from "axios";
 const Landing = () => {
-  const { state: authState } = React.useContext(AuthContext);
-
+  const { state: authState, dispatch } = useContext(AuthContext);
+  useEffect(() => {});
   return (
     <div className="landing">
       <h1>Landing Page</h1>
-      <h6>Welcome {authState.isAuthenticated ? authState.user : undefined}</h6>
+      <h6>
+        Welcome {authState.isAuthenticated ? authState.userid : undefined}
+      </h6>
 
-      <Col>
-        <Row></Row>
-      </Col>
+      <h6>Tournament: </h6>
+      <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          Dropdown Button
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>{}</Dropdown.Menu>
+      </Dropdown>
     </div>
   );
 };

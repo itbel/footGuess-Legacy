@@ -7,7 +7,11 @@ const Navigation = () => {
   return (
     <Navbar className="w-100" style={{ backgroundColor: "#efefef" }}>
       <Nav className=" w-100">
-        <Nav.Link href="/">Home</Nav.Link>
+        <Nav.Link href="#">Home</Nav.Link>
+        <Nav.Link href="#">Create Tournament</Nav.Link>
+        <Nav.Link href="#">Join Tournament</Nav.Link>
+        <Nav.Link href="#">Create Match</Nav.Link>
+        <Nav.Link href="#">Guess Results</Nav.Link>
         <Nav className="justify-content-end">
           <Button
             onClick={() => {
