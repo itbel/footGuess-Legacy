@@ -8,6 +8,7 @@ const Login = () => {
   const initialState = {
     user: "",
     pass: "",
+    userid: "",
     isSubmitting: false,
     errorMessage: null,
   };
@@ -33,10 +34,9 @@ const Login = () => {
           if (response.data.msg === "Invalid Credentials!") {
           } else {
             console.log("Successfully authenticated.");
-            console.log(response.data);
             dispatch({
               type: "LOGIN",
-              payload: data.user,
+              payload: response.data,
             });
           }
         })

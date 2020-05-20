@@ -16,7 +16,6 @@ server.route("/login").post((req, res, next) => {
             doc.email = undefined;
             doc.username = undefined;
             doc.__v = undefined;
-
             res.json(doc);
           } else res.status(401).json({ msg: "Invalid login" });
         });
