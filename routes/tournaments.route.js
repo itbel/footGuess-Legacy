@@ -40,7 +40,7 @@ server.route("/join").post((req, res, next) => {
   console.log(`========== FINISHED ADDING USER OPERATION ==========`);
 });
 
-server.route("/gettournament").get((req, res, next) => {
+server.route("/gettournament").post((req, res, next) => {
   console.log(`========== FETCHING USERS TOURNAMENTS ==========`);
   let tournament;
   tournamentModel.find({ "users.userid": req.body.userid }, (err, doc) => {

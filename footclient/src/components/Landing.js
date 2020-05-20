@@ -4,21 +4,37 @@ import { AuthContext } from "../App";
 import Axios from "axios";
 const Landing = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  useEffect(() => {});
+  const [tournaments, setTournaments] = useState([]);
+  useEffect(() => {
+    Axios.post(
+      "http://localhost:3001/tournaments/gettournament",
+      {
+        userid: authState.userid,
+      },
+      { timeout: 2000 }
+    )
+      .then((response) => {
+        setTournaments(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <div className="landing">
       <h1>Landing Page</h1>
-      <h6>
-        Welcome {authState.isAuthenticated ? authState.userid : undefined}
-      </h6>
-
-      <h6>Tournament: </h6>
+      <h6>Welcome {authState.isAuthenticated ? authState.user : undefined}</h6>
       <Dropdown>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
-          Dropdown Button
+          Tournaments
         </Dropdown.Toggle>
 
-        <Dropdown.Menu>{}</Dropdown.Menu>
+        <Dropdown.Menu>
+          {tournaments.map((val) => {
+            console.log(val);
+            return <Dropdown.Item>{val.name}</Dropdown.Item>;
+          })}
+        </Dropdown.Menu>
       </Dropdown>
     </div>
   );
