@@ -23,7 +23,10 @@ const Landing = () => {
   return (
     <div className="landing">
       <h1>Landing Page</h1>
-      <h6>Welcome {authState.isAuthenticated ? authState.user : undefined}</h6>
+      <h6>
+        {authState.isAuthenticated ? `Welcome ${authState.user}` : undefined}
+      </h6>
+      <h6></h6>
       <Dropdown>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
           Tournaments
