@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/Login";
 import Landing from "./components/Landing";
 import "./App.css";
-import Nav from "./components/Nav";
 
 export const AuthContext = React.createContext();
 
@@ -46,7 +45,6 @@ function App() {
       }}
     >
       <div className="App">
-        {!state.isAuthenticated ? null : <Nav />}
         {!state.isAuthenticated ? <Login /> : <Landing />}
       </div>
     </AuthContext.Provider>
