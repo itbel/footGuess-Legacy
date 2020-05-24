@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Dropdown, Container, Nav } from "react-bootstrap";
 import { AuthContext } from "../App";
 import Axios from "axios";
-import Navigation from "./Navigation";
-
+import TopNav from "./TopNav";
+import SideNav from "./SideNav";
+import Results from "./Results";
 const Landing = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [tournaments, setTournaments] = useState([]);
@@ -24,53 +25,49 @@ const Landing = () => {
   }, []);
   return (
     <div
-      className="landing"
-      style={{ backgroundColor: "lightgrey", height: "100vh" }}
+      className="landing p-0"
+      style={{
+        backgroundColor: "#131313",
+        height: "100vh",
+        color: "#efefef",
+      }}
     >
-      <Container>
-        <Navigation></Navigation>
-        <Row>
-          <Col sm={2}>
-            <Nav
-              defaultActiveKey="/home"
-              className="flex-column"
-              style={{ backgroundColor: "white" }}
-            >
-              <Nav.Link eventKey="link-0">Home</Nav.Link>
-              <Nav.Link eventKey="link-1">Link 1</Nav.Link>
-              <Nav.Link eventKey="link-2">Link 2</Nav.Link>
-              <Nav.Link eventKey="link-3">Link 3</Nav.Link>
-              <Nav.Link eventKey="link-4">Link 4</Nav.Link>
-            </Nav>
-          </Col>
-          <Col>
-            <Row>
-              <Col>
-                <h1>Landing Page</h1>
-                <h6>
-                  {authState.isAuthenticated
-                    ? `Welcome ${authState.user}`
-                    : undefined}
-                </h6>
-              </Col>
-              <Col>
-                <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Tournaments
-                  </Dropdown.Toggle>
+      <TopNav></TopNav>
+      <Row className="m-0">
+        <Col xs={0} sm={3} md={2} lg={2} xl={1} className="p-0">
+          <SideNav></SideNav>
+        </Col>
+        <Col>
+          <Row>
+            <Col className="mt-5">
+              {!authState.isLeagueSet ? (
+                <h1>Select a League: {authState.user}</h1>
+              ) : (
+                `Selected League ${authState.user}`
+              )}
+              <Results></Results>
+            </Col>
+            <Col sm={2} className="mt-5 pt-2">
+              <Dropdown className="d-flex justify-content-end mr-4">
+                <Dropdown.Toggle
+                  variant="dark"
+                  id="dropdown-basic"
+                  drop={"down"}
+                >
+                  Tournaments
+                </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    {tournaments.map((val) => {
-                      console.log(val);
-                      return <Dropdown.Item>{val.name}</Dropdown.Item>;
-                    })}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+                <Dropdown.Menu>
+                  {tournaments.map((val) => {
+                    console.log(val);
+                    return <Dropdown.Item>{val.name}</Dropdown.Item>;
+                  })}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </div>
   );
 };

@@ -8,6 +8,7 @@
 }
 
 .loginForm {
+  opacity: 0.93;
   padding: 16px;
   background-color: lightgrey;
   border-radius: 8px 8px 8px 8px;
@@ -24,5 +25,5 @@
 }
 
 .landing {
-  padding: 8px;
+  padding: 16px;
 }
