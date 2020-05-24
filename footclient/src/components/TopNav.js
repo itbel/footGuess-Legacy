@@ -9,8 +9,8 @@ const TopNav = () => {
       fixed="top"
       style={{
         backgroundColor: "#2b2b2b",
-        height: "5vh",
-        paddingTop: "16px",
+        height: "64px",
+        paddingTop: "8px",
         color: "#efefef",
       }}
     >

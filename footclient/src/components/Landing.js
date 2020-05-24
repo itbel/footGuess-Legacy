@@ -35,9 +35,9 @@ const Landing = () => {
       }}
     >
       <TopNav></TopNav>
+      <div style={{ height: "72px" }}></div>
       <Row className="m-0">
         <Col>
-          <div style={{ height: "5vh" }}></div>
           <Row className="d-flex justify-content-end m-0 mr-4">
             <Col lg={3}></Col>
             <Col>
