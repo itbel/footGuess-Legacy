@@ -1,17 +1,17 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../App";
-import { Navbar, Nav, Button } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 
 const TopNav = () => {
   const { dispatch } = useContext(AuthContext);
   return (
     <Navbar
+      bg="dark"
+      variant="dark"
       fixed="top"
       style={{
-        backgroundColor: "#2b2b2b",
         height: "64px",
         paddingTop: "8px",
-        color: "#efefef",
       }}
     >
       <Nav className="w-100 d-flex justify-content-center">

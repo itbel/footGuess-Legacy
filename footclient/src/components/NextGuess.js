@@ -1,5 +1,5 @@
 import React from "react";
-const Results = () => {
+const NextGuess = () => {
   return (
     <div
       style={{
@@ -10,9 +10,9 @@ const Results = () => {
         color: "#efefef",
       }}
     >
-      <h1>Resultados da Ultima Roadada</h1>
+      <h1>Make your next guess</h1>
     </div>
   );
 };
 
-export default Results;
+export default NextGuess;

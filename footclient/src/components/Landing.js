@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Row, Col, Dropdown, Container, Nav } from "react-bootstrap";
+import { Row, Col, Dropdown } from "react-bootstrap";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { AuthContext } from "../App";
 import Axios from "axios";
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
 import Results from "./Results";
+import NextGuess from "./Results";
 const Landing = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const { state: authState } = useContext(AuthContext);
   const [selectedTour, setSelectedTour] = useState(undefined);
   const [tournaments, setTournaments] = useState([]);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
@@ -24,70 +26,75 @@ const Landing = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [isLeagueSet]);
+  }, [isLeagueSet, authState.userid]);
   return (
-    <div
-      className="landing p-0"
-      style={{
-        backgroundColor: "#131313",
-        height: "100vh",
-        color: "#efefef",
-      }}
-    >
-      <TopNav></TopNav>
-      <div style={{ height: "72px" }}></div>
-      <Row className="m-0">
-        <Col>
-          <Row className="d-flex justify-content-end m-0 mr-4">
-            <Col lg={3}></Col>
-            <Col>
-              {!isLeagueSet ? (
-                <h1>Select a League:&nbsp; </h1>
-              ) : (
-                <h1>{selectedTour}</h1>
-              )}
-            </Col>
-            <Col>
-              <Dropdown className="d-flex mt-2 justify-content-end">
-                <Dropdown.Toggle
-                  variant="dark"
-                  id="dropdown-basic"
-                  drop={"down"}
-                >
-                  Tournaments
-                </Dropdown.Toggle>
+    <Router>
+      <div
+        className="landing p-0"
+        style={{
+          backgroundColor: "#131313",
+          height: "100vh",
+          color: "#efefef",
+        }}
+      >
+        <TopNav></TopNav>
+        <div style={{ height: "72px" }}></div>
+        <Row className="m-0">
+          <Col>
+            <Row className="d-flex justify-content-end m-0">
+              <Col lg={2}></Col>
+              <Col>
+                {!isLeagueSet ? (
+                  <h1>Select a League:&nbsp; </h1>
+                ) : (
+                  <h1>{selectedTour}</h1>
+                )}
+              </Col>
+              <Col>
+                <Dropdown className="d-flex mt-2 justify-content-end">
+                  <Dropdown.Toggle
+                    variant="dark"
+                    id="dropdown-basic"
+                    drop={"down"}
+                  >
+                    Tournaments
+                  </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  {tournaments.map((val) => {
-                    return (
-                      <Dropdown.Item
-                        onClick={() => {
-                          setSelectedTour(val.name);
-                          setIsLeagueSet(true);
-                          console.log(isLeagueSet);
-                          console.log(selectedTour);
-                        }}
-                      >
-                        {val.name}
-                      </Dropdown.Item>
-                    );
-                  })}
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-          </Row>
+                  <Dropdown.Menu>
+                    {tournaments.map((val) => {
+                      return (
+                        <Dropdown.Item
+                          onClick={() => {
+                            setSelectedTour(val.name);
+                            setIsLeagueSet(true);
+                            console.log(isLeagueSet);
+                            console.log(selectedTour);
+                          }}
+                        >
+                          {val.name}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Col>
+            </Row>
 
-          <Row>
-            <Col lg={2} className="mt-3 d-none d-md-block">
-              <SideNav></SideNav>
-            </Col>
-            <Col sm={12} md={12} lg={10} className="mt-3">
-              <Results></Results>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </div>
+            <Row>
+              <Col lg={2} className="mt-3 d-none d-md-block">
+                <SideNav></SideNav>
+              </Col>
+              <Col sm={12} md={12} lg={10} className="mt-3">
+                <Switch>
+                  <Route path="/" component={Results} exact />
+                  <Route path="/nextguess" component={NextGuess} />
+                </Switch>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    </Router>
   );
 };
 
