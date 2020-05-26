@@ -27,3 +27,12 @@
 .landing {
   padding: 16px;
 }
+
+.linkStyle {
+  color: white;
+  padding: 8px;
+}
+.linkStyle:hover {
+  color: lightslategray;
+  text-decoration: none;
+}

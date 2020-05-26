@@ -1,5 +1,6 @@
 import React from "react";
-const Results = () => {
+import { Form } from "react-bootstrap";
+const Guess = () => {
   return (
     <div
       style={{
@@ -10,9 +11,9 @@ const Results = () => {
         color: "#efefef",
       }}
     >
-      <h1>Results</h1>
+      <h1>Guess</h1>
     </div>
   );
 };
 
-export default Results;
+export default Guess;

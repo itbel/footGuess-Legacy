@@ -11,9 +11,12 @@ import Axios from "axios";
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
 import Results from "./Results";
-import NextGuess from "./NextGuess";
+import Guess from "./Guess";
 import Rules from "./Rules";
 import Ranking from "./Ranking";
+import ManageTournament from "./ManageTournament";
+import JoinTournament from "./JoinTournament";
+import CreateTournament from "./CreateTournament";
 
 const Landing = () => {
   const { state: authState } = useContext(AuthContext);
@@ -51,9 +54,7 @@ const Landing = () => {
       />
     );
   };
-  const Private = () => {
-    return <h1>Private Page</h1>;
-  };
+
   return (
     <Router>
       <div
@@ -88,14 +89,13 @@ const Landing = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    {tournaments.map((val) => {
+                    {tournaments.map((val, key) => {
                       return (
                         <Dropdown.Item
+                          key={key}
                           onClick={() => {
                             setSelectedTour(val.name);
                             setIsLeagueSet(true);
-                            console.log(isLeagueSet);
-                            console.log(selectedTour);
                           }}
                         >
                           {val.name}
@@ -114,9 +114,12 @@ const Landing = () => {
               <Col sm={12} md={12} lg={10} className="mt-3">
                 <Switch>
                   <PrivateRoute path={"/"} component={Results} exact />
-                  <PrivateRoute path={"/guess"} component={NextGuess} />
+                  <PrivateRoute path={"/guess"} component={Guess} />
                   <PrivateRoute path={"/rules"} component={Rules} />
                   <PrivateRoute path={"/ranking"} component={Ranking} />
+                  <PrivateRoute path={"/create"} component={CreateTournament} />
+                  <PrivateRoute path={"/join"} component={JoinTournament} />
+                  <PrivateRoute path={"/manage"} component={ManageTournament} />
                 </Switch>
               </Col>
             </Row>

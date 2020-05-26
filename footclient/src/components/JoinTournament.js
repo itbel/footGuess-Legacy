@@ -1,5 +1,5 @@
 import React from "react";
-const Results = () => {
+const JoinTournament = () => {
   return (
     <div
       style={{
@@ -10,9 +10,9 @@ const Results = () => {
         color: "#efefef",
       }}
     >
-      <h1>Results</h1>
+      <h1>Join Tournament</h1>
     </div>
   );
 };
 
-export default Results;
+export default JoinTournament;

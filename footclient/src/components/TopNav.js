@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../App";
 import { Navbar, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const TopNav = () => {
   const { dispatch } = useContext(AuthContext);
@@ -14,11 +15,22 @@ const TopNav = () => {
         paddingTop: "8px",
       }}
     >
-      <Nav className="w-100 d-flex justify-content-center">
-        <Nav.Link href="/home">Home</Nav.Link>
-        <Nav.Link href="/">Create Tournament</Nav.Link>
-        <Nav.Link href="/">Join Tournament</Nav.Link>
-        <Nav.Link href="/">Manage Tournament</Nav.Link>
+      <Nav className="w-100 justify-content-center">
+        <Link className="linkStyle" to="/">
+          Home
+        </Link>
+
+        <Link className="linkStyle" to="/create">
+          Create Tournament
+        </Link>
+
+        <Link className="linkStyle" to="/join">
+          Join Tournament
+        </Link>
+
+        <Link className="linkStyle" to="/manage">
+          Manage Tournament
+        </Link>
       </Nav>
       <Nav>
         <Nav.Link

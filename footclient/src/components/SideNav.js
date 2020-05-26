@@ -14,10 +14,18 @@ const TopNav = () => {
       }}
     >
       <Nav defaultActiveKey="/home" className="flex-column">
-        <Link to="/">Results</Link>
-        <Link to="/guess">Next Guess</Link>
-        <Link to="/rules">Rules</Link>
-        <Link to="/ranking">All Time Rank</Link>
+        <Link className="linkStyle" to="/">
+          Results
+        </Link>
+        <Link className="linkStyle" to="/guess">
+          Next Guess
+        </Link>
+        <Link className="linkStyle" to="/rules">
+          Rules
+        </Link>
+        <Link className="linkStyle" to="/ranking">
+          All Time Rank
+        </Link>
       </Nav>
     </Navbar>
   );
