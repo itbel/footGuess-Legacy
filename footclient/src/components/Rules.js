@@ -1,5 +1,5 @@
 import React from "react";
-const NextGuess = () => {
+const Rules = () => {
   return (
     <div
       style={{
@@ -10,9 +10,9 @@ const NextGuess = () => {
         color: "#efefef",
       }}
     >
-      <h1>Guess</h1>
+      <h1>Rules</h1>
     </div>
   );
 };
 
-export default NextGuess;
+export default Rules;

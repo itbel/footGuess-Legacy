@@ -1,5 +1,6 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const TopNav = () => {
   return (
@@ -8,15 +9,15 @@ const TopNav = () => {
       variant="dark"
       bg="dark"
       style={{
-        height: "20vh",
+        height: "25vh",
         borderRadius: "16px 16px 16px 16px",
       }}
     >
       <Nav defaultActiveKey="/home" className="flex-column">
-        <Nav.Link href="/nextguess">Next Guess</Nav.Link>
-        <Nav.Link href="/results">Results</Nav.Link>
-        <Nav.Link href="/rules">Rules</Nav.Link>
-        <Nav.Link href="/ranking">All Time Rank</Nav.Link>
+        <Link to="/">Results</Link>
+        <Link to="/guess">Next Guess</Link>
+        <Link to="/rules">Rules</Link>
+        <Link to="/ranking">All Time Rank</Link>
       </Nav>
     </Navbar>
   );

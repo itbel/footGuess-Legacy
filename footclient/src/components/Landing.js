@@ -1,12 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Dropdown } from "react-bootstrap";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import { AuthContext } from "../App";
 import Axios from "axios";
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
 import Results from "./Results";
-import NextGuess from "./Results";
+import NextGuess from "./NextGuess";
+import Rules from "./Rules";
+import Ranking from "./Ranking";
+
 const Landing = () => {
   const { state: authState } = useContext(AuthContext);
   const [selectedTour, setSelectedTour] = useState(undefined);
@@ -27,6 +35,25 @@ const Landing = () => {
         console.log(error);
       });
   }, [isLeagueSet, authState.userid]);
+
+  const PrivateRoute = ({ component: Component, path, ...rest }) => {
+    return (
+      <Route
+        path={path}
+        {...rest}
+        render={(props) =>
+          authState.isAuthenticated ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to={"/"} />
+          )
+        }
+      />
+    );
+  };
+  const Private = () => {
+    return <h1>Private Page</h1>;
+  };
   return (
     <Router>
       <div
@@ -86,8 +113,10 @@ const Landing = () => {
               </Col>
               <Col sm={12} md={12} lg={10} className="mt-3">
                 <Switch>
-                  <Route path="/" component={Results} exact />
-                  <Route path="/nextguess" component={NextGuess} />
+                  <PrivateRoute path={"/"} component={Results} exact />
+                  <PrivateRoute path={"/guess"} component={NextGuess} />
+                  <PrivateRoute path={"/rules"} component={Rules} />
+                  <PrivateRoute path={"/ranking"} component={Ranking} />
                 </Switch>
               </Col>
             </Row>
