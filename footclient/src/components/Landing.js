@@ -78,10 +78,10 @@ const Landing = () => {
           </Row>
 
           <Row>
-            <Col lg={2} className="mt-5 d-none d-md-block">
+            <Col lg={2} className="mt-3 d-none d-md-block">
               <SideNav></SideNav>
             </Col>
-            <Col sm={12} md={12} lg={10} className="mt-5">
+            <Col sm={12} md={12} lg={10} className="mt-3">
               <Results></Results>
             </Col>
           </Row>

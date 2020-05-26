@@ -9,7 +9,7 @@ const TopNav = () => {
       expand="sm"
       style={{
         backgroundColor: "#2b2b2b",
-        height: "80vh",
+        height: "40vh",
         borderRadius: "16px 16px 16px 16px",
       }}
     >
