@@ -1,4 +1,5 @@
 import React from "react";
+import TournamentList from "./TournamentsTable";
 const JoinTournament = () => {
   return (
     <div
@@ -11,6 +12,7 @@ const JoinTournament = () => {
       }}
     >
       <h1>Join Tournament</h1>
+      <TournamentList></TournamentList>
     </div>
   );
 };
