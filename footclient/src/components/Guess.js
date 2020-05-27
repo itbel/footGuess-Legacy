@@ -6,7 +6,8 @@ const Guess = () => {
       style={{
         backgroundColor: "#25282A",
         borderRadius: "16px 16px 16px 16px",
-        height: "80vh",
+        minHeight: "50vh",
+        maxHeight: "80vh",
         padding: "16px",
         color: "#efefef",
       }}

@@ -14,7 +14,7 @@ import Results from "./Results";
 import Guess from "./Guess";
 import Rules from "./Rules";
 import Ranking from "./Ranking";
-import ManageTournament from "./ManageTournament";
+import AddMatch from "./AddMatch";
 import JoinTournament from "./JoinTournament";
 import CreateTournament from "./CreateTournament";
 
@@ -135,7 +135,7 @@ const Landing = () => {
                   <PrivateRoute path={"/ranking"} component={Ranking} />
                   <PrivateRoute path={"/create"} component={CreateTournament} />
                   <PrivateRoute path={"/join"} component={JoinTournament} />
-                  <PrivateRoute path={"/manage"} component={ManageTournament} />
+                  <PrivateRoute path={"/addmatch"} component={AddMatch} />
                 </Switch>
               </Col>
             </Row>

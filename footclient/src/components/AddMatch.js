@@ -1,18 +1,19 @@
 import React from "react";
-const ManageTournament = () => {
+const AddMatch = () => {
   return (
     <div
       style={{
         backgroundColor: "#25282A",
         borderRadius: "16px 16px 16px 16px",
-        height: "80vh",
+        minHeight: "50vh",
+        maxHeight: "80vh",
         padding: "16px",
         color: "#efefef",
       }}
     >
-      <h1>Manage Tournament</h1>
+      <h1>Add Match</h1>
     </div>
   );
 };
 
-export default ManageTournament;
+export default AddMatch;

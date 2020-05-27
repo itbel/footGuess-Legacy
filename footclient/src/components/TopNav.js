@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../App";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const TopNav = () => {
-  const { dispatch } = useContext(AuthContext);
+  const { state: authState, dispatch } = useContext(AuthContext);
   return (
     <Navbar
       bg="dark"
@@ -28,9 +28,13 @@ const TopNav = () => {
           Join Tournament
         </Link>
 
-        <Link className="linkStyle" to="/manage">
-          Manage Tournament
-        </Link>
+        <NavDropdown title="Manage Tournaments" id="nav-dropdown">
+          <NavDropdown.Item disabled={true}>Tournament Title</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <Link disabled={authState.is} to="/addmatch">
+            Add Match
+          </Link>
+        </NavDropdown>
       </Nav>
       <Nav>
         <Nav.Link
