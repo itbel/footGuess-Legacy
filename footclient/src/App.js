@@ -12,6 +12,8 @@ const initialState = {
   userid: null,
   joinedTournaments: [],
   allTournaments: [],
+  ownedTournaments: [],
+  selectedTour: undefined,
 };
 
 const reducer = (state, action) => {
@@ -29,10 +31,20 @@ const reducer = (state, action) => {
         ...state,
         allTournaments: action.payload,
       };
+    case "SELECT_TOURNAMENT":
+      return {
+        ...state,
+        selectedTour: action.payload,
+      };
     case "FETCH_JOINED_TOURNAMENTS":
       return {
         ...state,
         joinedTournaments: action.payload,
+      };
+    case "FETCH_OWNED_TOURNAMENTS":
+      return {
+        ...state,
+        ownedTournaments: action.payload,
       };
     case "LOGOUT":
       localStorage.clear();

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../App";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -28,12 +28,26 @@ const TopNav = () => {
           Join Tournament
         </Link>
 
-        <NavDropdown title="Manage Tournaments" id="nav-dropdown">
-          <NavDropdown.Item disabled={true}>Tournament Title</NavDropdown.Item>
+        <NavDropdown
+          title={
+            authState.selectedTour === undefined
+              ? "Disabled"
+              : "Manage Tournament"
+          }
+          id="nav-dropdown"
+          disabled={
+            authState.selectedTour === undefined ||
+            authState.selectedTour ===
+              authState.ownedTournaments.find(
+                (element) => element === authState.selectedTour
+              )
+          }
+        >
+          <NavDropdown.Item disabled={true}>
+            {authState.selectedTour === undefined ? "" : authState.selectedTour}
+          </NavDropdown.Item>
           <NavDropdown.Divider />
-          <Link disabled={authState.is} to="/addmatch">
-            Add Match
-          </Link>
+          <Link to="/addmatch">Add Match</Link>
         </NavDropdown>
       </Nav>
       <Nav>

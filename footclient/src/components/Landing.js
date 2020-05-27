@@ -20,7 +20,6 @@ import CreateTournament from "./CreateTournament";
 
 const Landing = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  const [selectedTour, setSelectedTour] = useState(undefined);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   useEffect(() => {
     Axios.post(
@@ -47,6 +46,20 @@ const Landing = () => {
       .then((response) => {
         dispatch({
           type: "FETCH_ALL_TOURNAMENTS",
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    Axios.post(
+      "http://localhost:3001/tournaments/getownedtournaments",
+      { userid: authState.userid },
+      { timeout: 2000 }
+    )
+      .then((response) => {
+        dispatch({
+          type: "FETCH_OWNED_TOURNAMENTS",
           payload: response.data,
         });
       })
@@ -91,7 +104,7 @@ const Landing = () => {
                 {!isLeagueSet ? (
                   <h1>Select a League:&nbsp; </h1>
                 ) : (
-                  <h1>{selectedTour}</h1>
+                  <h1>{authState.selectedTour}</h1>
                 )}
               </Col>
               <Col>
@@ -110,7 +123,10 @@ const Landing = () => {
                         <Dropdown.Item
                           key={key}
                           onClick={() => {
-                            setSelectedTour(val.name);
+                            dispatch({
+                              type: "SELECT_TOURNAMENT",
+                              payload: val.name,
+                            });
                             setIsLeagueSet(true);
                           }}
                         >
