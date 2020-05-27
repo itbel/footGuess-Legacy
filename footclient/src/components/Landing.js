@@ -23,7 +23,7 @@ const Landing = () => {
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   useEffect(() => {
     Axios.post(
-      "http://localhost:3001/tournaments/gettournament",
+      "http://localhost:3001/tournaments/getjoinedtournaments",
       {
         userid: authState.userid,
       },
@@ -39,7 +39,7 @@ const Landing = () => {
         console.log(error);
       });
     Axios.get(
-      "http://localhost:3001/tournaments/gettournaments",
+      "http://localhost:3001/tournaments/getalltournaments",
       {},
       { timeout: 2000 }
     )

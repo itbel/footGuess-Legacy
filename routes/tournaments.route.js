@@ -39,9 +39,9 @@ server.route("/join").post((req, res, next) => {
   console.log(`========== FINISHED ADDING USER ==========`);
 });
 
-server.route("/gettournament").post((req, res, next) => {
+server.route("/getjoinedtournaments").post((req, res, next) => {
   console.log(`========== FETCHING JOINED TOURNAMENTS ==========`);
-  tournamentModel.find({ owner: req.body.userid }, (err, doc) => {
+  tournamentModel.find({ "users.userid": req.body.userid }, (err, doc) => {
     if (err) {
       res.json(err);
     } else {
@@ -89,7 +89,7 @@ server.route("/getownedtournaments").post((req, res, next) => {
   console.log(`========== FINISHED FETCHING JOINED TOURNAMENTS ==========`);
 });
 
-server.route("/gettournaments").get((req, res, next) => {
+server.route("/getalltournaments").get((req, res, next) => {
   console.log(`========== FETCHING ALL TOURNAMENTS ==========`);
   tournamentModel.find({}, (err, doc) => {
     if (err) {
