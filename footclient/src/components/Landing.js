@@ -19,9 +19,8 @@ import JoinTournament from "./JoinTournament";
 import CreateTournament from "./CreateTournament";
 
 const Landing = () => {
-  const { state: authState } = useContext(AuthContext);
+  const { state: authState, dispatch } = useContext(AuthContext);
   const [selectedTour, setSelectedTour] = useState(undefined);
-  const [tournaments, setTournaments] = useState([]);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   useEffect(() => {
     Axios.post(
@@ -32,12 +31,29 @@ const Landing = () => {
       { timeout: 2000 }
     )
       .then((response) => {
-        setTournaments(response.data);
+        dispatch({
+          type: "FETCH_JOINED_TOURNAMENTS",
+          payload: response.data,
+        });
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [isLeagueSet, authState.userid]);
+    Axios.get(
+      "http://localhost:3001/tournaments/gettournaments",
+      {},
+      { timeout: 2000 }
+    )
+      .then((response) => {
+        dispatch({
+          type: "FETCH_ALL_TOURNAMENTS",
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [isLeagueSet, authState.userid, dispatch]);
 
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
     return (
@@ -89,7 +105,7 @@ const Landing = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    {tournaments.map((val, key) => {
+                    {authState.joinedTournaments.map((val, key) => {
                       return (
                         <Dropdown.Item
                           key={key}

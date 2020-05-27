@@ -16,7 +16,7 @@ server.route("/createtournament").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED CREATING TOURNAMENT OPERATION ==========`);
+  console.log(`========== FINISHED CREATING TOURNAMENT ==========`);
 });
 
 server.route("/join").post((req, res, next) => {
@@ -37,11 +37,11 @@ server.route("/join").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED ADDING USER OPERATION ==========`);
+  console.log(`========== FINISHED ADDING USER ==========`);
 });
 
 server.route("/gettournament").post((req, res, next) => {
-  console.log(`========== FETCHING USERS TOURNAMENTS ==========`);
+  console.log(`========== FETCHING JOINED TOURNAMENTS ==========`);
   let tournament;
   tournamentModel.find({ "users.userid": req.body.userid }, (err, doc) => {
     if (err) {
@@ -63,7 +63,7 @@ server.route("/gettournament").post((req, res, next) => {
       }
     }
   });
-  console.log(`========== FINISHED FETCHING TOURNAMENTS OPERATION ==========`);
+  console.log(`========== FINISHED FETCHING JOINED TOURNAMENTS ==========`);
 });
 
 server.route("/gettournaments").get((req, res, next) => {
@@ -88,9 +88,7 @@ server.route("/gettournaments").get((req, res, next) => {
       }
     }
   });
-  console.log(
-    `========== FINISHED FETCHING ALL TOURNAMENTS OPERATION ==========`
-  );
+  console.log(`========== FINISHED FETCHING ALL TOURNAMENTS ==========`);
 });
 
 module.exports = server;

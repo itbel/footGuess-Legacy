@@ -1,34 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Table, Button } from "react-bootstrap";
-import Axios from "axios";
+import { AuthContext } from "../App";
+
 const TournamentsTable = () => {
+  const { state: authState, dispatch } = useContext(AuthContext);
   const [tournaments, setTournaments] = useState([]);
   useEffect(() => {
-    Axios.get(
-      "http://localhost:3001/tournaments/gettournaments",
-      {},
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        setTournaments(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    let arr = [];
+    let entries = Object.entries(authState.joinedTournaments);
+    for (let entry of entries) {
+      arr.push(entry[1].name);
+    }
+    setTournaments(arr);
+  }, [authState.joinedTournaments, dispatch, setTournaments]);
+
   return (
     <Table style={{ color: "white", width: "20%", backgroundColor: "gray" }}>
       <thead>
-        <th>Tournament Name</th>
-        <th>Join</th>
+        <tr>
+          <th>Tournament Name</th>
+          <th>Join</th>
+        </tr>
       </thead>
+
       <tbody>
-        {tournaments.map((val, key) => {
+        {authState.allTournaments.map((val, key) => {
           return (
-            <tr>
+            <tr key={key}>
               <td>{val.name}</td>
               <td>
-                <Button variant="dark">Join</Button>
+                <Button
+                  disabled={
+                    val.name ===
+                    tournaments.find((element) => element === val.name)
+                  }
+                  onClick={() => {
+                    alert(`selected ${val.name}`);
+                  }}
+                  variant="dark"
+                >
+                  {val.name ===
+                  tournaments.find((element) => element === val.name)
+                    ? "Joined"
+                    : "Join"}
+                </Button>
               </td>
             </tr>
           );

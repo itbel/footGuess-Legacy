@@ -10,17 +10,29 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   userid: null,
+  joinedTournaments: [],
+  allTournaments: [],
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("user", action.payload.user);
+      localStorage.setItem("user", action.payload.name);
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload.name,
         userid: action.payload._id,
+      };
+    case "FETCH_ALL_TOURNAMENTS":
+      return {
+        ...state,
+        allTournaments: action.payload,
+      };
+    case "FETCH_JOINED_TOURNAMENTS":
+      return {
+        ...state,
+        joinedTournaments: action.payload,
       };
     case "LOGOUT":
       localStorage.clear();
