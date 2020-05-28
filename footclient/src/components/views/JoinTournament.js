@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Table, Button } from "react-bootstrap";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../App";
 import { Row, Col } from "react-bootstrap";
 const JoinTournament = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -25,21 +25,29 @@ const JoinTournament = () => {
       }}
     >
       <Row className="d-flex justify-content-center">
-        <h1>Join Tournament</h1>
+        <h1>Tournament</h1>
       </Row>
-      <Row>
+      <Row className="pt-3">
         <Col sm={0} md={3}></Col>
         <Col sm={12} md={6}>
           <Table
-            size="sm"
+            size="md"
             bordered
             hover
-            style={{ color: "black", backgroundColor: "#efefef" }}
+            style={{
+              textAlign: "center",
+              color: "black",
+              backgroundColor: "#efefef",
+            }}
           >
             <thead>
               <tr>
-                <th>Tournament Name</th>
-                <th>Join/Leave</th>
+                <th>
+                  <h3>Tournament Name</h3>
+                </th>
+                <th className="w-25">
+                  <h3>Manage</h3>
+                </th>
               </tr>
             </thead>
 

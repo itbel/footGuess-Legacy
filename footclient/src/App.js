@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Login from "./components/Login";
-import Landing from "./components/Landing";
+import Login from "./components/views/Login";
+import Landing from "./components/views/Landing";
 import "./App.css";
 
 export const AuthContext = React.createContext();

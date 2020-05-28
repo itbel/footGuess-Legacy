@@ -6,8 +6,9 @@ import {
   Redirect,
   BrowserRouter as Router,
 } from "react-router-dom";
-import { AuthContext } from "../App";
-import Axios from "axios";
+import { AuthContext } from "../../App";
+
+// Views
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
 import Results from "./Results";
@@ -18,55 +19,19 @@ import AddMatch from "./AddMatch";
 import JoinTournament from "./JoinTournament";
 import CreateTournament from "./CreateTournament";
 
+// Functionals
+import FetchJoined from "../functionals/FetchJoinedTournaments";
+import FetchAll from "../functionals/FetchAllTournaments";
+import FetchOwned from "../functionals/FetchOwnedTournaments";
+
 const Landing = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   useEffect(() => {
-    Axios.post(
-      "http://localhost:3001/tournaments/getjoinedtournaments",
-      {
-        userid: authState.userid,
-      },
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        dispatch({
-          type: "FETCH_JOINED_TOURNAMENTS",
-          payload: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    Axios.get(
-      "http://localhost:3001/tournaments/getalltournaments",
-      {},
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        dispatch({
-          type: "FETCH_ALL_TOURNAMENTS",
-          payload: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    Axios.post(
-      "http://localhost:3001/tournaments/getownedtournaments",
-      { userid: authState.userid },
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        dispatch({
-          type: "FETCH_OWNED_TOURNAMENTS",
-          payload: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [isLeagueSet, authState.userid, dispatch]);
+    FetchJoined(authState, dispatch);
+    FetchAll(dispatch);
+    FetchOwned(authState, dispatch);
+  }, []);
 
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
     return (
@@ -163,52 +128,3 @@ const Landing = () => {
 };
 
 export default Landing;
-
-/*
- <Row>
-            <Col sm={2} className="mt-5">
-              <h1 style={{ color: "#131313" }}>,</h1>
-              <SideNav></SideNav>
-            </Col>
-            <Col className="mt-5">
-              <Row>
-                <Col>
-                  {!isLeagueSet ? (
-                    <h1>Select a League:</h1>
-                  ) : (
-                    <h1>{selectedTour}</h1>
-                  )}
-                </Col>
-                <Col>
-                  <Dropdown
-                    className="d-flex justify-content-end mr-4 mt-1"
-                    style={{ display: "inline-block" }}
-                  >
-                    <Dropdown.Toggle
-                      variant="dark"
-                      id="dropdown-basic"
-                      drop={"down"}
-                    >
-                      Tournaments
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      {tournaments.map((val) => {
-                        return (
-                          <Dropdown.Item
-                            onClick={() => {
-                              setSelectedTour(val.name);
-                              setIsLeagueSet(true);
-                              console.log(isLeagueSet);
-                              console.log(selectedTour);
-                            }}
-                          >
-                            {val.name}
-                          </Dropdown.Item>
-                        );
-                      })}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Col>
-              </Row>
-              */

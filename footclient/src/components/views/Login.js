@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { Col, Row, Container, Button, Form } from "react-bootstrap";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../App";
 
 const Login = () => {
   const { dispatch } = useContext(AuthContext);
@@ -95,7 +95,7 @@ const Login = () => {
               <Button
                 disabled={data.isSubmitting}
                 onClick={handleSubmit}
-                variant="info"
+                variant="dark"
                 className="w-25"
                 type="submit"
               >
@@ -104,7 +104,7 @@ const Login = () => {
               <Button
                 onClick={() => setRegister(!register)}
                 className="w-25 ml-2"
-                variant="info"
+                variant="dark"
               >
                 Register
               </Button>

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import Axios from "axios";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../App";
 
 const CreateTournament = () => {
   const { state: authState, dispatch } = useContext(AuthContext);

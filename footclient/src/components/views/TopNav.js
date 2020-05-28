@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../App";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { AuthContext } from "../../App";
+import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const TopNav = () => {
@@ -34,9 +34,8 @@ const TopNav = () => {
         </Link>
 
         <Link className="linkStyle" to="/join">
-          Join Tournament
+          Tournaments
         </Link>
-
         <NavDropdown
           title="Manage Tournament"
           id="nav-dropdown"
