@@ -5,6 +5,15 @@ import { Link } from "react-router-dom";
 
 const TopNav = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
+  const [tournaments, setTournaments] = useState([]);
+  useEffect(() => {
+    let arr = [];
+    let entries = Object.entries(authState.ownedTournaments);
+    for (let entry of entries) {
+      arr.push(entry[1].name);
+    }
+    setTournaments(arr);
+  }, [authState.ownedTournaments]);
   return (
     <Navbar
       bg="dark"
@@ -29,18 +38,12 @@ const TopNav = () => {
         </Link>
 
         <NavDropdown
-          title={
-            authState.selectedTour === undefined
-              ? "Disabled"
-              : "Manage Tournament"
-          }
+          title="Manage Tournament"
           id="nav-dropdown"
           disabled={
             authState.selectedTour === undefined ||
-            authState.selectedTour ===
-              authState.ownedTournaments.find(
-                (element) => element === authState.selectedTour
-              )
+            authState.selectedTour !==
+              tournaments.find((element) => element === authState.selectedTour)
           }
         >
           <NavDropdown.Item disabled={true}>

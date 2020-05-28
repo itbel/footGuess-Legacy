@@ -45,7 +45,6 @@ const JoinTournament = () => {
 
             <tbody>
               {authState.allTournaments.map((val, key) => {
-                console.log(val.tournamentid);
                 return (
                   <tr key={key}>
                     <td className="d-table-cell">{val.name}</td>
