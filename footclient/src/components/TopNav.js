@@ -46,7 +46,11 @@ const TopNav = () => {
               tournaments.find((element) => element === authState.selectedTour)
           }
         >
-          <NavDropdown.Item disabled={true}>
+          <NavDropdown.Item
+            disabled={true}
+            className="d-flex justify-content-center font-weight-bold"
+            style={{ color: "green" }}
+          >
             {authState.selectedTour === undefined ? "" : authState.selectedTour}
           </NavDropdown.Item>
           <NavDropdown.Divider />
