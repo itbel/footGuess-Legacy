@@ -36,3 +36,12 @@
   color: lightslategray;
   text-decoration: none;
 }
+
+.linkStyleDrop {
+  color: black;
+}
+
+.linkStyleDrop:hover {
+  color: gray;
+  text-decoration: none;
+}

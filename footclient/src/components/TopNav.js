@@ -50,7 +50,19 @@ const TopNav = () => {
             {authState.selectedTour === undefined ? "" : authState.selectedTour}
           </NavDropdown.Item>
           <NavDropdown.Divider />
-          <Link to="/addmatch">Add Match</Link>
+          <Link
+            className="d-flex justify-content-center linkStyleDrop"
+            to="/addmatch"
+          >
+            Add Match
+          </Link>
+          <NavDropdown.Divider />
+          <Link
+            className="d-flex justify-content-center linkStyleDrop"
+            to="/addmatch"
+          >
+            View Matches
+          </Link>
         </NavDropdown>
       </Nav>
       <Nav>
