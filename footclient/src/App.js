@@ -8,12 +8,13 @@ export const AuthContext = React.createContext();
 
 const initialState = {
   isAuthenticated: false,
-  user: null,
-  userid: null,
+  user: undefined,
+  userid: undefined,
+  selectedTour: undefined,
   joinedTournaments: [],
   allTournaments: [],
   ownedTournaments: [],
-  selectedTour: undefined,
+  registerPressed: false,
 };
 
 const reducer = (state, action) => {
@@ -27,29 +28,21 @@ const reducer = (state, action) => {
         userid: action.payload._id,
       };
     case "FETCH_ALL_TOURNAMENTS":
-      console.log("All registered tournaments:");
-      console.log(action.payload);
       return {
         ...state,
         allTournaments: action.payload,
       };
     case "SELECT_TOURNAMENT":
-      console.log("Selected tournament:");
-      console.log(action.payload);
       return {
         ...state,
         selectedTour: action.payload,
       };
     case "FETCH_JOINED_TOURNAMENTS":
-      console.log("All Joined tournaments:");
-      console.log(action.payload);
       return {
         ...state,
         joinedTournaments: action.payload,
       };
     case "FETCH_OWNED_TOURNAMENTS":
-      console.log("All Owned tournaments:");
-      console.log(action.payload);
       return {
         ...state,
         ownedTournaments: action.payload,

@@ -5,7 +5,7 @@ const Guess = () => {
     <div
       style={{
         backgroundColor: "#25282A",
-        borderRadius: "16px 16px 16px 16px",
+        borderRadius: "4px 4px 4px 4px",
         minHeight: "50vh",
         maxHeight: "80vh",
         padding: "16px",

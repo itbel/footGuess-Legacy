@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../App";
-import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const TopNav = () => {
@@ -52,6 +52,13 @@ const TopNav = () => {
           >
             {authState.selectedTour === undefined ? "" : authState.selectedTour}
           </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <Link
+            className="d-flex justify-content-center linkStyleDrop"
+            to="/addteam"
+          >
+            Add Team
+          </Link>
           <NavDropdown.Divider />
           <Link
             className="d-flex justify-content-center linkStyleDrop"

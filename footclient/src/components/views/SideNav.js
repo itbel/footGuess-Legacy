@@ -10,7 +10,7 @@ const TopNav = () => {
       bg="dark"
       style={{
         height: "25vh",
-        borderRadius: "16px 16px 16px 16px",
+        borderRadius: "4px 4px 4px 4px",
       }}
     >
       <Nav defaultActiveKey="/home" className="flex-column">

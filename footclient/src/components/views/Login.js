@@ -49,10 +49,10 @@ const Login = () => {
         });
     }
   };
-
   return (
     <Container fluid className="login pt-2">
       <div className="spacer"></div>
+
       <Row className="justify-content-center">
         <Col className="loginForm" xs={10} sm={6} lg={3}>
           <h1 style={{ textAlign: "center" }}>Login</h1>
@@ -102,7 +102,10 @@ const Login = () => {
                 {data.isSubmitting ? "Loading..." : "Login"}
               </Button>
               <Button
-                onClick={() => setRegister(!register)}
+                onClick={() => {
+                  setRegister(true);
+                  console.log(register);
+                }}
                 className="w-25 ml-2"
                 variant="dark"
               >

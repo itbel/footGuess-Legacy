@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import Axios from "axios";
 import { AuthContext } from "../../App";
+import FetchAll from "../functional/FetchAllTournaments";
 
 const CreateTournament = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -17,22 +18,9 @@ const CreateTournament = () => {
       { timeout: 2000 }
     )
       .then((response) => {
-        alert(`${name} created.`);
         setName("");
-        Axios.get(
-          "http://localhost:3001/tournaments/gettournaments",
-          {},
-          { timeout: 2000 }
-        )
-          .then((response) => {
-            dispatch({
-              type: "FETCH_ALL_TOURNAMENTS",
-              payload: response.data,
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        alert("Tournament created successfully.");
+        FetchAll(dispatch);
       })
       .catch((error) => {
         console.log(error);
@@ -43,7 +31,7 @@ const CreateTournament = () => {
       className="justify-content-center"
       style={{
         backgroundColor: "#25282A",
-        borderRadius: "16px 16px 16px 16px",
+        borderRadius: "4px 4px 4px 4px",
         minHeight: "50vh",
         maxHeight: "80vh",
         padding: "16px",
@@ -61,7 +49,7 @@ const CreateTournament = () => {
               style={{
                 backgroundColor: "#efefef",
                 color: "black",
-                borderRadius: "16px 16px 16px 16px",
+                borderRadius: "4px 4px 4px 4px",
               }}
             >
               <Form.Group>

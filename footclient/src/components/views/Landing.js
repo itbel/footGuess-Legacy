@@ -18,11 +18,12 @@ import Ranking from "./Ranking";
 import AddMatch from "./AddMatch";
 import JoinTournament from "./JoinTournament";
 import CreateTournament from "./CreateTournament";
+import AddTeam from "./AddTeam";
 
 // Functionals
-import FetchJoined from "../functionals/FetchJoinedTournaments";
-import FetchAll from "../functionals/FetchAllTournaments";
-import FetchOwned from "../functionals/FetchOwnedTournaments";
+import FetchJoined from "../functional/FetchJoinedTournaments";
+import FetchAll from "../functional/FetchAllTournaments";
+import FetchOwned from "../functional/FetchOwnedTournaments";
 
 const Landing = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -117,6 +118,7 @@ const Landing = () => {
                   <PrivateRoute path={"/create"} component={CreateTournament} />
                   <PrivateRoute path={"/join"} component={JoinTournament} />
                   <PrivateRoute path={"/addmatch"} component={AddMatch} />
+                  <PrivateRoute path={"/addteam"} component={AddTeam} />
                 </Switch>
               </Col>
             </Row>

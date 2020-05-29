@@ -4,7 +4,6 @@ const server = express.Router();
 let tournamentModel = require("../models/tournament.model");
 
 server.route("/createtournament").post((req, res, next) => {
-  console.log(`========== CREATING TOURNAMENT ==========`);
   tournamentModel.create(
     {
       name: req.body.name,
@@ -15,11 +14,10 @@ server.route("/createtournament").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED CREATING TOURNAMENT ==========`);
+  console.log(`========== CREATED A TOURNAMENT ==========`);
 });
 
 server.route("/join").post((req, res, next) => {
-  console.log(`========== ADDING USER TO TOURNAMENT ==========`);
   tournamentModel.findByIdAndUpdate(
     { _id: req.body.tournamentid },
     {
@@ -36,11 +34,10 @@ server.route("/join").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED ADDING USER ==========`);
+  console.log(`========== USER JOINED TOURNAMENT ==========`);
 });
 
 server.route("/getjoinedtournaments").post((req, res, next) => {
-  console.log(`========== FETCHING JOINED TOURNAMENTS ==========`);
   tournamentModel.find({ "users.userid": req.body.userid }, (err, doc) => {
     if (err) {
       res.json(err);
@@ -61,11 +58,10 @@ server.route("/getjoinedtournaments").post((req, res, next) => {
       }
     }
   });
-  console.log(`========== FINISHED FETCHING JOINED TOURNAMENTS ==========`);
+  console.log(`========== FETCHED JOINED TOURNAMENTS ==========`);
 });
 
 server.route("/getownedtournaments").post((req, res, next) => {
-  console.log(`========== FETCHING OWNED TOURNAMENTS ==========`);
   tournamentModel.find({ owner: req.body.userid }, (err, doc) => {
     if (err) {
       res.json(err);
@@ -86,11 +82,10 @@ server.route("/getownedtournaments").post((req, res, next) => {
       }
     }
   });
-  console.log(`========== FINISHED FETCHING JOINED TOURNAMENTS ==========`);
+  console.log(`========== FETCHED JOINED TOURNAMENTS ==========`);
 });
 
 server.route("/getalltournaments").get((req, res, next) => {
-  console.log(`========== FETCHING ALL TOURNAMENTS ==========`);
   tournamentModel.find({}, (err, doc) => {
     if (err) {
       res.json(err);
@@ -111,7 +106,7 @@ server.route("/getalltournaments").get((req, res, next) => {
       }
     }
   });
-  console.log(`========== FINISHED FETCHING ALL TOURNAMENTS ==========`);
+  console.log(`========== FETCHED ALL TOURNAMENTS ==========`);
 });
 
 module.exports = server;
