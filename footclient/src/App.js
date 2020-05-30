@@ -16,7 +16,7 @@ const initialState = {
   joinedTournaments: [],
   allTournaments: [],
   ownedTournaments: [],
-  registerPressed: false,
+  isUpdating: false,
 };
 
 const reducer = (state, action) => {

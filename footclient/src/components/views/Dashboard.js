@@ -26,9 +26,12 @@ const Dashboard = (props) => {
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   useEffect(() => {
     history.push("/home");
-    FetchJoined(authState, dispatch);
-    FetchAll(dispatch);
-    FetchOwned(authState, dispatch);
+    const fetchData = () => {
+      FetchJoined(authState, dispatch);
+      FetchAll(dispatch);
+      FetchOwned(authState, dispatch);
+    };
+    fetchData();
   }, []);
 
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
@@ -78,7 +81,6 @@ const Dashboard = (props) => {
                 >
                   Tournaments
                 </Dropdown.Toggle>
-
                 <Dropdown.Menu>
                   {authState.joinedTournaments.map((val, key) => {
                     return (

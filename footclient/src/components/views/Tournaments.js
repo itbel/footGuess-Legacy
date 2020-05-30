@@ -4,19 +4,22 @@ import { AuthContext } from "../../App";
 import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
-import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
 const Tournaments = () => {
-  const { state: authState } = useContext(AuthContext);
+  const { state: authState, dispatch } = useContext(AuthContext);
   const [tournaments, setTournaments] = useState([]);
-  useEffect(() => {
+  const loadArrayNames = () => {
     let arr = [];
     let entries = Object.entries(authState.joinedTournaments);
     for (let entry of entries) {
       arr.push(entry[1].name);
     }
     setTournaments(arr);
-  }, []);
+  };
+  useEffect(() => {
+    loadArrayNames();
+    console.log("Updating");
+  }, [authState.joinedTournaments]);
   return (
     <div
       style={{
@@ -67,7 +70,12 @@ const Tournaments = () => {
                           tournaments.find((element) => element === val.name)
                         }
                         onClick={() => {
-                          JoinTournament(val.tournamentid, authState.userid);
+                          JoinTournament(
+                            val.tournamentid,
+                            authState.userid,
+                            authState,
+                            dispatch
+                          );
                         }}
                         variant="dark"
                       >
@@ -82,7 +90,12 @@ const Tournaments = () => {
                           )
                         }
                         onClick={() => {
-                          LeaveTournament(val.tournamentid, authState.userid);
+                          LeaveTournament(
+                            val.tournamentid,
+                            authState.userid,
+                            authState,
+                            dispatch
+                          );
                         }}
                         variant="dark"
                       >
