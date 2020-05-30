@@ -35,4 +35,19 @@ server.route("/deleteteam").post((req, res, next) => {
   console.log(`========== FINISHED REMOVE OPERATION ==========\n`);
 });
 
+server.route("/getteams").post((req, res, next) => {
+  teamModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
+    if (err) {
+      res.json(err);
+    } else {
+      if (doc.length > 0) {
+        res.json(doc);
+      } else {
+        doc.msg = "Empty";
+        res.json(doc);
+      }
+    }
+  });
+});
+
 module.exports = server;

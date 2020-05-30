@@ -56,9 +56,9 @@ const TopNav = () => {
           <NavDropdown.Divider />
           <Link
             className="d-flex justify-content-center linkStyleDrop"
-            to="/addteam"
+            to="/teams"
           >
-            Add Team
+            Teams
           </Link>
           <NavDropdown.Divider />
           <Link

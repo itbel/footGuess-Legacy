@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button, Container } from "react-bootstrap";
-const AddTeam = () => {
+import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
+const Teams = () => {
   const [teamName, setTeamName] = useState(undefined);
   return (
     <div
       style={{
         backgroundColor: "#25282A",
         borderRadius: "16px 16px 16px 16px",
-        minHeight: "50vh",
+        minHeight: "60vh",
         maxHeight: "80vh",
         padding: "16px",
         color: "#efefef",
@@ -15,10 +15,9 @@ const AddTeam = () => {
     >
       <Container>
         <Row className="justify-content-center">
-          <h1>Add Team</h1>
+          <h1>Teams</h1>
         </Row>
         <Row className="pt-3">
-          <Col sm={0} md={3}></Col>
           <Col sm={12} md={6}>
             <Form
               style={{
@@ -46,17 +45,34 @@ const AddTeam = () => {
                 </Row>
               </Form.Group>
               <Row className="justify-content-center pb-3 pt-3">
-                <Button variant="dark">
-                  Add
-                </Button>
+                <Button variant="dark">Add</Button>
               </Row>
             </Form>
           </Col>
-          <Col sm={0} md={3}></Col>
+          <Col sm={12} md={6}>
+            <Table striped bordered hover size="sm" variant="dark">
+              <thead>
+                <tr>
+                  <th>Team Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
         </Row>
       </Container>
     </div>
   );
 };
 
-export default AddTeam;
+export default Teams;

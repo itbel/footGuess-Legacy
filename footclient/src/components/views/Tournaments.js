@@ -49,11 +49,8 @@ const Tournaments = () => {
           >
             <thead>
               <tr>
-                <th>
+                <th colSpan="2">
                   <h3>Tournament Name</h3>
-                </th>
-                <th style={{ width: "40%" }}>
-                  <h3>Manage</h3>
                 </th>
               </tr>
             </thead>

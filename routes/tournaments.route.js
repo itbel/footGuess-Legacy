@@ -128,25 +128,3 @@ server.route("/getalltournaments").get((req, res, next) => {
 });
 
 module.exports = server;
-
-/*
-
-server.route("/gettournament").get((req, res, next) => {
-  console.log(`========== FETCHING USERS TOURNAMENTS ==========`);
-  let tournament;
-  tournamentModel.find({ "users.userid": req.body.userid }, (err, doc) => {
-    if (err) {
-      res.json(err);
-    } else {
-      if (doc.length > 0) {
-        matchModel.find({ tournamentid: doc[0]._id }, (err1, doc1) => {
-          if (err1) res.json(err1);
-          res.json(doc1);
-        });
-      } else {
-        res.json(doc);
-      }
-    }
-  });
-  console.log(`========== FINISHED FETCHING TOURNAMENTS OPERATION ==========`);
-});*/
