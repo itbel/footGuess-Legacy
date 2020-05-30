@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../App";
 import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
+import AddTeam from "../functional/AddTeam";
+
 const Teams = () => {
+  const { state: authState } = useContext(AuthContext);
   const [teamName, setTeamName] = useState(undefined);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    AddTeam(authState.selectedTourId, teamName);
+  };
   return (
     <div
       style={{
         backgroundColor: "#25282A",
-        borderRadius: "16px 16px 16px 16px",
+        borderRadius: "4px 4px 4px 4px",
         minHeight: "60vh",
         maxHeight: "80vh",
         padding: "16px",
@@ -45,7 +53,14 @@ const Teams = () => {
                 </Row>
               </Form.Group>
               <Row className="justify-content-center pb-3 pt-3">
-                <Button variant="dark">Add</Button>
+                <Button
+                  onClick={(event) => {
+                    handleSubmit(event);
+                  }}
+                  variant="dark"
+                >
+                  Add
+                </Button>
               </Row>
             </Form>
           </Col>
@@ -57,15 +72,13 @@ const Teams = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                </tr>
+                {/*authState.teams.map((val, key) => {
+                  return (
+                    <tr key={key}>
+                      <td>{val.teamName}</td>
+                    </tr>
+                  );
+                })*/}
               </tbody>
             </Table>
           </Col>

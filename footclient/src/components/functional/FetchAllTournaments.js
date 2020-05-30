@@ -7,6 +7,7 @@ const FetchAllTournaments = (dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
+      console.log(response.data);
       dispatch({
         type: "FETCH_ALL_TOURNAMENTS",
         payload: response.data,

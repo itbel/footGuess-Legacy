@@ -19,6 +19,7 @@ import Teams from "./Teams";
 import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
+import FetchTeams from "../functional/FetchTeams";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
@@ -30,6 +31,7 @@ const Dashboard = (props) => {
       FetchJoined(authState, dispatch);
       FetchAll(dispatch);
       FetchOwned(authState, dispatch);
+      FetchTeams(authState, dispatch);
     };
     fetchData();
   }, []);
@@ -69,7 +71,7 @@ const Dashboard = (props) => {
               {!isLeagueSet ? (
                 <h1>Select a League:&nbsp; </h1>
               ) : (
-                <h1>{authState.selectedTour}</h1>
+                <h1>{authState.selectedTourName}</h1>
               )}
             </Col>
             <Col>
@@ -90,8 +92,9 @@ const Dashboard = (props) => {
                           history.push("/home");
                           dispatch({
                             type: "SELECT_TOURNAMENT",
-                            payload: val.name,
+                            payload: val,
                           });
+                          FetchTeams(authState, dispatch);
                           setIsLeagueSet(true);
                         }}
                       >

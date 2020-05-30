@@ -36,7 +36,7 @@ server.route("/deleteteam").post((req, res, next) => {
 });
 
 server.route("/getteams").post((req, res, next) => {
-  teamModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
+  teamModel.findById({ tournamentid: req.body.tournamentid }, (err, doc) => {
     if (err) {
       res.json(err);
     } else {

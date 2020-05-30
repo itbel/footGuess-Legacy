@@ -41,9 +41,11 @@ const TopNav = () => {
           title="Manage Tournament"
           id="nav-dropdown"
           disabled={
-            authState.selectedTour === undefined ||
-            authState.selectedTour !==
-              tournaments.find((element) => element === authState.selectedTour)
+            authState.selectedTourName === undefined ||
+            authState.selectedTourName !==
+              tournaments.find(
+                (element) => element === authState.selectedTourName
+              )
           }
         >
           <NavDropdown.Item
@@ -51,7 +53,9 @@ const TopNav = () => {
             className="d-flex justify-content-center font-weight-bold"
             style={{ color: "green" }}
           >
-            {authState.selectedTour === undefined ? "" : authState.selectedTour}
+            {authState.selectedTourName === undefined
+              ? ""
+              : authState.selectedTourName}
           </NavDropdown.Item>
           <NavDropdown.Divider />
           <Link

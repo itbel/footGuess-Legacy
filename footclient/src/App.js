@@ -12,10 +12,12 @@ const initialState = {
   isAuthenticated: false,
   user: undefined,
   userid: undefined,
-  selectedTour: undefined,
+  selectedTourName: undefined,
+  selectedTourId: undefined,
   joinedTournaments: [],
   allTournaments: [],
   ownedTournaments: [],
+  teams: [],
   isUpdating: false,
 };
 
@@ -37,7 +39,8 @@ const reducer = (state, action) => {
     case "SELECT_TOURNAMENT":
       return {
         ...state,
-        selectedTour: action.payload,
+        selectedTourName: action.payload.name,
+        selectedTourId: action.payload.tournamentid,
       };
     case "FETCH_JOINED_TOURNAMENTS":
       return {
@@ -48,6 +51,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         ownedTournaments: action.payload,
+      };
+    case "FETCH_TEAMS":
+      return {
+        ...state,
+        teams: action.payload,
       };
     case "LOGOUT":
       localStorage.clear();

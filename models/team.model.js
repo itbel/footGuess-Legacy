@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Team = new Schema({
-  tournamentid: { type: Schema.Types.ObjectId, ref: "tournament" },
+  tournamentid: {
+    type: Schema.Types.ObjectId,
+    ref: "tournament",
+    required: true,
+  },
   teamName: { type: String, required: true },
   teamPoints: { type: Number, default: 0 },
   teamWins: { type: Number, default: 0 },
