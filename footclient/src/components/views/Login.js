@@ -2,8 +2,10 @@ import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { Col, Row, Container, Button, Form } from "react-bootstrap";
 import { AuthContext } from "../../App";
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
+  const history = useHistory(props.history);
   const { dispatch } = useContext(AuthContext);
   const initialState = {
     user: "",
@@ -13,7 +15,6 @@ const Login = () => {
     errorMessage: null,
   };
   const [data, setData] = useState(initialState);
-  const [register, setRegister] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     setData({
@@ -103,8 +104,7 @@ const Login = () => {
               </Button>
               <Button
                 onClick={() => {
-                  setRegister(true);
-                  console.log(register);
+                  history.push("/register");
                 }}
                 className="w-25 ml-2"
                 variant="dark"

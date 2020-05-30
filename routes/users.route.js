@@ -42,7 +42,14 @@ server.route("/register").post((req, res, next) => {
             },
             (err, doc) => {
               if (err) next(err);
-              else res.json(doc);
+              else {
+                doc.password = undefined;
+                doc.email = undefined;
+                doc.username = undefined;
+                doc.__v = undefined;
+                doc._id = undefined;
+                res.json(doc);
+              }
             }
           );
       });

@@ -1,7 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/views/Login";
-import Landing from "./components/views/Landing";
+import Dashboard from "./components/views/Dashboard";
+import Register from "./components/views/Register";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 
@@ -74,12 +75,19 @@ function App() {
           <Switch>
             <Route
               path="/"
+              exact
               render={() => {
                 if (state.isAuthenticated) {
-                  return <Landing />;
+                  return <Dashboard />;
                 } else {
                   return <Login />;
                 }
+              }}
+            />
+            <Route
+              path="/register"
+              render={() => {
+                return <Register />;
               }}
             />
           </Switch>

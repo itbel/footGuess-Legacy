@@ -20,11 +20,12 @@ import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
 
-const Landing = (props) => {
+const Dashboard = (props) => {
   const history = useHistory(props.history);
   const { state: authState, dispatch } = useContext(AuthContext);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   useEffect(() => {
+    history.push("/");
     FetchJoined(authState, dispatch);
     FetchAll(dispatch);
     FetchOwned(authState, dispatch);
@@ -124,4 +125,4 @@ const Landing = (props) => {
   );
 };
 
-export default Landing;
+export default Dashboard;
