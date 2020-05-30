@@ -24,8 +24,9 @@ const TopNav = () => {
         paddingTop: "8px",
       }}
     >
+      Welcome {authState.user}
       <Nav className="w-100 justify-content-center">
-        <Link className="linkStyle" to="/">
+        <Link className="linkStyle" to="/home">
           Home
         </Link>
 
@@ -33,7 +34,7 @@ const TopNav = () => {
           Create Tournament
         </Link>
 
-        <Link className="linkStyle" to="/join">
+        <Link className="linkStyle" to="/tournaments">
           Tournaments
         </Link>
         <NavDropdown

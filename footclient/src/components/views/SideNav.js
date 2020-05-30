@@ -13,12 +13,9 @@ const TopNav = () => {
         borderRadius: "4px 4px 4px 4px",
       }}
     >
-      <Nav defaultActiveKey="/home" className="flex-column">
-        <Link className="linkStyle" to="/">
-          Results
-        </Link>
+      <Nav className="flex-column">
         <Link className="linkStyle" to="/guess">
-          Next Guess
+          Guess
         </Link>
         <Link className="linkStyle" to="/rules">
           Rules

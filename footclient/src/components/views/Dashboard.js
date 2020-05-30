@@ -6,12 +6,12 @@ import { AuthContext } from "../../App";
 // Views
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
-import Results from "./Results";
+import Home from "./Home";
 import Guess from "./Guess";
 import Rules from "./Rules";
 import Ranking from "./Ranking";
 import AddMatch from "./AddMatch";
-import JoinTournament from "./JoinTournament";
+import Tournaments from "./Tournaments";
 import CreateTournament from "./CreateTournament";
 import AddTeam from "./AddTeam";
 
@@ -25,7 +25,7 @@ const Dashboard = (props) => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   useEffect(() => {
-    history.push("/");
+    history.push("/home");
     FetchJoined(authState, dispatch);
     FetchAll(dispatch);
     FetchOwned(authState, dispatch);
@@ -85,7 +85,7 @@ const Dashboard = (props) => {
                       <Dropdown.Item
                         key={key}
                         onClick={() => {
-                          history.push("/");
+                          history.push("/home");
                           dispatch({
                             type: "SELECT_TOURNAMENT",
                             payload: val.name,
@@ -108,12 +108,12 @@ const Dashboard = (props) => {
             </Col>
             <Col sm={12} md={12} lg={10} className="mt-3">
               <Switch>
-                <PrivateRoute path={"/"} component={Results} exact />
+                <PrivateRoute path={"/home"} component={Home} exact />
                 <PrivateRoute path={"/guess"} component={Guess} />
                 <PrivateRoute path={"/rules"} component={Rules} />
                 <PrivateRoute path={"/ranking"} component={Ranking} />
                 <PrivateRoute path={"/create"} component={CreateTournament} />
-                <PrivateRoute path={"/join"} component={JoinTournament} />
+                <PrivateRoute path={"/tournaments"} component={Tournaments} />
                 <PrivateRoute path={"/addmatch"} component={AddMatch} />
                 <PrivateRoute path={"/addteam"} component={AddTeam} />
               </Switch>

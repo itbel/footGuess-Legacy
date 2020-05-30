@@ -46,7 +46,7 @@ const AddTeam = () => {
                 </Row>
               </Form.Group>
               <Row className="justify-content-center pb-3 pt-3">
-                <Button variant="dark" type="submit">
+                <Button variant="dark">
                   Add
                 </Button>
               </Row>

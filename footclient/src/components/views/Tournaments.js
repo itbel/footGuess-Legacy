@@ -2,9 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { Table, Button } from "react-bootstrap";
 import { AuthContext } from "../../App";
 import { Row, Col } from "react-bootstrap";
-const JoinTournament = () => {
+import JoinTournament from "../functional/JoinTournament";
+
+const Tournaments = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [tournaments, setTournaments] = useState([]);
+  const leaveTournament = (tournamentid) => {};
   useEffect(() => {
     let arr = [];
     let entries = Object.entries(authState.joinedTournaments);
@@ -63,7 +66,7 @@ const JoinTournament = () => {
                           tournaments.find((element) => element === val.name)
                         }
                         onClick={() => {
-                          alert(`selected ${val.name}`);
+                          JoinTournament(val.tournamentid, authState.userid);
                         }}
                         variant="dark"
                       >
@@ -97,4 +100,4 @@ const JoinTournament = () => {
   );
 };
 
-export default JoinTournament;
+export default Tournaments;

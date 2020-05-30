@@ -75,7 +75,6 @@ function App() {
           <Switch>
             <Route
               path="/"
-              exact
               render={() => {
                 if (state.isAuthenticated) {
                   return <Dashboard />;

@@ -1,5 +1,5 @@
 import React from "react";
-const Results = () => {
+const Home = () => {
   return (
     <div
       style={{
@@ -11,9 +11,9 @@ const Results = () => {
         color: "#efefef",
       }}
     >
-      <h1>Results</h1>
+      <h1>Home</h1>
     </div>
   );
 };
 
-export default Results;
+export default Home;
