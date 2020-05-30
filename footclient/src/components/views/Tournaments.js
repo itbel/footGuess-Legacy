@@ -4,9 +4,10 @@ import { AuthContext } from "../../App";
 import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
+import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
 const Tournaments = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const { state: authState } = useContext(AuthContext);
   const [tournaments, setTournaments] = useState([]);
   useEffect(() => {
     let arr = [];
@@ -15,7 +16,7 @@ const Tournaments = () => {
       arr.push(entry[1].name);
     }
     setTournaments(arr);
-  }, [authState.joinedTournaments, dispatch, setTournaments, authState]);
+  }, []);
   return (
     <div
       style={{
@@ -34,7 +35,7 @@ const Tournaments = () => {
         <Col sm={0} md={3}></Col>
         <Col sm={12} md={6}>
           <Table
-            size="md"
+            size="sm"
             bordered
             hover
             style={{
@@ -48,7 +49,7 @@ const Tournaments = () => {
                 <th>
                   <h3>Tournament Name</h3>
                 </th>
-                <th className="w-25">
+                <th style={{ width: "40%" }}>
                   <h3>Manage</h3>
                 </th>
               </tr>
