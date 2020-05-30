@@ -3,11 +3,11 @@ import { Table, Button } from "react-bootstrap";
 import { AuthContext } from "../../App";
 import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
+import LeaveTournament from "../functional/LeaveTournament";
 
 const Tournaments = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [tournaments, setTournaments] = useState([]);
-  const leaveTournament = (tournamentid) => {};
   useEffect(() => {
     let arr = [];
     let entries = Object.entries(authState.joinedTournaments);
@@ -81,7 +81,7 @@ const Tournaments = () => {
                           )
                         }
                         onClick={() => {
-                          alert(`selected ${val.name}`);
+                          LeaveTournament(val.tournamentid, authState.userid);
                         }}
                         variant="dark"
                       >
