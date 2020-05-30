@@ -37,6 +37,24 @@ server.route("/join").post((req, res, next) => {
   console.log(`========== USER JOINED TOURNAMENT ==========`);
 });
 
+server.route("/leave").post((req, res, next) => {
+  tournamentModel.updateOne(
+    { _id: req.body.tournamentid },
+    {
+      $pull: {
+        users: {
+          userid: req.body.userid,
+        },
+      },
+    },
+    (err, doc) => {
+      if (err) res.json(err);
+      else res.json(doc);
+    }
+  );
+  console.log(`========== USER LEFT TOURNAMENT ==========`);
+});
+
 server.route("/getjoinedtournaments").post((req, res, next) => {
   tournamentModel.find({ "users.userid": req.body.userid }, (err, doc) => {
     if (err) {
