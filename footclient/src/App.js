@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/views/Login";
 import Landing from "./components/views/Landing";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 
 export const AuthContext = React.createContext();
@@ -63,18 +63,29 @@ const reducer = (state, action) => {
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   return (
-    <Router>
-      <AuthContext.Provider
-        value={{
-          state,
-          dispatch,
-        }}
-      >
-        <div className="App">
-          {!state.isAuthenticated ? <Login /> : <Landing />}
-        </div>
-      </AuthContext.Provider>
-    </Router>
+    <div className="App">
+      <Router>
+        <AuthContext.Provider
+          value={{
+            state,
+            dispatch,
+          }}
+        >
+          <Switch>
+            <Route
+              path="/"
+              render={() => {
+                if (state.isAuthenticated) {
+                  return <Landing />;
+                } else {
+                  return <Login />;
+                }
+              }}
+            />
+          </Switch>
+        </AuthContext.Provider>
+      </Router>
+    </div>
   );
 }
 
