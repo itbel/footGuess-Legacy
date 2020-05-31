@@ -25,15 +25,15 @@ const Dashboard = (props) => {
   const history = useHistory(props.history);
   const { state: authState, dispatch } = useContext(AuthContext);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
+  const fetchData = () => {
+    FetchJoined(authState, dispatch);
+    FetchAll(dispatch);
+    FetchOwned(authState, dispatch);
+    FetchTeams(authState, dispatch);
+  };
   useEffect(() => {
-    history.push("/home");
-    const fetchData = () => {
-      FetchJoined(authState, dispatch);
-      FetchAll(dispatch);
-      FetchOwned(authState, dispatch);
-      FetchTeams(authState, dispatch);
-    };
     fetchData();
+    history.push("/home");
   }, []);
 
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
@@ -94,7 +94,7 @@ const Dashboard = (props) => {
                             type: "SELECT_TOURNAMENT",
                             payload: val,
                           });
-                          FetchTeams(authState, dispatch);
+                          fetchData();
                           setIsLeagueSet(true);
                         }}
                       >

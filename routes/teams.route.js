@@ -36,15 +36,15 @@ server.route("/deleteteam").post((req, res, next) => {
 });
 
 server.route("/getteams").post((req, res, next) => {
-  teamModel.findById({ tournamentid: req.body.tournamentid }, (err, doc) => {
+  teamModel.find({ tournamentid: req.body.tourid }, {}, (err, doc) => {
     if (err) {
       res.json(err);
     } else {
       if (doc.length > 0) {
         res.json(doc);
       } else {
-        doc.msg = "Empty";
-        res.json(doc);
+        console.log("not found");
+        res.json({});
       }
     }
   });

@@ -5,7 +5,7 @@ const FetchTeams = (authState, dispatch) => {
   Axios.post(
     "http://localhost:3001/teams/getteams",
     {
-      tournamentid: authState.selectedTourId,
+      tourid: authState.selectedTourId,
     },
     { timeout: 2000 }
   )

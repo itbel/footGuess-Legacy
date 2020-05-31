@@ -1,9 +1,6 @@
-import React from "react";
 import Axios from "axios";
 
-const AddTeam = (tourid, team) => {
-  console.log(tourid);
-  console.log(team);
+const AddTeam = (tourid, team, dispatch) => {
   Axios.post(
     "http://localhost:3001/teams/addteam",
     {
@@ -13,7 +10,10 @@ const AddTeam = (tourid, team) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      console.log(response);
+      dispatch({
+        type: "FETCH_TEAMS",
+        payload: response.data,
+      });
     })
     .catch((error) => {
       console.log(error);

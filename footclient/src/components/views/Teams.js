@@ -1,15 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../App";
 import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
 import AddTeam from "../functional/AddTeam";
-
 const Teams = () => {
-  const { state: authState } = useContext(AuthContext);
+  const { state: authState, dispatch } = useContext(AuthContext);
   const [teamName, setTeamName] = useState(undefined);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    AddTeam(authState.selectedTourId, teamName);
-  };
+  const [teamNames, setTeamNames] = useState([]);
+
+  useEffect(() => {
+    let arr = [];
+    let entries = Object.entries(authState.teams);
+    for (let entry of entries) {
+      arr.push(entry[1].teamName);
+    }
+    setTeamNames(arr);
+  }, []);
+
   return (
     <div
       style={{
@@ -55,7 +61,7 @@ const Teams = () => {
               <Row className="justify-content-center pb-3 pt-3">
                 <Button
                   onClick={(event) => {
-                    handleSubmit(event);
+                    AddTeam(authState.selectedTourId, teamName, dispatch);
                   }}
                   variant="dark"
                 >
@@ -72,13 +78,14 @@ const Teams = () => {
                 </tr>
               </thead>
               <tbody>
-                {/*authState.teams.map((val, key) => {
+                {teamNames.map((val, key) => {
+                  console.log(val);
                   return (
                     <tr key={key}>
-                      <td>{val.teamName}</td>
+                      <td>{val}</td>
                     </tr>
                   );
-                })*/}
+                })}
               </tbody>
             </Table>
           </Col>
