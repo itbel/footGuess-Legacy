@@ -22,7 +22,6 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  console.log("Update has been called.");
   switch (action.type) {
     case "LOGIN":
       localStorage.setItem("user", action.payload.name);
@@ -54,6 +53,7 @@ const reducer = (state, action) => {
         ownedTournaments: action.payload,
       };
     case "FETCH_TEAMS":
+      console.log(action.payload);
       return {
         ...state,
         teams: action.payload,

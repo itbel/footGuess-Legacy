@@ -19,7 +19,7 @@ import Teams from "./Teams";
 import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
-import FetchTeams from "../functional/FetchTeams";
+import FetchTeams from "../functional/FetchTeams(unused)";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
@@ -29,7 +29,6 @@ const Dashboard = (props) => {
     FetchJoined(authState, dispatch);
     FetchAll(dispatch);
     FetchOwned(authState, dispatch);
-    FetchTeams(authState, dispatch);
   };
   useEffect(() => {
     fetchData();
@@ -94,6 +93,9 @@ const Dashboard = (props) => {
                             type: "SELECT_TOURNAMENT",
                             payload: val,
                           });
+                          console.log(
+                            "selected league has changed. calling from line 101"
+                          );
                           fetchData();
                           setIsLeagueSet(true);
                         }}

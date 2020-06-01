@@ -38,8 +38,6 @@ const TopNav = () => {
           Tournaments
         </Link>
         <NavDropdown
-          title="Manage Tournament"
-          id="nav-dropdown"
           disabled={
             authState.selectedTourName === undefined ||
             authState.selectedTourName !==
@@ -47,6 +45,8 @@ const TopNav = () => {
                 (element) => element === authState.selectedTourName
               )
           }
+          title="Manage Tournaments"
+          id="nav-dropdown"
         >
           <NavDropdown.Item
             disabled={true}
@@ -58,25 +58,25 @@ const TopNav = () => {
               : authState.selectedTourName}
           </NavDropdown.Item>
           <NavDropdown.Divider />
+
           <Link
             className="d-flex justify-content-center linkStyleDrop"
             to="/teams"
           >
             Teams
           </Link>
-          <NavDropdown.Divider />
-          <Link
-            className="d-flex justify-content-center linkStyleDrop"
-            to="/addmatch"
-          >
-            Add Match
-          </Link>
-          <NavDropdown.Divider />
           <Link
             className="d-flex justify-content-center linkStyleDrop"
             to="/addmatch"
           >
             View Matches
+          </Link>
+
+          <Link
+            className="d-flex justify-content-center linkStyleDrop"
+            to="/addmatch"
+          >
+            Add Match
           </Link>
         </NavDropdown>
       </Nav>

@@ -1,6 +1,7 @@
 import Axios from "axios";
 
 const FetchTeams = (authState, dispatch) => {
+  console.log("Fetching teams from FetchTeams.js. TourID is:");
   console.log(authState.selectedTourId);
   Axios.post(
     "http://localhost:3001/teams/getteams",
@@ -10,6 +11,7 @@ const FetchTeams = (authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
+      console.log("dispatching response from FetchTeams.js");
       console.log(response.data);
       dispatch({
         type: "FETCH_TEAMS",

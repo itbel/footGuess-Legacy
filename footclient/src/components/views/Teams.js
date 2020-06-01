@@ -3,20 +3,32 @@ import { AuthContext } from "../../App";
 import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
 import AddTeam from "../functional/AddTeam";
 import RemoveTeam from "../functional/RemoveTeam";
-
+import Axios from "axios";
 const Teams = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [teamName, setTeamName] = useState(undefined);
   const [teamNames, setTeamNames] = useState([]);
 
   useEffect(() => {
-    let arr = [];
-    let entries = Object.entries(authState.teams);
-    for (let entry of entries) {
-      arr.push(entry[1].teamName);
-    }
-    setTeamNames(arr);
-  }, []);
+    Axios.post(
+      "http://localhost:3001/teams/getteams",
+      {
+        tourid: authState.selectedTourId,
+      },
+      { timeout: 2000 }
+    )
+      .then((response) => {
+        let arr = [];
+        let entries = Object.entries(response.data);
+        for (let entry of entries) {
+          arr.push(entry[1].teamName);
+        }
+        setTeamNames(arr);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [authState.teams]);
 
   return (
     <div
@@ -73,27 +85,17 @@ const Teams = () => {
             </Form>
           </Col>
           <Col sm={12} md={6}>
-            <Table
-              style={{ textAlign: "center" }}
-              striped
-              bordered
-              hover
-              size="sm"
-              variant="light"
-            >
+            <Table striped bordered hover size="sm" variant="dark">
               <thead>
                 <tr>
-                  <th colspan="2">
-                    <h3>Team Name</h3>
-                  </th>
+                  <th>Team Name</th>
                 </tr>
               </thead>
               <tbody>
                 {teamNames.map((val, key) => {
-                  console.log(val);
                   return (
                     <tr key={key}>
-                      <td className="d-table-cell">{val}</td>
+                      <td>{val}</td>
                       <td className="d-table-cell w-25">
                         <Button
                           variant="dark"

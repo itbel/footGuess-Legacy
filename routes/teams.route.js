@@ -2,7 +2,7 @@ const express = require("express");
 const server = express.Router();
 
 let teamModel = require("../models/team.model");
-let tournamentModel = require("../models/tournament.model");
+
 server.route("/addteam").post((req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
   teamModel.create(

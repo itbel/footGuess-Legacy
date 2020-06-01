@@ -1,5 +1,5 @@
 import Axios from "axios";
-import FetchTeams from "../functional/FetchTeams";
+import FetchTeams from "./FetchTeams(unused)";
 
 const RemoveTeam = (tournamentid, teamName, authState, dispatch) => {
   Axios.post(
@@ -12,7 +12,10 @@ const RemoveTeam = (tournamentid, teamName, authState, dispatch) => {
   )
     .then((response) => {
       alert(`team removed successfully`);
-      FetchTeams(authState, dispatch);
+      dispatch({
+        type: "FETCH_TEAMS",
+        payload: response.data,
+      });
     })
     .catch((error) => {
       alert(`failed to remove team`);
