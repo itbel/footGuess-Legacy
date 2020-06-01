@@ -3,6 +3,7 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import Axios from "axios";
 import { AuthContext } from "../../App";
 import FetchAll from "../functional/FetchAllTournaments";
+import JoinTournament from "../functional/JoinTournament";
 
 const CreateTournament = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -21,6 +22,12 @@ const CreateTournament = () => {
         setName("");
         alert("Tournament created successfully.");
         FetchAll(dispatch);
+        JoinTournament(
+          response.data._id,
+          authState.userid,
+          authState,
+          dispatch
+        );
       })
       .catch((error) => {
         console.log(error);
