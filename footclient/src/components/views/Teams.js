@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../App";
 import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
 import AddTeam from "../functional/AddTeam";
+import RemoveTeam from "../functional/RemoveTeam";
+
 const Teams = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [teamName, setTeamName] = useState(undefined);
@@ -71,10 +73,19 @@ const Teams = () => {
             </Form>
           </Col>
           <Col sm={12} md={6}>
-            <Table striped bordered hover size="sm" variant="dark">
+            <Table
+              style={{ textAlign: "center" }}
+              striped
+              bordered
+              hover
+              size="sm"
+              variant="light"
+            >
               <thead>
                 <tr>
-                  <th>Team Name</th>
+                  <th colspan="2">
+                    <h3>Team Name</h3>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -82,7 +93,22 @@ const Teams = () => {
                   console.log(val);
                   return (
                     <tr key={key}>
-                      <td>{val}</td>
+                      <td className="d-table-cell">{val}</td>
+                      <td className="d-table-cell w-25">
+                        <Button
+                          variant="dark"
+                          onClick={() => {
+                            RemoveTeam(
+                              authState.selectedTourId,
+                              val,
+                              authState,
+                              dispatch
+                            );
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </td>
                     </tr>
                   );
                 })}
