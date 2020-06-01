@@ -6,10 +6,11 @@ import RemoveTeam from "../functional/RemoveTeam";
 import Axios from "axios";
 const Teams = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  const [teamName, setTeamName] = useState(undefined);
+  const [teamName, setTeamName] = useState("");
   const [teamNames, setTeamNames] = useState([]);
 
   useEffect(() => {
+    console.log("Updating Teams Component");
     Axios.post(
       "http://localhost:3001/teams/getteams",
       {

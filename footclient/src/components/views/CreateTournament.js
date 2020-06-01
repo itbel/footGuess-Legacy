@@ -6,7 +6,7 @@ import FetchAll from "../functional/FetchAllTournaments";
 
 const CreateTournament = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  const [name, setName] = useState(undefined);
+  const [name, setName] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
     Axios.post(

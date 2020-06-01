@@ -65,13 +65,14 @@ const TopNav = () => {
           >
             Teams
           </Link>
+          <NavDropdown.Divider />
           <Link
             className="d-flex justify-content-center linkStyleDrop"
             to="/addmatch"
           >
             View Matches
           </Link>
-
+          <NavDropdown.Divider />
           <Link
             className="d-flex justify-content-center linkStyleDrop"
             to="/addmatch"
