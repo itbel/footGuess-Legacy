@@ -25,8 +25,7 @@ server.route("/addteam").post((req, res, next) => {
 server.route("/deleteteam").post((req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
   teamModel.findOneAndDelete(
-    { teamName: req.body.teamName },
-    { id: req.body.tournamentid },
+    { teamName: req.body.teamName, tournamentid: req.body.tournamentid },
     (err, doc) => {
       if (err) res.json(err);
       else res.json(doc);

@@ -22,6 +22,7 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
+  console.log("Update has been called.");
   switch (action.type) {
     case "LOGIN":
       localStorage.setItem("user", action.payload.name);

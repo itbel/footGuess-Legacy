@@ -51,7 +51,7 @@ const Dashboard = (props) => {
       />
     );
   };
-
+  /////////////// LEAGUE IS NOT SET ON LOAD, FETCHING WITHOUT A SET LEAGUE RETURNS EMPTY
   return (
     <div
       className="landing p-0"
