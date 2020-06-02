@@ -96,7 +96,7 @@ const Matches = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [matches]);
+  }, []);
 
   return (
     <div
