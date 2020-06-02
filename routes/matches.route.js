@@ -19,7 +19,7 @@ server.route("/addmatch").post((req, res, next) => {
   console.log(`========== FINISHED ADDING MATCH OPERATION ==========`);
 });
 
-server.route("/allmatches").get((req, res, next) => {
+server.route("/allmatches").post((req, res, next) => {
   console.log(`========== FETCHING ALL MATCHES IN TOURNAMENT ==========`);
   matchModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
     if (err) console.log(err);

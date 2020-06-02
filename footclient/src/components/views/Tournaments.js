@@ -8,16 +8,14 @@ import LeaveTournament from "../functional/LeaveTournament";
 const Tournaments = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [tournaments, setTournaments] = useState([]);
-  const loadArrayNames = () => {
+
+  useEffect(() => {
     let arr = [];
     let entries = Object.entries(authState.joinedTournaments);
     for (let entry of entries) {
       arr.push(entry[1].name);
     }
     setTournaments(arr);
-  };
-  useEffect(() => {
-    loadArrayNames();
     console.log("Updating");
   }, [authState.joinedTournaments]);
   return (

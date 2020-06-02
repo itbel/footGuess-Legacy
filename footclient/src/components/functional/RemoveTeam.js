@@ -1,5 +1,4 @@
 import Axios from "axios";
-import FetchTeams from "./FetchTeams(unused)";
 
 const RemoveTeam = (tournamentid, teamName, authState, dispatch) => {
   Axios.post(

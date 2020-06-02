@@ -22,14 +22,14 @@ const Teams = () => {
         let arr = [];
         let entries = Object.entries(response.data);
         for (let entry of entries) {
-          arr.push(entry[1].teamName);
+          arr.push(entry[1]);
         }
         setTeamNames(arr);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [authState.teams]);
+  }, [authState.teams, authState.selectedTourId]);
 
   return (
     <div
@@ -96,7 +96,7 @@ const Teams = () => {
                 {teamNames.map((val, key) => {
                   return (
                     <tr key={key}>
-                      <td>{val}</td>
+                      <td>{val.teamName}</td>
                       <td className="d-table-cell w-25">
                         <Button
                           variant="dark"

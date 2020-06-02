@@ -68,16 +68,16 @@ const TopNav = () => {
           <NavDropdown.Divider />
           <Link
             className="d-flex justify-content-center linkStyleDrop"
-            to="/addmatch"
+            to="/matches"
           >
-            View Matches
+            Matches
           </Link>
           <NavDropdown.Divider />
           <Link
             className="d-flex justify-content-center linkStyleDrop"
-            to="/addmatch"
+            to="/results"
           >
-            Add Match
+            Results
           </Link>
         </NavDropdown>
       </Nav>

@@ -10,16 +10,17 @@ import Home from "./Home";
 import Guess from "./Guess";
 import Rules from "./Rules";
 import Ranking from "./Ranking";
-import AddMatch from "./AddMatch";
+import Matches from "./Matches";
 import Tournaments from "./Tournaments";
 import CreateTournament from "./CreateTournament";
 import Teams from "./Teams";
+import Results from "./Results";
 
 // Functionals
 import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
-import FetchTeams from "../functional/FetchTeams(unused)";
+import FetchTeams from "../functional/FetchTeams";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
@@ -31,9 +32,10 @@ const Dashboard = (props) => {
     FetchOwned(authState, dispatch);
   };
   useEffect(() => {
+    console.log("Updating from dashboard");
     fetchData();
     history.push("/home");
-  }, []);
+  }, [history]);
 
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
     return (
@@ -93,10 +95,6 @@ const Dashboard = (props) => {
                             type: "SELECT_TOURNAMENT",
                             payload: val,
                           });
-                          console.log(
-                            "selected league has changed. calling from line 101"
-                          );
-                          fetchData();
                           setIsLeagueSet(true);
                         }}
                       >
@@ -121,7 +119,7 @@ const Dashboard = (props) => {
                 <PrivateRoute path={"/ranking"} component={Ranking} />
                 <PrivateRoute path={"/create"} component={CreateTournament} />
                 <PrivateRoute path={"/tournaments"} component={Tournaments} />
-                <PrivateRoute path={"/addmatch"} component={AddMatch} />
+                <PrivateRoute path={"/matches"} component={Matches} />
                 <PrivateRoute path={"/teams"} component={Teams} />
               </Switch>
             </Col>
