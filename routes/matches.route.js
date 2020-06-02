@@ -19,6 +19,14 @@ server.route("/addmatch").post((req, res, next) => {
   console.log(`========== FINISHED ADDING MATCH OPERATION ==========`);
 });
 
+server.route("/removematch").post((req, res, next) => {
+  console.log(`========== REMOVING MATCH ==========`);
+  matchModel.findByIdAndDelete({ _id: req.body.matchid }, (err, doc) => {
+    if (err) res.json(err);
+    else res.json(doc);
+  });
+});
+
 server.route("/allmatches").post((req, res, next) => {
   console.log(`========== FETCHING ALL MATCHES IN TOURNAMENT ==========`);
   matchModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {

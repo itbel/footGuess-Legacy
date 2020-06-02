@@ -101,12 +101,7 @@ const Teams = () => {
                         <Button
                           variant="dark"
                           onClick={() => {
-                            RemoveTeam(
-                              authState.selectedTourId,
-                              val,
-                              authState,
-                              dispatch
-                            );
+                            RemoveTeam(val, authState, dispatch);
                           }}
                         >
                           Remove

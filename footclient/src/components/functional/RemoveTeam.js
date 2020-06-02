@@ -1,11 +1,11 @@
 import Axios from "axios";
 
-const RemoveTeam = (tournamentid, teamName, authState, dispatch) => {
+const RemoveTeam = (val, authState, dispatch) => {
   Axios.post(
     "http://localhost:3001/teams/deleteteam",
     {
-      teamName: teamName,
-      tournamentid: tournamentid,
+      teamName: val.teamName,
+      tournamentid: authState.selectedTourId,
     },
     { timeout: 2000 }
   )

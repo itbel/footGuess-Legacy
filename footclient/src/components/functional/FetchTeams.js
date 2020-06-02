@@ -9,12 +9,14 @@ const FetchTeams = (authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
+      console.log("received");
       dispatch({
         type: "FETCH_TEAMS",
         payload: response.data,
       });
     })
     .catch((error) => {
+      console.log("errored");
       console.log(error);
     });
 };

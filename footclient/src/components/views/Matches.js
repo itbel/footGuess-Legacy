@@ -10,6 +10,8 @@ import {
 } from "react-bootstrap";
 import Axios from "axios";
 import { AuthContext } from "../../App";
+import AddMatch from "../functional/AddMatch";
+import RemoveMatch from "../functional/RemoveMatch";
 
 const Matches = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -17,47 +19,10 @@ const Matches = () => {
   const [teams, setTeams] = useState([]);
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    Axios.post(
-      "http://localhost:3001/matches/addmatch",
-      {
-        tournamentid: authState.selectedTourId,
-        teamA: teamA,
-        teamB: teamB,
-      },
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        if (response.data.length > 0) {
-          Axios.post(
-            "http://localhost:3001/matches/allmatches",
-            {
-              tournamentid: authState.selectedTourId,
-            },
-            { timeout: 2000 }
-          )
-            .then((response) => {
-              if (response.data.length > 0) {
-                let arr = [];
-                let entries = Object.entries(response.data);
-                for (let entry of entries) {
-                  arr.push(entry[1]);
-                }
-                setMatches(arr);
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+
   useEffect(() => {
     console.log("Updating Matches Component");
+    console.log(authState.teams);
     Axios.post(
       "http://localhost:3001/teams/getteams",
       {
@@ -96,7 +61,7 @@ const Matches = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [authState.matches]);
 
   return (
     <div
@@ -196,7 +161,7 @@ const Matches = () => {
               <Row className="justify-content-center pb-3 pt-3">
                 <Button
                   onClick={(event) => {
-                    handleSubmit(event);
+                    AddMatch(teamA, teamB, authState, dispatch);
                   }}
                   variant="dark"
                 >
@@ -222,7 +187,12 @@ const Matches = () => {
                       <td>{val.teamBName}</td>
                       <td>Date</td>
                       <td className="d-table-cell w-25">
-                        <Button variant="dark" onClick={() => {}}>
+                        <Button
+                          variant="dark"
+                          onClick={() => {
+                            RemoveMatch(val._id, dispatch);
+                          }}
+                        >
                           Remove
                         </Button>
                       </td>
