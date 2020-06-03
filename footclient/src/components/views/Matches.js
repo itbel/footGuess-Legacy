@@ -19,6 +19,7 @@ const Matches = () => {
   const [teams, setTeams] = useState([]);
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
+  const [round, setRound] = useState(0);
   // DISPATCH OUTSIDE OF USEFFECT!
   useEffect(() => {
     console.log("Updating Matches Component");
@@ -92,6 +93,7 @@ const Matches = () => {
                 </Row>
                 <Row className="ml-3 pt-3">
                   <Col>
+                    Select Team 1
                     <Dropdown>
                       <Dropdown.Toggle variant="dark" id="dropdown-basic">
                         {teamA === "" ? "Team 1" : teamA}
@@ -116,6 +118,7 @@ const Matches = () => {
                     </Dropdown>
                   </Col>
                   <Col>
+                    Select Team 1
                     <Dropdown>
                       <Dropdown.Toggle variant="dark" id="dropdown-basic">
                         {teamB === "" ? "Team 2" : teamB}
@@ -140,27 +143,23 @@ const Matches = () => {
                     </Dropdown>
                   </Col>
                   <Col>
-                    <Dropdown>
-                      <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                        Date
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={() => {
-                            console.log("This a lie");
-                          }}
-                        >
-                          Action
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
+                    Round
+                    <Form.Control
+                      value={round}
+                      name="round"
+                      onChange={(e) => {
+                        setRound(e.target.value);
+                      }}
+                      className="justify-content-start pt-0"
+                      style={{ width: "40%" }}
+                    ></Form.Control>
                   </Col>
                 </Row>
               </Form.Group>
               <Row className="justify-content-center pb-3 pt-3">
                 <Button
                   onClick={() => {
-                    AddMatch(teamA, teamB, authState, dispatch);
+                    AddMatch(teamA, teamB, round, authState, dispatch);
                     dispatch({
                       type: "UPDATE_MATCHES",
                     });
@@ -178,7 +177,7 @@ const Matches = () => {
                 <tr>
                   <th>Team 1</th>
                   <th>Team 2</th>
-                  <th colSpan="2">Date</th>
+                  <th colSpan="2">Round</th>
                 </tr>
               </thead>
               <tbody>
@@ -187,7 +186,7 @@ const Matches = () => {
                     <tr key={key}>
                       <td>{val.teamAName}</td>
                       <td>{val.teamBName}</td>
-                      <td>Date</td>
+                      <td>{val.round}</td>
                       <td className="d-table-cell w-25">
                         <Button
                           variant="dark"

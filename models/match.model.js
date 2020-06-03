@@ -7,6 +7,7 @@ const Match = new Schema({
     ref: "tournament",
     required: true,
   },
+  round: { type: Number, required: true },
   teamAName: { type: String, required: true },
   teamAResult: { type: Number },
   teamBName: { type: String, required: true },

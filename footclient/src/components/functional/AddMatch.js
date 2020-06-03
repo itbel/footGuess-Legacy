@@ -1,10 +1,12 @@
 import Axios from "axios";
 
-const AddMatch = (teamA, teamB, authState, dispatch) => {
+const AddMatch = (teamA, teamB, round, authState, dispatch) => {
+  console.log(`received ${teamA} vs ${teamB} on round ${round}`);
   Axios.post(
     "http://localhost:3001/matches/addmatch",
     {
       tournamentid: authState.selectedTourId,
+      round: round,
       teamA: teamA,
       teamB: teamB,
     },

@@ -21,13 +21,16 @@ import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
 import FetchTeams from "../functional/FetchTeams";
+import FetchJoinedTournamentsv2 from "../functional/FetchJoinedTournaments_v2";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
   const { state: authState, dispatch } = useContext(AuthContext);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   const fetchData = () => {
-    FetchJoined(authState, dispatch);
+    FetchJoinedTournamentsv2(authState.userid).then((val) => {
+      dispatch({ type: "FETCH_JOINED_TOURNAMENTS", payload: val });
+    });
     FetchAll(dispatch);
     FetchOwned(authState, dispatch);
   };
