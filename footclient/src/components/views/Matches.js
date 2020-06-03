@@ -20,8 +20,10 @@ const Matches = () => {
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
   const [round, setRound] = useState(0);
+  const [slicedData, setSlicedData] = useState([]);
   // DISPATCH OUTSIDE OF USEFFECT!
   useEffect(() => {
+    console.log(matches);
     console.log("Updating Matches Component");
     Axios.post(
       "http://localhost:3001/teams/getteams",
@@ -61,7 +63,7 @@ const Matches = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [authState.matches]);
+  }, []);
 
   return (
     <div
@@ -182,6 +184,7 @@ const Matches = () => {
               </thead>
               <tbody>
                 {matches.map((val, key) => {
+                  console.log(matches);
                   return (
                     <tr key={key}>
                       <td>{val.teamAName}</td>

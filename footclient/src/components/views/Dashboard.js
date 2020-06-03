@@ -15,6 +15,7 @@ import Tournaments from "./Tournaments";
 import CreateTournament from "./CreateTournament";
 import Teams from "./Teams";
 import Results from "./Results";
+import CustomTable from "../views/CustomTable";
 
 // Functionals
 import FetchJoined from "../functional/FetchJoinedTournaments";
@@ -128,6 +129,7 @@ const Dashboard = (props) => {
                 <PrivateRoute path={"/tournaments"} component={Tournaments} />
                 <PrivateRoute path={"/matches"} component={Matches} />
                 <PrivateRoute path={"/teams"} component={Teams} />
+                <PrivateRoute path={"/results"} component={CustomTable} />
               </Switch>
             </Col>
           </Row>
