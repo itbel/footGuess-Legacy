@@ -36,7 +36,11 @@ const Dashboard = (props) => {
     fetchData();
     history.push("/home");
   }, [history]);
-
+  useEffect(() => {
+    return () => {
+      console.log("Clean up");
+    };
+  }, []);
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
     return (
       <Route

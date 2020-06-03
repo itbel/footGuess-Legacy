@@ -19,10 +19,9 @@ const Matches = () => {
   const [teams, setTeams] = useState([]);
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
-
+  // DISPATCH OUTSIDE OF USEFFECT!
   useEffect(() => {
     console.log("Updating Matches Component");
-    console.log(authState.teams);
     Axios.post(
       "http://localhost:3001/teams/getteams",
       {
@@ -160,8 +159,11 @@ const Matches = () => {
               </Form.Group>
               <Row className="justify-content-center pb-3 pt-3">
                 <Button
-                  onClick={(event) => {
+                  onClick={() => {
                     AddMatch(teamA, teamB, authState, dispatch);
+                    dispatch({
+                      type: "UPDATE_MATCHES",
+                    });
                   }}
                   variant="dark"
                 >
@@ -191,6 +193,9 @@ const Matches = () => {
                           variant="dark"
                           onClick={() => {
                             RemoveMatch(val._id, dispatch);
+                            dispatch({
+                              type: "UPDATE_MATCHES",
+                            });
                           }}
                         >
                           Remove
