@@ -6,7 +6,7 @@ import RemoveMatch from "../functional/RemoveMatch";
 
 const CustomTable = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  const [headers] = useState(["Team1", "Team2", "Round"]);
+  const [headers, setHeaders] = useState(["Team1", "Team2", "Round"]);
   const [currentPage, setCurrentPage] = useState(0);
   const [data, setData] = useState([authState.matches]);
   const [arr, setArr] = useState([data]);
@@ -37,11 +37,7 @@ const CustomTable = () => {
     console.log(arr[currentPage]);
     setWasFetched(!wasFetched);
   }, [arr]);
-  useEffect(() => {
-    return () => {
-      console.log("Clean up");
-    };
-  }, []);
+
   return (
     <div
       style={{
@@ -89,41 +85,8 @@ const CustomTable = () => {
                     </tr>
                   );
                 })
-              : ""
-            : ""}
-          {arr.length > 0 ? (
-            <tr>
-              <td colSpan={4}>
-                <Form.Control
-                  style={{ width: "20%" }}
-                  value={currentPage}
-                  onChange={(e) => {
-                    setCurrentPage(e.target.value - 1);
-                  }}
-                  as="select"
-                  size="sm"
-                >
-                  {arr.length > 0 ? (
-                    arr[currentPage].length > 0 && wasFetched ? (
-                      arr.map((val, index) => {
-                        return <option key={index}>{index + 1}</option>;
-                      })
-                    ) : (
-                      ""
-                    )
-                  ) : (
-                    <tr>
-                      <td colSpan={4}>No Results</td>
-                    </tr>
-                  )}
-                </Form.Control>
-              </td>
-            </tr>
-          ) : (
-            <tr>
-              <td colSpan={4}>No Results</td>
-            </tr>
-          )}
+              : "Not fetched"
+            : "Not Fetched"}
         </tbody>
       </Table>
     </div>
@@ -131,39 +94,3 @@ const CustomTable = () => {
 };
 
 export default CustomTable;
-
-/*
-          {arr !== undefined ? (
-            <tr>
-              <td colSpan={4}>
-                <Form.Control
-                  style={{ width: "20%" }}
-                  value={currentPage}
-                  onChange={(e) => {
-                    setCurrentPage(e.target.value - 1);
-                  }}
-                  as="select"
-                  size="sm"
-                >
-                  {arr.length > 0 ? (
-                    arr[currentPage].length > 0 && wasFetched ? (
-                      arr.map((val, index) => {
-                        return <option key={index}>{index + 1}</option>;
-                      })
-                    ) : (
-                      ""
-                    )
-                  ) : (
-                    <tr>
-                      <td colSpan={4}></td>
-                    </tr>
-                  )}
-                </Form.Control>
-              </td>
-            </tr>
-          ) : (
-            <tr>
-              <td colSpan={4}></td>
-            </tr>
-          )}
-          */

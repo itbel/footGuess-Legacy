@@ -55,6 +55,11 @@ const reducer = (state, action) => {
       return {
         ...state,
       };
+    case "FETCH_MATCHES":
+      return {
+        ...state,
+        matches: action.payload,
+      };
     case "FETCH_JOINED_TOURNAMENTS":
       return {
         ...state,

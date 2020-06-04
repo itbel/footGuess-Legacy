@@ -1,4 +1,3 @@
-import React from "react";
 import Axios from "axios";
 
 const FetchJoinedTournaments_v2 = (userid) => {

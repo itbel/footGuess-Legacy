@@ -14,15 +14,16 @@ import Matches from "./Matches";
 import Tournaments from "./Tournaments";
 import CreateTournament from "./CreateTournament";
 import Teams from "./Teams";
-import Results from "./Results";
+//import Results from "./Results";
 import CustomTable from "../views/CustomTable";
 
 // Functionals
-import FetchJoined from "../functional/FetchJoinedTournaments";
+//import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
-import FetchTeams from "../functional/FetchTeams";
+//import FetchTeams from "../functional/FetchTeams";
 import FetchJoinedTournamentsv2 from "../functional/FetchJoinedTournaments_v2";
+//import FetchMatches from "../functional/FetchMatches";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
@@ -40,11 +41,13 @@ const Dashboard = (props) => {
     fetchData();
     history.push("/home");
   }, [history]);
+
   useEffect(() => {
     return () => {
       console.log("Clean up");
     };
   }, []);
+
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
     return (
       <Route

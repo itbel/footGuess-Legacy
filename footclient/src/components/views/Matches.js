@@ -1,29 +1,20 @@
 import React, { useEffect, useContext, useState } from "react";
-import {
-  Dropdown,
-  Form,
-  Col,
-  Row,
-  Container,
-  Button,
-  Table,
-} from "react-bootstrap";
+import { Dropdown, Form, Col, Row, Container, Button } from "react-bootstrap";
 import Axios from "axios";
 import { AuthContext } from "../../App";
 import AddMatch from "../functional/AddMatch";
-import RemoveMatch from "../functional/RemoveMatch";
+
+import CustomTable from "../views/CustomTable";
 
 const Matches = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  const [matches, setMatches] = useState([]);
   const [teams, setTeams] = useState([]);
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
   const [round, setRound] = useState(0);
-  const [slicedData, setSlicedData] = useState([]);
   // DISPATCH OUTSIDE OF USEFFECT!
+
   useEffect(() => {
-    console.log(matches);
     console.log("Updating Matches Component");
     Axios.post(
       "http://localhost:3001/teams/getteams",
@@ -43,28 +34,13 @@ const Matches = () => {
       .catch((error) => {
         console.log(error);
       });
-    Axios.post(
-      "http://localhost:3001/matches/allmatches",
-      {
-        tournamentid: authState.selectedTourId,
-      },
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        if (response.data.length > 0) {
-          let arr = [];
-          let entries = Object.entries(response.data);
-          for (let entry of entries) {
-            arr.push(entry[1]);
-          }
-          setMatches(arr);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }, []);
 
+  useEffect(() => {
+    return () => {
+      console.log("Clean up");
+    };
+  }, []);
   return (
     <div
       style={{
@@ -97,10 +73,12 @@ const Matches = () => {
                   <Col>
                     Select Team 1
                     <Dropdown>
-                      <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                      <Dropdown.Toggle variant="dark">
                         {teamA === "" ? "Team 1" : teamA}
                       </Dropdown.Toggle>
-                      <Dropdown.Menu>
+                      <Dropdown.Menu
+                        style={{ maxHeight: "35vh", overflowY: "auto" }}
+                      >
                         {teams.map((val, key) => {
                           if (teamA === val.teamName || teamB === val.teamName)
                             return null;
@@ -122,10 +100,12 @@ const Matches = () => {
                   <Col>
                     Select Team 1
                     <Dropdown>
-                      <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                      <Dropdown.Toggle variant="dark">
                         {teamB === "" ? "Team 2" : teamB}
                       </Dropdown.Toggle>
-                      <Dropdown.Menu>
+                      <Dropdown.Menu
+                        style={{ maxHeight: "35vh", overflowY: "auto" }}
+                      >
                         {teams.map((val, key) => {
                           if (teamA === val.teamName || teamB === val.teamName)
                             return null;
@@ -174,40 +154,7 @@ const Matches = () => {
             </Form>
           </Col>
           <Col sm={12} md={6}>
-            <Table striped bordered hover size="sm" variant="dark">
-              <thead>
-                <tr>
-                  <th>Team 1</th>
-                  <th>Team 2</th>
-                  <th colSpan="2">Round</th>
-                </tr>
-              </thead>
-              <tbody>
-                {matches.map((val, key) => {
-                  console.log(matches);
-                  return (
-                    <tr key={key}>
-                      <td>{val.teamAName}</td>
-                      <td>{val.teamBName}</td>
-                      <td>{val.round}</td>
-                      <td className="d-table-cell w-25">
-                        <Button
-                          variant="dark"
-                          onClick={() => {
-                            RemoveMatch(val._id, dispatch);
-                            dispatch({
-                              type: "UPDATE_MATCHES",
-                            });
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
+            <CustomTable></CustomTable>
           </Col>
         </Row>
       </Container>

@@ -8,7 +8,9 @@ const RemoveMatch = (matchid, dispatch) => {
     },
     { timeout: 2000 }
   )
-    .then((response) => {})
+    .then((response) => {
+      console.log(response.data);
+    })
     .catch((error) => {
       console.log(error);
     });
