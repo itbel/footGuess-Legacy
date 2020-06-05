@@ -8,40 +8,25 @@ const CustomTable = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [headers] = useState(["Team1", "Team2", "Round"]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [data, setData] = useState([authState.matches]);
-  const [arr, setArr] = useState([data]);
+  const [arr, setArr] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
 
   useEffect(() => {
     console.log("Custom Table Mounted. Fetching Data");
-    FetchMatches(authState, dispatch).then((val) => {
-      setData(val);
+    FetchMatches(authState, dispatch).then((response) => {
+      if (response.length !== 0) {
+        let tempArr = [];
+        response.map((value, entry) => {
+          if (entry % 5 === 0) {
+            tempArr.push(response.slice(entry, entry + 5));
+          }
+        });
+        setArr(tempArr);
+        setWasFetched(true);
+      }
     });
-  }, []);
+  }, [wasFetched]);
 
-  useEffect(() => {
-    if (data !== undefined) {
-      let tempArr = [];
-      console.log("Data was fetched. Paginating");
-      console.log(data);
-      data.map((val, entry) => {
-        if (entry % 5 === 0) {
-          tempArr.push(data.slice(entry, entry + 5));
-        }
-      });
-      setArr(tempArr);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    console.log(arr[currentPage]);
-    setWasFetched(!wasFetched);
-  }, [arr]);
-  useEffect(() => {
-    return () => {
-      console.log("Clean up");
-    };
-  }, []);
   return (
     <div
       style={{
@@ -89,8 +74,8 @@ const CustomTable = () => {
                     </tr>
                   );
                 })
-              : ""
-            : ""}
+              : "Not Loaded"
+            : "Not Loaded"}
           {arr.length > 0 ? (
             <tr>
               <td colSpan={4}>
@@ -98,7 +83,7 @@ const CustomTable = () => {
                   style={{ width: "20%" }}
                   value={currentPage}
                   onChange={(e) => {
-                    setCurrentPage(e.target.value - 1);
+                    setCurrentPage(e.target.value);
                   }}
                   as="select"
                   size="sm"
@@ -106,10 +91,10 @@ const CustomTable = () => {
                   {arr.length > 0 ? (
                     arr[currentPage].length > 0 && wasFetched ? (
                       arr.map((val, index) => {
-                        return <option key={index}>{index + 1}</option>;
+                        return <option key={index}>{index}</option>;
                       })
                     ) : (
-                      ""
+                      "Not Loaded"
                     )
                   ) : (
                     <tr>
@@ -131,39 +116,3 @@ const CustomTable = () => {
 };
 
 export default CustomTable;
-
-/*
-          {arr !== undefined ? (
-            <tr>
-              <td colSpan={4}>
-                <Form.Control
-                  style={{ width: "20%" }}
-                  value={currentPage}
-                  onChange={(e) => {
-                    setCurrentPage(e.target.value - 1);
-                  }}
-                  as="select"
-                  size="sm"
-                >
-                  {arr.length > 0 ? (
-                    arr[currentPage].length > 0 && wasFetched ? (
-                      arr.map((val, index) => {
-                        return <option key={index}>{index + 1}</option>;
-                      })
-                    ) : (
-                      ""
-                    )
-                  ) : (
-                    <tr>
-                      <td colSpan={4}></td>
-                    </tr>
-                  )}
-                </Form.Control>
-              </td>
-            </tr>
-          ) : (
-            <tr>
-              <td colSpan={4}></td>
-            </tr>
-          )}
-          */

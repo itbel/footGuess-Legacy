@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const FetchTeams = (authState, dispatch) => {
-  console.log("FetchTeams called.");
+  console.log("FetchTeams has been called.");
   Axios.post(
     "http://localhost:3001/teams/getteams",
     {
@@ -10,7 +10,7 @@ const FetchTeams = (authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      console.log("received");
+      console.log(response.data);
       dispatch({
         type: "FETCH_TEAMS",
         payload: response.data,

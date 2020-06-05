@@ -9,6 +9,7 @@ const FetchMatches = (authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
+      console.log("Fetch Matches has been called.");
       if (JSON.stringify(authState.matches) !== JSON.stringify(response.data)) {
         console.log(authState.matches);
         console.log(response.data);
