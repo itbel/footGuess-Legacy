@@ -60,10 +60,7 @@ const MatchesTable = () => {
                     <Button
                       variant="dark"
                       onClick={() => {
-                        RemoveMatch(val._id, dispatch);
-                        dispatch({
-                          type: "UPDATE_MATCHES",
-                        });
+                        RemoveMatch(val._id, authState, dispatch);
                       }}
                     >
                       Remove

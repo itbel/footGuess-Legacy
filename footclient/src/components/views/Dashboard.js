@@ -42,12 +42,6 @@ const Dashboard = (props) => {
     history.push("/home");
   }, [history]);
 
-  useEffect(() => {
-    return () => {
-      console.log("Clean up");
-    };
-  }, []);
-
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
     return (
       <Route
@@ -63,7 +57,7 @@ const Dashboard = (props) => {
       />
     );
   };
-  /////////////// LEAGUE IS NOT SET ON LOAD, FETCHING WITHOUT A SET LEAGUE RETURNS EMPTY
+
   return (
     <div
       className="landing p-0"

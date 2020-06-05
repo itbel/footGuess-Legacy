@@ -1,6 +1,7 @@
 import Axios from "axios";
+import FetchMatches from "./FetchMatches";
 
-const RemoveMatch = (matchid, dispatch) => {
+const RemoveMatch = (matchid, authState, dispatch) => {
   Axios.post(
     "http://localhost:3001/matches/removematch",
     {
@@ -9,7 +10,9 @@ const RemoveMatch = (matchid, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      console.log(response.data);
+      FetchMatches(authState, dispatch).then((matches) => {
+        return matches.data;
+      });
     })
     .catch((error) => {
       console.log(error);
