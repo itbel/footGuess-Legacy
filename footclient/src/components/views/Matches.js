@@ -4,7 +4,7 @@ import Axios from "axios";
 import { AuthContext } from "../../App";
 import AddMatch from "../functional/AddMatch";
 
-import CustomTable from "../views/CustomTable";
+import MatchesTable from "./MatchesTable";
 
 const Matches = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -154,7 +154,7 @@ const Matches = () => {
             </Form>
           </Col>
           <Col sm={12} md={6}>
-            <CustomTable></CustomTable>
+            <MatchesTable></MatchesTable>
           </Col>
         </Row>
       </Container>

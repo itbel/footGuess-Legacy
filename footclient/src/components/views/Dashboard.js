@@ -15,7 +15,7 @@ import Tournaments from "./Tournaments";
 import CreateTournament from "./CreateTournament";
 import Teams from "./Teams";
 //import Results from "./Results";
-import CustomTable from "../views/CustomTable";
+import CustomTable from "./MatchesTable";
 
 // Functionals
 //import FetchJoined from "../functional/FetchJoinedTournaments";

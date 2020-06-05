@@ -11,9 +11,6 @@ const FetchMatches = (authState, dispatch) => {
     .then((response) => {
       console.log("Fetch Matches has been called.");
       if (JSON.stringify(authState.matches) !== JSON.stringify(response.data)) {
-        console.log(authState.matches);
-        console.log(response.data);
-        console.log("Dispatching");
         dispatch({
           type: "FETCH_MATCHES",
           payload: response.data,

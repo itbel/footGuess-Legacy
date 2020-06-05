@@ -4,7 +4,7 @@ import FetchMatches from "../functional/FetchMatches";
 import { AuthContext } from "../../App";
 import RemoveMatch from "../functional/RemoveMatch";
 
-const CustomTable = () => {
+const MatchesTable = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [headers] = useState(["Team1", "Team2", "Round"]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -20,6 +20,7 @@ const CustomTable = () => {
           if (entry % 5 === 0) {
             tempArr.push(response.slice(entry, entry + 5));
           }
+          return null;
         });
         setArr(tempArr);
         setWasFetched(true);
@@ -38,7 +39,7 @@ const CustomTable = () => {
         color: "#efefef",
       }}
     >
-      <Table size="sm" bordered striped variant="light">
+      <Table bordered striped variant="light" size="sm">
         <thead>
           <tr>
             {headers.map((val, key) => {
@@ -48,8 +49,6 @@ const CustomTable = () => {
           </tr>
         </thead>
         <tbody>
-          {console.log(wasFetched)}
-          {console.log(arr.length)}
           {arr.length > 0
             ? arr[currentPage].length > 0 && wasFetched
               ? arr[currentPage].map((val, key) => {
@@ -74,8 +73,8 @@ const CustomTable = () => {
                     </tr>
                   );
                 })
-              : "Not Loaded"
-            : "Not Loaded"}
+              : "No matches found"
+            : "No matches found"}
           {arr.length > 0 ? (
             <tr>
               <td colSpan={4}>
@@ -106,7 +105,7 @@ const CustomTable = () => {
             </tr>
           ) : (
             <tr>
-              <td colSpan={4}>No Results</td>
+              <td colSpan={4}></td>
             </tr>
           )}
         </tbody>
@@ -115,4 +114,4 @@ const CustomTable = () => {
   );
 };
 
-export default CustomTable;
+export default MatchesTable;
