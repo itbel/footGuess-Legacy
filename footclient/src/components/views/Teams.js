@@ -1,35 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../App";
 import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
 import AddTeam from "../functional/AddTeam";
-import RemoveTeam from "../functional/RemoveTeam";
-import Axios from "axios";
+import TeamsTable from "../views/TeamsTable";
+
 const Teams = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [teamName, setTeamName] = useState("");
-  const [teamNames, setTeamNames] = useState([]);
-
-  useEffect(() => {
-    console.log("Updating Teams Component");
-    Axios.post(
-      "http://localhost:3001/teams/getteams",
-      {
-        tourid: authState.selectedTourId,
-      },
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        let arr = [];
-        let entries = Object.entries(response.data);
-        for (let entry of entries) {
-          arr.push(entry[1]);
-        }
-        setTeamNames(arr);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [authState.teams, authState.selectedTourId]);
 
   return (
     <div
@@ -86,37 +63,7 @@ const Teams = () => {
             </Form>
           </Col>
           <Col sm={12} md={6}>
-            <Table striped bordered hover size="sm" variant="dark">
-              <thead>
-                <tr>
-                  <th>Team Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                {teamNames.map((val, key) => {
-                  return (
-                    <tr key={key}>
-                      <td>{val.teamName}</td>
-                      <td className="d-table-cell w-25">
-                        <Button
-                          variant="dark"
-                          onClick={() => {
-                            RemoveTeam(
-                              authState.selectedTourId,
-                              val,
-                              authState,
-                              dispatch
-                            );
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
+            <TeamsTable></TeamsTable>
           </Col>
         </Row>
       </Container>

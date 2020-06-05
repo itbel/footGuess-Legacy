@@ -1,6 +1,7 @@
 import Axios from "axios";
 
 const FetchJoinedTournaments = (authState, dispatch) => {
+  console.log("FetchJoinedTournaments called.");
   Axios.post(
     "http://localhost:3001/tournaments/getjoinedtournaments",
     {

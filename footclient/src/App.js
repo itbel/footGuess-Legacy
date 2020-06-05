@@ -33,15 +33,32 @@ const reducer = (state, action) => {
         userid: action.payload._id,
       };
     case "FETCH_ALL_TOURNAMENTS":
-      return {
-        ...state,
-        allTournaments: action.payload,
-      };
+      if (state.allTournaments !== action.payload) {
+        return {
+          ...state,
+          allTournaments: action.payload,
+        };
+      } else {
+        return { ...state };
+      }
     case "SELECT_TOURNAMENT":
+      if (state.selectedTourId !== action.payload.tournamentid) {
+        return {
+          ...state,
+          selectedTourName: action.payload.name,
+          selectedTourId: action.payload.tournamentid,
+        };
+      } else {
+        return { ...state };
+      }
+    case "UPDATE_MATCHES":
       return {
         ...state,
-        selectedTourName: action.payload.name,
-        selectedTourId: action.payload.tournamentid,
+      };
+    case "FETCH_MATCHES":
+      return {
+        ...state,
+        matches: action.payload,
       };
     case "FETCH_JOINED_TOURNAMENTS":
       return {
@@ -54,11 +71,16 @@ const reducer = (state, action) => {
         ownedTournaments: action.payload,
       };
     case "FETCH_TEAMS":
-      console.log(action.payload);
-      return {
-        ...state,
-        teams: action.payload,
-      };
+      if (state.teams !== action.payload)
+        return {
+          ...state,
+          teams: action.payload,
+        };
+      else {
+        return {
+          ...state,
+        };
+      }
     case "LOGOUT":
       localStorage.clear();
       return {

@@ -14,20 +14,25 @@ import Matches from "./Matches";
 import Tournaments from "./Tournaments";
 import CreateTournament from "./CreateTournament";
 import Teams from "./Teams";
-import Results from "./Results";
+//import Results from "./Results";
+import CustomTable from "./MatchesTable";
 
 // Functionals
-import FetchJoined from "../functional/FetchJoinedTournaments";
+//import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
-import FetchTeams from "../functional/FetchTeams";
+//import FetchTeams from "../functional/FetchTeams";
+import FetchJoinedTournamentsv2 from "../functional/FetchJoinedTournaments_v2";
+//import FetchMatches from "../functional/FetchMatches";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
   const { state: authState, dispatch } = useContext(AuthContext);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   const fetchData = () => {
-    FetchJoined(authState, dispatch);
+    FetchJoinedTournamentsv2(authState.userid).then((val) => {
+      dispatch({ type: "FETCH_JOINED_TOURNAMENTS", payload: val });
+    });
     FetchAll(dispatch);
     FetchOwned(authState, dispatch);
   };
@@ -36,6 +41,12 @@ const Dashboard = (props) => {
     fetchData();
     history.push("/home");
   }, [history]);
+
+  useEffect(() => {
+    return () => {
+      console.log("Clean up");
+    };
+  }, []);
 
   const PrivateRoute = ({ component: Component, path, ...rest }) => {
     return (
@@ -121,6 +132,7 @@ const Dashboard = (props) => {
                 <PrivateRoute path={"/tournaments"} component={Tournaments} />
                 <PrivateRoute path={"/matches"} component={Matches} />
                 <PrivateRoute path={"/teams"} component={Teams} />
+                <PrivateRoute path={"/results"} component={CustomTable} />
               </Switch>
             </Col>
           </Row>
