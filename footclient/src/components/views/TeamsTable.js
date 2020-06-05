@@ -23,7 +23,6 @@ const MatchesTable = () => {
             }
             return null;
           });
-
           setArr(tempArr);
           setWasFetched(true);
         }

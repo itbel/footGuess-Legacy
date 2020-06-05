@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../App";
-import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
+import { Row, Col, Form, Button, Container } from "react-bootstrap";
 import AddTeam from "../functional/AddTeam";
 import TeamsTable from "../views/TeamsTable";
 

@@ -34,7 +34,7 @@ const Matches = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [authState.selectedTourId]);
 
   useEffect(() => {
     return () => {

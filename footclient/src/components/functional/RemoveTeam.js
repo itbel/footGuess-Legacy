@@ -1,4 +1,5 @@
 import Axios from "axios";
+import FetchTeams from "./FetchTeams";
 
 const RemoveTeam = (val, authState, dispatch) => {
   Axios.post(
@@ -10,14 +11,12 @@ const RemoveTeam = (val, authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      alert(`team removed successfully`);
-      dispatch({
-        type: "FETCH_TEAMS",
-        payload: response.data,
+      FetchTeams(authState, dispatch).then((teams) => {
+        return teams.data;
       });
     })
     .catch((error) => {
-      alert(`failed to remove team`);
+      console.log(error);
     });
 };
 
