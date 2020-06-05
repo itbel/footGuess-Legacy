@@ -29,7 +29,7 @@ const MatchesTable = () => {
         }
       });
     }
-  }, [authState.teams]);
+  }, [authState.teams, dispatch, authState]);
 
   return (
     <Table bordered striped variant="light" size="sm">
@@ -42,25 +42,29 @@ const MatchesTable = () => {
         </tr>
       </thead>
       <tbody>
-        {arr[currentPage] !== undefined
-          ? arr[currentPage].map((val, key) => {
-              return (
-                <tr key={key}>
-                  <td>{val.teamName}</td>
-                  <td className="d-table-cell w-25">
-                    <Button
-                      variant="dark"
-                      onClick={() => {
-                        RemoveTeam(val, authState, dispatch);
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })
-          : "No teams found"}
+        {arr[currentPage] !== undefined ? (
+          arr[currentPage].map((val, key) => {
+            return (
+              <tr key={key}>
+                <td>{val.teamName}</td>
+                <td className="d-table-cell w-25">
+                  <Button
+                    variant="dark"
+                    onClick={() => {
+                      RemoveTeam(val, authState, dispatch);
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </td>
+              </tr>
+            );
+          })
+        ) : (
+          <tr>
+            <td colSpan={4}>No teams found</td>
+          </tr>
+        )}
         {arr.length > 0 ? (
           <tr>
             <td colSpan={4}>
@@ -72,15 +76,11 @@ const MatchesTable = () => {
                 }}
                 as="select"
               >
-                {arr.length > 0 && arr[currentPage].length > 0 && wasFetched ? (
-                  arr.map((val, index) => {
-                    return <option key={index}>{index}</option>;
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={4}>No Results</td>
-                  </tr>
-                )}
+                {arr.length > 0 && arr[currentPage].length > 0 && wasFetched
+                  ? arr.map((val, index) => {
+                      return <option key={index}>{index}</option>;
+                    })
+                  : null}
               </Form.Control>
             </td>
           </tr>

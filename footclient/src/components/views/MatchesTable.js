@@ -12,7 +12,7 @@ const MatchesTable = () => {
   const [wasFetched, setWasFetched] = useState(false);
 
   useEffect(() => {
-    console.log("Custom Table Mounted. Fetching Data");
+    console.log("Matches Table Mounted. Fetching Data");
     FetchMatches(authState, dispatch).then((response) => {
       if (response.length !== 0) {
         let tempArr = [];
@@ -26,7 +26,7 @@ const MatchesTable = () => {
         setWasFetched(true);
       }
     });
-  }, [authState.matches]);
+  }, [authState.matches, dispatch, authState]);
 
   return (
     <div
@@ -49,32 +49,34 @@ const MatchesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {arr.length > 0
-            ? arr[currentPage].length > 0 && wasFetched
-              ? arr[currentPage].map((val, key) => {
-                  return (
-                    <tr key={key}>
-                      <td>{val.teamAName}</td>
-                      <td>{val.teamBName}</td>
-                      <td>{val.round}</td>
-                      <td className="d-table-cell w-25">
-                        <Button
-                          variant="dark"
-                          onClick={() => {
-                            RemoveMatch(val._id, dispatch);
-                            dispatch({
-                              type: "UPDATE_MATCHES",
-                            });
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })
-              : "No matches found"
-            : "No matches found"}
+          {arr.length > 0 && arr[currentPage].length > 0 && wasFetched ? (
+            arr[currentPage].map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.teamAName}</td>
+                  <td>{val.teamBName}</td>
+                  <td>{val.round}</td>
+                  <td className="d-table-cell w-25">
+                    <Button
+                      variant="dark"
+                      onClick={() => {
+                        RemoveMatch(val._id, dispatch);
+                        dispatch({
+                          type: "UPDATE_MATCHES",
+                        });
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={4}>No matches found</td>
+            </tr>
+          )}
           {arr.length > 0 ? (
             <tr>
               <td colSpan={4}>
@@ -92,9 +94,7 @@ const MatchesTable = () => {
                       arr.map((val, index) => {
                         return <option key={index}>{index}</option>;
                       })
-                    ) : (
-                      "Not Loaded"
-                    )
+                    ) : null
                   ) : (
                     <tr>
                       <td colSpan={4}>No Results</td>
