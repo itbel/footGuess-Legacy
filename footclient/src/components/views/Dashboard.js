@@ -18,12 +18,9 @@ import Teams from "./Teams";
 import CustomTable from "./MatchesTable";
 
 // Functionals
-//import FetchJoined from "../functional/FetchJoinedTournaments";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
-//import FetchTeams from "../functional/FetchTeams";
 import FetchJoinedTournamentsv2 from "../functional/FetchJoinedTournaments_v2";
-//import FetchMatches from "../functional/FetchMatches";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
@@ -41,22 +38,6 @@ const Dashboard = (props) => {
     fetchData();
     history.push("/home");
   }, [history]);
-
-  const PrivateRoute = ({ component: Component, path, ...rest }) => {
-    return (
-      <Route
-        path={path}
-        {...rest}
-        render={(props) =>
-          authState.isAuthenticated ? (
-            <Component {...props} />
-          ) : (
-            <Redirect to={"/"} />
-          )
-        }
-      />
-    );
-  };
 
   return (
     <div
@@ -118,15 +99,15 @@ const Dashboard = (props) => {
             </Col>
             <Col sm={12} md={12} lg={10} className="mt-3">
               <Switch>
-                <PrivateRoute path={"/home"} component={Home} exact />
-                <PrivateRoute path={"/guess"} component={Guess} />
-                <PrivateRoute path={"/rules"} component={Rules} />
-                <PrivateRoute path={"/ranking"} component={Ranking} />
-                <PrivateRoute path={"/create"} component={CreateTournament} />
-                <PrivateRoute path={"/tournaments"} component={Tournaments} />
-                <PrivateRoute path={"/matches"} component={Matches} />
-                <PrivateRoute path={"/teams"} component={Teams} />
-                <PrivateRoute path={"/results"} component={CustomTable} />
+                <Route path={"/home"} component={Home} exact />
+                <Route path={"/guess"} component={Guess} />
+                <Route path={"/rules"} component={Rules} />
+                <Route path={"/ranking"} component={Ranking} />
+                <Route path={"/create"} component={CreateTournament} />
+                <Route path={"/tournaments"} component={Tournaments} />
+                <Route path={"/matches"} component={Matches} />
+                <Route path={"/teams"} component={Teams} />
+                <Route path={"/results"} component={CustomTable} />
               </Switch>
             </Col>
           </Row>
