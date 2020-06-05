@@ -71,7 +71,6 @@ const reducer = (state, action) => {
         ownedTournaments: action.payload,
       };
     case "FETCH_TEAMS":
-      console.log(action.payload);
       if (state.teams !== action.payload)
         return {
           ...state,

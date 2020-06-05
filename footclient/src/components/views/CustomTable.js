@@ -25,7 +25,7 @@ const CustomTable = () => {
         setWasFetched(true);
       }
     });
-  }, [wasFetched]);
+  }, [authState.matches]);
 
   return (
     <div

@@ -3,6 +3,7 @@ import { AuthContext } from "../../App";
 import { Row, Col, Form, Button, Container, Table } from "react-bootstrap";
 import AddTeam from "../functional/AddTeam";
 import RemoveTeam from "../functional/RemoveTeam";
+import FetchTeams from "../functional/FetchTeams";
 import Axios from "axios";
 const Teams = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -11,25 +12,15 @@ const Teams = () => {
 
   useEffect(() => {
     console.log("Updating Teams Component");
-    Axios.post(
-      "http://localhost:3001/teams/getteams",
-      {
-        tourid: authState.selectedTourId,
-      },
-      { timeout: 2000 }
-    )
-      .then((response) => {
-        let arr = [];
-        let entries = Object.entries(response.data);
-        for (let entry of entries) {
-          arr.push(entry[1]);
-        }
-        setTeamNames(arr);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [authState.teams, authState.selectedTourId]);
+    FetchTeams(authState, dispatch).then((response) => {
+      let arr = [];
+      let entries = Object.entries(response);
+      for (let entry of entries) {
+        arr.push(entry[1]);
+      }
+      setTeamNames(arr);
+    });
+  }, [authState.teams]);
 
   return (
     <div
