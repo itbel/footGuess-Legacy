@@ -24,14 +24,10 @@ server.route("/addteam").post((req, res, next) => {
 
 server.route("/deleteteam").post((req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
-  teamModel.findOneAndDelete(
-    { teamName: req.body.teamName, tournamentid: req.body.tournamentid },
-    (err, doc) => {
-      if (err) res.json(err);
-      else res.json(doc);
-    }
-  );
-  console.log(`========== FINISHED REMOVE OPERATION ==========\n`);
+  teamModel.findByIdAndDelete({ _id: req.body.teamid }, (err, doc) => {
+    if (err) res.json(err);
+    else res.json(doc);
+  });
 });
 
 server.route("/getteams").post((req, res, next) => {

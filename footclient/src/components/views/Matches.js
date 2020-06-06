@@ -137,9 +137,6 @@ const Matches = () => {
                 <Button
                   onClick={() => {
                     AddMatch(teamA, teamB, round, authState, dispatch);
-                    dispatch({
-                      type: "UPDATE_MATCHES",
-                    });
                   }}
                   variant="dark"
                 >

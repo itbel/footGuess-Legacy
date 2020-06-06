@@ -25,6 +25,8 @@ const MatchesTable = () => {
           });
           setArr(tempArr);
           setWasFetched(true);
+        } else {
+          setArr([]);
         }
       });
     }
@@ -56,7 +58,7 @@ const MatchesTable = () => {
                       if (arr[currentPage].length === 1) {
                         if (currentPage !== 0) setCurrentPage(currentPage - 1);
                       }
-                      RemoveTeam(val, authState, dispatch);
+                      RemoveTeam(val._id, authState, dispatch);
                     }}
                   >
                     Remove
@@ -82,15 +84,11 @@ const MatchesTable = () => {
                 as="select"
                 size="sm"
               >
-                {arr.length > 0 && wasFetched ? (
-                  arr.map((val, index) => {
-                    return <option key={index}>{index}</option>;
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={4}>No Results</td>
-                  </tr>
-                )}
+                {arr.length > 0 && wasFetched
+                  ? arr.map((val, index) => {
+                      return <option key={index}>{index}</option>;
+                    })
+                  : "No results"}
               </Form.Control>
             </td>
           </tr>

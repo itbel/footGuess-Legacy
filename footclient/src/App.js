@@ -51,14 +51,15 @@ const reducer = (state, action) => {
       } else {
         return { ...state };
       }
-    case "UPDATE_MATCHES":
-      return {
-        ...state,
-      };
     case "FETCH_MATCHES":
       return {
         ...state,
         matches: action.payload,
+      };
+    case "FETCH_TEAMS":
+      return {
+        ...state,
+        teams: action.payload,
       };
     case "FETCH_JOINED_TOURNAMENTS":
       return {
@@ -70,17 +71,7 @@ const reducer = (state, action) => {
         ...state,
         ownedTournaments: action.payload,
       };
-    case "FETCH_TEAMS":
-      if (state.teams !== action.payload)
-        return {
-          ...state,
-          teams: action.payload,
-        };
-      else {
-        return {
-          ...state,
-        };
-      }
+
     case "LOGOUT":
       localStorage.clear();
       return {
