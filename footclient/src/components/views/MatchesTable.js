@@ -14,17 +14,15 @@ const MatchesTable = () => {
   useEffect(() => {
     console.log("Matches Table Mounted. Fetching Data");
     FetchMatches(authState, dispatch).then((response) => {
-      if (response.length !== 0) {
-        let tempArr = [];
-        response.map((value, entry) => {
-          if (entry % 5 === 0) {
-            tempArr.push(response.slice(entry, entry + 5));
-          }
-          return null;
-        });
-        setArr(tempArr);
-        setWasFetched(true);
-      }
+      let tempArr = [];
+      response.map((value, entry) => {
+        if (entry % 5 === 0) {
+          tempArr.push(response.slice(entry, entry + 5));
+        }
+        return null;
+      });
+      setArr(tempArr);
+      setWasFetched(true);
     });
   }, [authState.matches, dispatch, authState]);
 
@@ -49,7 +47,10 @@ const MatchesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {arr.length > 0 && arr[currentPage].length > 0 && wasFetched ? (
+          {arr !== undefined &&
+          arr.length > 0 &&
+          arr[currentPage].length !== undefined &&
+          wasFetched ? (
             arr[currentPage].map((val, key) => {
               return (
                 <tr key={key}>
@@ -60,6 +61,10 @@ const MatchesTable = () => {
                     <Button
                       variant="dark"
                       onClick={() => {
+                        if (arr[currentPage].length === 1) {
+                          if (currentPage !== 0)
+                            setCurrentPage(currentPage - 1);
+                        }
                         RemoveMatch(val._id, authState, dispatch);
                       }}
                     >
@@ -74,24 +79,25 @@ const MatchesTable = () => {
               <td colSpan={4}>No matches found</td>
             </tr>
           )}
-          {arr.length > 0 ? (
+          {arr !== undefined && arr.length > 0 ? (
             <tr>
               <td colSpan={4}>
                 <Form.Control
                   style={{ width: "20%" }}
                   value={currentPage}
                   onChange={(e) => {
+                    console.log(
+                      `Current page is : ${currentPage}. Setting it to : ${e.target.value}`
+                    );
                     setCurrentPage(e.target.value);
                   }}
                   as="select"
                   size="sm"
                 >
-                  {arr.length > 0 ? (
-                    arr[currentPage].length > 0 && wasFetched ? (
-                      arr.map((val, index) => {
-                        return <option key={index}>{index}</option>;
-                      })
-                    ) : null
+                  {arr.length > 0 && wasFetched ? (
+                    arr.map((val, index) => {
+                      return <option key={index}>{index}</option>;
+                    })
                   ) : (
                     <tr>
                       <td colSpan={4}>No Results</td>

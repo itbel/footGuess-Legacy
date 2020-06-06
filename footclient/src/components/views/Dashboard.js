@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Dropdown } from "react-bootstrap";
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 // Views
@@ -99,7 +99,7 @@ const Dashboard = (props) => {
             </Col>
             <Col sm={12} md={12} lg={10} className="mt-3">
               <Switch>
-                <Route path={"/home"} component={Home} exact />
+                <Route path={"/home"} component={Home} />
                 <Route path={"/guess"} component={Guess} />
                 <Route path={"/rules"} component={Rules} />
                 <Route path={"/ranking"} component={Ranking} />

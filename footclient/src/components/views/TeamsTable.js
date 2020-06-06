@@ -74,12 +74,19 @@ const MatchesTable = () => {
                   setCurrentPage(e.target.value);
                 }}
                 as="select"
+                size="sm"
               >
-                {arr.length > 0 && arr[currentPage].length > 0 && wasFetched
-                  ? arr.map((val, index) => {
+                {arr.length > 0 && arr[currentPage] !== undefined ? (
+                  arr[currentPage].length > 0 && wasFetched ? (
+                    arr.map((val, index) => {
                       return <option key={index}>{index}</option>;
                     })
-                  : null}
+                  ) : null
+                ) : (
+                  <tr>
+                    <td colSpan={4}>No Results</td>
+                  </tr>
+                )}
               </Form.Control>
             </td>
           </tr>

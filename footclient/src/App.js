@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/views/Login";
 import Dashboard from "./components/views/Dashboard";
 import Register from "./components/views/Register";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 
 export const AuthContext = React.createContext();
@@ -56,10 +56,16 @@ const reducer = (state, action) => {
         ...state,
       };
     case "FETCH_MATCHES":
-      return {
-        ...state,
-        matches: action.payload,
-      };
+      if (action.payload === undefined)
+        return {
+          ...state,
+          matches: action.payload,
+        };
+      else
+        return {
+          ...state,
+          matches: action.payload,
+        };
     case "FETCH_JOINED_TOURNAMENTS":
       return {
         ...state,
@@ -104,24 +110,22 @@ function App() {
             dispatch,
           }}
         >
-          <Switch>
-            <Route
-              path="/"
-              render={() => {
-                if (state.isAuthenticated) {
-                  return <Dashboard />;
-                } else {
-                  return <Login />;
-                }
-              }}
-            />
-            <Route
-              path="/register"
-              render={() => {
-                return <Register />;
-              }}
-            />
-          </Switch>
+          <Route
+            path="/"
+            render={() => {
+              if (state.isAuthenticated) {
+                return <Dashboard />;
+              } else {
+                return <Login />;
+              }
+            }}
+          />
+          <Route
+            path="/register"
+            render={() => {
+              return <Register />;
+            }}
+          />
         </AuthContext.Provider>
       </Router>
     </div>

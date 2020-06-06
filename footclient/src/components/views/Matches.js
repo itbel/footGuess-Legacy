@@ -36,11 +36,6 @@ const Matches = () => {
       });
   }, [authState.selectedTourId]);
 
-  useEffect(() => {
-    return () => {
-      console.log("Clean up");
-    };
-  }, []);
   return (
     <div
       style={{
