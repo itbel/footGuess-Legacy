@@ -49,7 +49,7 @@ const MatchesTable = () => {
         <tbody>
           {arr !== undefined &&
           arr.length > 0 &&
-          arr[currentPage].length !== undefined &&
+          arr[currentPage] !== undefined &&
           wasFetched ? (
             arr[currentPage].map((val, key) => {
               return (
@@ -65,6 +65,9 @@ const MatchesTable = () => {
                           if (currentPage !== 0)
                             setCurrentPage(currentPage - 1);
                         }
+                        console.log(
+                          `#######  Page:${currentPage}, Length:${arr[currentPage].length}`
+                        );
                         RemoveMatch(val._id, authState, dispatch);
                       }}
                     >
@@ -86,9 +89,6 @@ const MatchesTable = () => {
                   style={{ width: "20%" }}
                   value={currentPage}
                   onChange={(e) => {
-                    console.log(
-                      `Current page is : ${currentPage}. Setting it to : ${e.target.value}`
-                    );
                     setCurrentPage(e.target.value);
                   }}
                   as="select"

@@ -56,16 +56,10 @@ const reducer = (state, action) => {
         ...state,
       };
     case "FETCH_MATCHES":
-      if (action.payload === undefined)
-        return {
-          ...state,
-          matches: action.payload,
-        };
-      else
-        return {
-          ...state,
-          matches: action.payload,
-        };
+      return {
+        ...state,
+        matches: action.payload,
+      };
     case "FETCH_JOINED_TOURNAMENTS":
       return {
         ...state,

@@ -41,7 +41,10 @@ const MatchesTable = () => {
         </tr>
       </thead>
       <tbody>
-        {arr[currentPage] !== undefined ? (
+        {arr !== undefined &&
+        arr.length > 0 &&
+        arr[currentPage] !== undefined &&
+        wasFetched ? (
           arr[currentPage].map((val, key) => {
             return (
               <tr key={key}>
@@ -50,6 +53,9 @@ const MatchesTable = () => {
                   <Button
                     variant="dark"
                     onClick={() => {
+                      if (arr[currentPage].length === 1) {
+                        if (currentPage !== 0) setCurrentPage(currentPage - 1);
+                      }
                       RemoveTeam(val, authState, dispatch);
                     }}
                   >
@@ -64,7 +70,7 @@ const MatchesTable = () => {
             <td colSpan={4}>No teams found</td>
           </tr>
         )}
-        {arr.length > 0 ? (
+        {arr !== undefined && arr.length > 0 ? (
           <tr>
             <td colSpan={4}>
               <Form.Control
@@ -76,12 +82,10 @@ const MatchesTable = () => {
                 as="select"
                 size="sm"
               >
-                {arr.length > 0 && arr[currentPage] !== undefined ? (
-                  arr[currentPage].length > 0 && wasFetched ? (
-                    arr.map((val, index) => {
-                      return <option key={index}>{index}</option>;
-                    })
-                  ) : null
+                {arr.length > 0 && wasFetched ? (
+                  arr.map((val, index) => {
+                    return <option key={index}>{index}</option>;
+                  })
                 ) : (
                   <tr>
                     <td colSpan={4}>No Results</td>
