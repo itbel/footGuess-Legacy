@@ -13,19 +13,23 @@ const MatchesTable = () => {
 
   useEffect(() => {
     console.log("Matches Table Mounted. Fetching Data");
-    FetchMatches(authState, dispatch).then((response) => {
-      if (response.length !== 0) {
-        let tempArr = [];
-        response.map((value, entry) => {
-          if (entry % 5 === 0) {
-            tempArr.push(response.slice(entry, entry + 5));
-          }
-          return null;
-        });
-        setArr(tempArr);
-        setWasFetched(true);
-      }
-    });
+    if (authState.selectedTourId !== undefined) {
+      FetchMatches(authState, dispatch).then((response) => {
+        if (response.length > 0) {
+          let tempArr = [];
+          response.map((value, entry) => {
+            if (entry % 5 === 0) {
+              tempArr.push(response.slice(entry, entry + 5));
+            }
+            return null;
+          });
+          setArr(tempArr);
+          setWasFetched(true);
+        } else {
+          setArr([]);
+        }
+      });
+    }
   }, [authState.matches, dispatch, authState]);
 
   return (
@@ -49,7 +53,10 @@ const MatchesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {arr.length > 0 && arr[currentPage].length > 0 && wasFetched ? (
+          {arr !== undefined &&
+          arr.length > 0 &&
+          arr[currentPage] !== undefined &&
+          wasFetched ? (
             arr[currentPage].map((val, key) => {
               return (
                 <tr key={key}>
@@ -60,6 +67,10 @@ const MatchesTable = () => {
                     <Button
                       variant="dark"
                       onClick={() => {
+                        if (arr[currentPage].length === 1) {
+                          if (currentPage !== 0)
+                            setCurrentPage(currentPage - 1);
+                        }
                         RemoveMatch(val._id, authState, dispatch);
                       }}
                     >
@@ -74,7 +85,7 @@ const MatchesTable = () => {
               <td colSpan={4}>No matches found</td>
             </tr>
           )}
-          {arr.length > 0 ? (
+          {arr !== undefined && arr.length > 0 ? (
             <tr>
               <td colSpan={4}>
                 <Form.Control
@@ -86,17 +97,11 @@ const MatchesTable = () => {
                   as="select"
                   size="sm"
                 >
-                  {arr.length > 0 ? (
-                    arr[currentPage].length > 0 && wasFetched ? (
-                      arr.map((val, index) => {
+                  {arr.length > 0 && wasFetched
+                    ? arr.map((val, index) => {
                         return <option key={index}>{index}</option>;
                       })
-                    ) : null
-                  ) : (
-                    <tr>
-                      <td colSpan={4}>No Results</td>
-                    </tr>
-                  )}
+                    : "No Results"}
                 </Form.Control>
               </td>
             </tr>

@@ -36,11 +36,6 @@ const Matches = () => {
       });
   }, [authState.selectedTourId]);
 
-  useEffect(() => {
-    return () => {
-      console.log("Clean up");
-    };
-  }, []);
   return (
     <div
       style={{
@@ -142,9 +137,6 @@ const Matches = () => {
                 <Button
                   onClick={() => {
                     AddMatch(teamA, teamB, round, authState, dispatch);
-                    dispatch({
-                      type: "UPDATE_MATCHES",
-                    });
                   }}
                   variant="dark"
                 >

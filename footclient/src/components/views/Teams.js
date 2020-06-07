@@ -7,7 +7,6 @@ import TeamsTable from "../views/TeamsTable";
 const Teams = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [teamName, setTeamName] = useState("");
-
   return (
     <div
       style={{

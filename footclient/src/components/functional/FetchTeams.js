@@ -1,7 +1,6 @@
 import Axios from "axios";
 
 const FetchTeams = (authState, dispatch) => {
-  console.log("FetchTeams has been called.");
   return Axios.post(
     "http://localhost:3001/teams/getteams",
     {
