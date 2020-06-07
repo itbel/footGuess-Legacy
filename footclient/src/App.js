@@ -3,12 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/views/Login";
 import Dashboard from "./components/views/Dashboard";
 import Register from "./components/views/Register";
-import {
-  Switch,
-  Redirect,
-  Route,
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 
 // these can be their own components

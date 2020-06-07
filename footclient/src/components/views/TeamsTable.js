@@ -18,8 +18,8 @@ const MatchesTable = () => {
         if (response.length > 0) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 10 === 0) {
-              tempArr.push(response.slice(entry, entry + 10));
+            if (entry % 5 === 0) {
+              tempArr.push(response.slice(entry, entry + 5));
             }
             return null;
           });

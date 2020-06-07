@@ -32,6 +32,17 @@ server.route("/addresult").post((req, res, next) => {
   );
 });
 
+server.route("/getround").post((req, res, next) => {
+  console.log(`========== FETCHING ROUND ==========`);
+  matchModel.find(
+    { tournamentid: req.body.tournamentid, round: req.body.round },
+    (err, doc) => {
+      if (err) res.json(err);
+      else res.json(doc);
+    }
+  );
+});
+
 server.route("/removematch").post((req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
   matchModel.findByIdAndDelete({ _id: req.body.matchid }, (err, doc) => {
