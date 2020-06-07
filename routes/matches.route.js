@@ -20,6 +20,18 @@ server.route("/addmatch").post((req, res, next) => {
   console.log(`========== FINISHED ADDING MATCH OPERATION ==========`);
 });
 
+server.route("/addresult").post((req, res, next) => {
+  console.log(`========== REMOVING MATCH ==========`);
+  matchModel.findByIdAndUpdate(
+    { _id: req.body.matchid },
+    { teamAResult: req.body.teamAResult, teamBResult: req.body.teamBResult },
+    (err, doc) => {
+      if (err) res.json(err);
+      else res.json(doc);
+    }
+  );
+});
+
 server.route("/removematch").post((req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
   matchModel.findByIdAndDelete({ _id: req.body.matchid }, (err, doc) => {
