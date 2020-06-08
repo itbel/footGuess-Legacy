@@ -144,7 +144,7 @@ const Results = () => {
                       </tr>
                       <tr>
                         <td className="text-right">
-                          <h4>Sao Paulo</h4>
+                          <h4>Goias</h4>
                         </td>
                         <td className="justify-content-center d-flex">
                           <Form.Control
@@ -158,12 +158,12 @@ const Results = () => {
                           ></Form.Control>
                         </td>
                         <td className="text-left">
-                          <h4>Santos</h4>
+                          <h4>Ceara</h4>
                         </td>
                       </tr>
                       <tr>
                         <td className="text-right">
-                          <h4>Sao Paulo</h4>
+                          <h4>Gremio</h4>
                         </td>
                         <td className="justify-content-center d-flex">
                           <Form.Control
@@ -177,12 +177,12 @@ const Results = () => {
                           ></Form.Control>
                         </td>
                         <td className="text-left">
-                          <h4>Santos</h4>
+                          <h4>Fortaleza</h4>
                         </td>
                       </tr>
                       <tr>
                         <td className="text-right">
-                          <h4>Sao Paulo</h4>
+                          <h4>Coritiba</h4>
                         </td>
                         <td className="justify-content-center d-flex">
                           <Form.Control
@@ -196,7 +196,7 @@ const Results = () => {
                           ></Form.Control>
                         </td>
                         <td className="text-left">
-                          <h4>Santos</h4>
+                          <h4>Atletico-MG</h4>
                         </td>
                       </tr>
                     </tbody>
