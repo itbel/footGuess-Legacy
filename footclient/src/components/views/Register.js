@@ -131,7 +131,7 @@ const Register = (props) => {
                 className="w-25"
                 type="submit"
               >
-                {data.isSubmitting ? "Loading..." : "Register"}
+                {data.isSubmitting ? "Registering..." : "Register"}
               </Button>
               <Button
                 onClick={() => {

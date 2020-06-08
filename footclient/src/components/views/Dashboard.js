@@ -14,8 +14,7 @@ import Matches from "./Matches";
 import Tournaments from "./Tournaments";
 import CreateTournament from "./CreateTournament";
 import Teams from "./Teams";
-//import Results from "./Results";
-import CustomTable from "./MatchesTable";
+import Results from "./Results";
 
 // Functionals
 import FetchAll from "../functional/FetchAllTournaments";
@@ -107,7 +106,7 @@ const Dashboard = (props) => {
                 <Route path={"/tournaments"} component={Tournaments} />
                 <Route path={"/matches"} component={Matches} />
                 <Route path={"/teams"} component={Teams} />
-                <Route path={"/results"} component={CustomTable} />
+                <Route path={"/results"} component={Results} />
               </Switch>
             </Col>
           </Row>

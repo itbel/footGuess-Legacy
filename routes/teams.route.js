@@ -38,7 +38,6 @@ server.route("/getteams").post((req, res, next) => {
       if (doc.length > 0) {
         res.json(doc);
       } else {
-        console.log("not found");
         res.json({});
       }
     }

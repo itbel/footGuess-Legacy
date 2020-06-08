@@ -3,9 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/views/Login";
 import Dashboard from "./components/views/Dashboard";
 import Register from "./components/views/Register";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 
+// these can be their own components
 export const AuthContext = React.createContext();
 
 const initialState = {
@@ -86,6 +87,7 @@ const reducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  // read up on react-router-dom nested routes
   return (
     <div className="App">
       <Router>
@@ -95,22 +97,14 @@ function App() {
             dispatch,
           }}
         >
-          <Route
-            path="/"
-            render={() => {
-              if (state.isAuthenticated) {
-                return <Dashboard />;
-              } else {
-                return <Login />;
-              }
-            }}
-          />
-          <Route
-            path="/register"
-            render={() => {
-              return <Register />;
-            }}
-          />
+          <Switch>
+            <Route exact path="/register">
+              <Register />
+            </Route>
+            <Route path="/">
+              {state.isAuthenticated ? <Dashboard /> : <Login />}
+            </Route>
+          </Switch>
         </AuthContext.Provider>
       </Router>
     </div>
