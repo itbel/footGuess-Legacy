@@ -21,7 +21,7 @@ server.route("/addmatch").post((req, res, next) => {
 });
 
 server.route("/addresult").post((req, res, next) => {
-  console.log(`========== REMOVING MATCH ==========`);
+  console.log(`========== UPDATING MATCH RESULT==========`);
   matchModel.findByIdAndUpdate(
     { _id: req.body.matchid },
     { teamAResult: req.body.teamAResult, teamBResult: req.body.teamBResult },

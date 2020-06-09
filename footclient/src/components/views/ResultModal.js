@@ -1,5 +1,6 @@
 import { Modal, Row, Col, Table, Button, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
+import AddResult from "../functional/AddResult";
 
 const ResultModal = (val) => {
   const [show, setShow] = useState();
@@ -7,6 +8,13 @@ const ResultModal = (val) => {
   const handleShow = () => setShow(true);
   const [teamAResult, setTeamAResult] = useState(val.selectedMatch.teamAResult);
   const [teamBResult, setTeamBResult] = useState(val.selectedMatch.teamBResult);
+  const handleSubmit = () => {
+    AddResult(val.selectedMatch._id, teamAResult, teamBResult).then(
+      (response) => {
+        console.log(response);
+      }
+    );
+  };
   useEffect(() => {
     console.log("Showing Modal");
   }, [show]);
@@ -35,7 +43,12 @@ const ResultModal = (val) => {
             </Col>
             <Col>
               <Row className="justify-content-end">
-                <Form.Control value={teamAResult}></Form.Control>
+                <Form.Control
+                  onChange={(event) => {
+                    setTeamAResult(event.target.value);
+                  }}
+                  value={teamAResult}
+                ></Form.Control>
               </Row>
             </Col>
             <Col>
@@ -45,7 +58,12 @@ const ResultModal = (val) => {
             </Col>
             <Col>
               <Row className="justify-content-start p-0">
-                <Form.Control value={teamBResult}></Form.Control>
+                <Form.Control
+                  onChange={(event) => {
+                    setTeamBResult(event.target.value);
+                  }}
+                  value={teamBResult}
+                ></Form.Control>
               </Row>
             </Col>
             <Col>
@@ -56,7 +74,15 @@ const ResultModal = (val) => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="dark">Update</Button>
+          <Button
+            onClick={() => {
+              handleSubmit();
+              handleClose();
+            }}
+            variant="dark"
+          >
+            Update
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
