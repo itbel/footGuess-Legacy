@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../../App";
+import ResultsModal from "../views/ResultModal";
 import {
   Dropdown,
   Table,
@@ -47,46 +48,44 @@ const Results = () => {
               }}
             >
               <Form.Group>
-                <Row className="justify-content-center pt-3">
-                  <Dropdown className="pl-2">
-                    <Dropdown.Toggle variant="dark">
-                      <b>Selected Round: {round}</b>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu
-                      style={{ maxHeight: "35vh", overflowY: "auto" }}
-                    >
-                      <Dropdown.Item
-                        name={1}
-                        onClick={(e) => {
-                          setRound(e.target.name);
-                        }}
-                      >
-                        1
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        name={2}
-                        onClick={(e) => {
-                          setRound(e.target.name);
-                        }}
-                      >
-                        2
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Row>
-                <Row className="pt-3 justify-content-center">
+                <Row className="pt-1 justify-content-center">
                   <Table
                     striped
                     size="sm"
                     hover
-                    style={{ width: "80%", padding: "0" }}
-                    variant="dark"
+                    style={{ width: "50%", padding: "0" }}
+                    variant="light"
                   >
                     <thead>
                       <tr>
-                        <th colSpan={4} className="text-center">
-                          <h1>Match</h1>
+                        <th colSpan={3} className="text-center">
+                          <Dropdown className="pl-2">
+                            <Dropdown.Toggle size="sm" variant="light">
+                              <b>Round: {round}</b>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu
+                              style={{ maxHeight: "35vh", overflowY: "auto" }}
+                            >
+                              <Dropdown.Item
+                                name={1}
+                                onClick={(e) => {
+                                  setRound(e.target.name);
+                                }}
+                              >
+                                1
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                name={2}
+                                onClick={(e) => {
+                                  setRound(e.target.name);
+                                }}
+                              >
+                                2
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
                         </th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -97,34 +96,19 @@ const Results = () => {
                               <p>{val.teamAName}</p>
                             </td>
                             <td className="justify-content-center d-flex">
-                              <Form.Control
-                                onChange={() => {
-                                  console.log("hehe");
-                                }}
-                                value={
-                                  val.teamAResult !== undefined
-                                    ? val.teamAResult
-                                    : ""
-                                }
-                                size="sm"
-                                style={{ width: "10%" }}
-                              ></Form.Control>
+                              {val.teamAResult !== undefined
+                                ? val.teamAResult
+                                : ""}
                               X
-                              <Form.Control
-                                onChange={() => {
-                                  console.log("hehe");
-                                }}
-                                value={
-                                  val.teamBResult !== undefined
-                                    ? val.teamBResult
-                                    : ""
-                                }
-                                size="sm"
-                                style={{ width: "10%" }}
-                              ></Form.Control>
+                              {val.teamBResult !== undefined
+                                ? val.teamBResult
+                                : ""}
                             </td>
                             <td className="text-left">
                               <p>{val.teamBName}</p>
+                            </td>
+                            <td>
+                              <ResultsModal selectedMatch={val}></ResultsModal>
                             </td>
                           </tr>
                         );
@@ -133,9 +117,6 @@ const Results = () => {
                   </Table>
                 </Row>
               </Form.Group>
-              <Row className="justify-content-center pb-3 pt-3">
-                <Button variant="dark">Update</Button>
-              </Row>
             </Form>
           </Col>
         </Row>
