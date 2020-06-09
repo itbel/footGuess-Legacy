@@ -16,11 +16,11 @@ const Results = () => {
   const { state: authState } = useContext(AuthContext);
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
+
   useEffect(() => {
     console.log("Reloading and fetching round");
     FetchRound(authState, round).then((response) => {
       setMatches(response);
-      console.log(response);
     });
   }, [round]);
   return (

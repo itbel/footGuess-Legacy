@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import AddResult from "../functional/AddResult";
 
 const ResultModal = (val) => {
-  const [show, setShow] = useState();
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [teamAResult, setTeamAResult] = useState(val.selectedMatch.teamAResult);
@@ -16,7 +16,8 @@ const ResultModal = (val) => {
     );
   };
   useEffect(() => {
-    console.log("Showing Modal");
+    setTeamAResult(val.selectedMatch.teamAResult);
+    setTeamBResult(val.selectedMatch.teamBResult);
   }, [show]);
 
   return (
