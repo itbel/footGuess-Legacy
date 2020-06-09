@@ -9,11 +9,19 @@ import {
   Container,
   Button,
 } from "react-bootstrap";
+import FetchRound from "../functional/FetchRound";
 
 const Results = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const { state: authState } = useContext(AuthContext);
   const [matches, setMatches] = useState([]);
-
+  const [round, setRound] = useState(1);
+  useEffect(() => {
+    console.log("Reloading and fetching round");
+    FetchRound(authState, round).then((response) => {
+      setMatches(response);
+      console.log(response);
+    });
+  }, [round]);
   return (
     <div
       style={{
@@ -40,13 +48,29 @@ const Results = () => {
             >
               <Form.Group>
                 <Row className="justify-content-center pt-3">
-                  <h3>Add Results:</h3>
                   <Dropdown className="pl-2">
-                    <Dropdown.Toggle variant="light">Round</Dropdown.Toggle>
+                    <Dropdown.Toggle variant="dark">
+                      <b>Selected Round: {round}</b>
+                    </Dropdown.Toggle>
                     <Dropdown.Menu
                       style={{ maxHeight: "35vh", overflowY: "auto" }}
                     >
-                      <Dropdown.Item>1</Dropdown.Item>
+                      <Dropdown.Item
+                        name={1}
+                        onClick={(e) => {
+                          setRound(e.target.name);
+                        }}
+                      >
+                        1
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        name={2}
+                        onClick={(e) => {
+                          setRound(e.target.name);
+                        }}
+                      >
+                        2
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </Row>
@@ -66,139 +90,45 @@ const Results = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Botafogo</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Flamengo</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Fluminense</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Vasco</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Bragantino</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Corinthians</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Sao Paulo</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Santos</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Goias</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Ceara</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Gremio</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Fortaleza</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Coritiba</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Atletico-MG</h4>
-                        </td>
-                      </tr>
+                      {matches.map((val, entry) => {
+                        return (
+                          <tr key={entry}>
+                            <td className="text-right">
+                              <p>{val.teamAName}</p>
+                            </td>
+                            <td className="justify-content-center d-flex">
+                              <Form.Control
+                                onChange={() => {
+                                  console.log("hehe");
+                                }}
+                                value={
+                                  val.teamAResult !== undefined
+                                    ? val.teamAResult
+                                    : ""
+                                }
+                                size="sm"
+                                style={{ width: "10%" }}
+                              ></Form.Control>
+                              X
+                              <Form.Control
+                                onChange={() => {
+                                  console.log("hehe");
+                                }}
+                                value={
+                                  val.teamBResult !== undefined
+                                    ? val.teamBResult
+                                    : ""
+                                }
+                                size="sm"
+                                style={{ width: "10%" }}
+                              ></Form.Control>
+                            </td>
+                            <td className="text-left">
+                              <p>{val.teamBName}</p>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </Table>
                 </Row>
