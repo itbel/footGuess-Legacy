@@ -1,5 +1,5 @@
 import React from "react";
-
+import GuessTable from "./GuessTable";
 const Guess = () => {
   return (
     <div
@@ -13,6 +13,7 @@ const Guess = () => {
       }}
     >
       <h1>Guess</h1>
+      <GuessTable />
     </div>
   );
 };
