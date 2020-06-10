@@ -24,15 +24,9 @@ const TopNav = () => {
         paddingTop: "8px",
       }}
     >
-      <div className="justify-content-start mt-auto mb-auto">
-        Logged in as {authState.user}
-      </div>
       <Nav className="w-100 justify-content-center">
         <Link className="linkStyle" to="/home">
           Home
-        </Link>
-        <Link className="linkStyle" to="/create">
-          Create Tournament
         </Link>
         <Link className="linkStyle" to="/tournaments">
           Tournaments

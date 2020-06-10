@@ -12,7 +12,6 @@ import Rules from "./Rules";
 import Ranking from "./Ranking";
 import Matches from "./Matches";
 import Tournaments from "./Tournaments";
-import CreateTournament from "./CreateTournament";
 import Teams from "./Teams";
 import Results from "./Results";
 
@@ -102,7 +101,6 @@ const Dashboard = (props) => {
                 <Route path={"/guess"} component={Guess} />
                 <Route path={"/rules"} component={Rules} />
                 <Route path={"/ranking"} component={Ranking} />
-                <Route path={"/create"} component={CreateTournament} />
                 <Route path={"/tournaments"} component={Tournaments} />
                 <Route path={"/matches"} component={Matches} />
                 <Route path={"/teams"} component={Teams} />

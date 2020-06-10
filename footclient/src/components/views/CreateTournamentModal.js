@@ -1,4 +1,4 @@
-import { Modal, Row, Col, Table, Button, Form } from "react-bootstrap";
+import { Modal, Row, Button, Form } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import CreateTournament from "../functional/CreateTournament";
 import { AuthContext } from "../../App";
