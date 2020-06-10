@@ -28,40 +28,45 @@ server.route("/guesses").post((req, res, next) => {
       for (let i in doc) {
         arr.push(doc[i].matchid);
       }
-      matchModel.find({ _id: { $in: arr } }, (err, matches) => {
-        if (err) next(err);
-        else {
-          let responseArr = [];
-          matches.map((match, entry) => {
-            doc.map((guess, entry) => {
-              if (JSON.stringify(match._id) === JSON.stringify(guess.matchid)) {
+      matchModel.find(
+        { _id: { $in: arr }, tournamentid: req.body.tournamentid },
+        (err, matches) => {
+          if (err) next(err);
+          else {
+            let responseArr = [];
+            matches.map((match, entry) => {
+              doc.map((guess, entry) => {
                 if (
-                  typeof match.teamAResult !== "undefined" &&
-                  typeof match.teamBResult !== "undefined"
+                  JSON.stringify(match._id) === JSON.stringify(guess.matchid)
                 ) {
-                  responseArr.push({
-                    matchid: match._id,
-                    teamAName: match.teamAName,
-                    teamBName: match.teamBName,
-                    teamAguess: guess.teamAguess,
-                    teamBguess: guess.teamBguess,
-                    teamAResult: match.teamAResult,
-                    teamBResult: match.teamBResult,
-                  });
-                } else
-                  responseArr.push({
-                    matchid: match._id,
-                    teamAName: match.teamAName,
-                    teamBName: match.teamBName,
-                    teamAguess: guess.teamAguess,
-                    teamBguess: guess.teamBguess,
-                  });
-              }
+                  if (
+                    typeof match.teamAResult !== "undefined" &&
+                    typeof match.teamBResult !== "undefined"
+                  ) {
+                    responseArr.push({
+                      matchid: match._id,
+                      teamAName: match.teamAName,
+                      teamBName: match.teamBName,
+                      teamAguess: guess.teamAguess,
+                      teamBguess: guess.teamBguess,
+                      teamAResult: match.teamAResult,
+                      teamBResult: match.teamBResult,
+                    });
+                  } else
+                    responseArr.push({
+                      matchid: match._id,
+                      teamAName: match.teamAName,
+                      teamBName: match.teamBName,
+                      teamAguess: guess.teamAguess,
+                      teamBguess: guess.teamBguess,
+                    });
+                }
+              });
             });
-          });
-          res.json(responseArr);
+            res.json(responseArr);
+          }
         }
-      });
+      );
     }
   });
 });
