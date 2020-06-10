@@ -11,11 +11,10 @@ const LeaveTournament = (tournamentid, userid, authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      alert(`left tournament successfully`);
       FetchJoinedTournaments(authState, dispatch);
     })
     .catch((error) => {
-      alert(`failed to leave tournament`);
+      console.log(error);
     });
 };
 

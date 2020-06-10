@@ -4,6 +4,7 @@ import { AuthContext } from "../../App";
 import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
+import CreateTournamentModal from "../views/CreateTournamentModal";
 
 const Tournaments = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
@@ -104,6 +105,9 @@ const Tournaments = () => {
           </Table>
         </Col>
         <Col sm={0} md={3}></Col>
+      </Row>
+      <Row className="justify-content-center">
+        <CreateTournamentModal></CreateTournamentModal>
       </Row>
     </div>
   );

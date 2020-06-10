@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../../App";
+import ResultsModal from "../views/ResultModal";
 import {
   Dropdown,
   Table,
@@ -9,11 +10,33 @@ import {
   Container,
   Button,
 } from "react-bootstrap";
+import FetchRound from "../functional/FetchRound";
 
 const Results = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const { state: authState } = useContext(AuthContext);
+  const [wasFetched, setWasFetched] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
+  const [round, setRound] = useState(1);
 
+  useEffect(() => {
+    console.log("Reloading and fetching round");
+    FetchRound(authState, round).then((response) => {
+      if (response.length > 0) {
+        let tempArr = [];
+        response.map((value, entry) => {
+          if (entry % 5 === 0) {
+            tempArr.push(response.slice(entry, entry + 5));
+          }
+          return null;
+        });
+        setMatches(tempArr);
+        setWasFetched(true);
+      } else {
+        setMatches([]);
+      }
+    });
+  }, [round, currentPage]);
   return (
     <div
       style={{
@@ -39,173 +62,103 @@ const Results = () => {
               }}
             >
               <Form.Group>
-                <Row className="justify-content-center pt-3">
-                  <h3>Add Results:</h3>
-                  <Dropdown className="pl-2">
-                    <Dropdown.Toggle variant="light">Round</Dropdown.Toggle>
-                    <Dropdown.Menu
-                      style={{ maxHeight: "35vh", overflowY: "auto" }}
-                    >
-                      <Dropdown.Item>1</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Row>
-                <Row className="pt-3 justify-content-center">
+                <Row className="pt-1 justify-content-center">
                   <Table
                     striped
                     size="sm"
                     hover
-                    style={{ width: "80%", padding: "0" }}
-                    variant="dark"
+                    style={{ width: "50%", padding: "0" }}
+                    variant="light"
                   >
                     <thead>
                       <tr>
-                        <th colSpan={4} className="text-center">
-                          <h1>Match</h1>
+                        <th colSpan={3} className="text-center">
+                          <Dropdown className="pl-2">
+                            <Dropdown.Toggle size="sm" variant="light">
+                              <b>Round: {round}</b>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu
+                              style={{ maxHeight: "35vh", overflowY: "auto" }}
+                            >
+                              <Dropdown.Item
+                                name={1}
+                                onClick={(e) => {
+                                  setCurrentPage(0);
+                                  setRound(e.target.name);
+                                }}
+                              >
+                                1
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                name={2}
+                                onClick={(e) => {
+                                  setCurrentPage(0);
+                                  setRound(e.target.name);
+                                }}
+                              >
+                                2
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
                         </th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Botafogo</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
+                      {wasFetched ? (
+                        matches[currentPage].map((val, entry) => {
+                          return (
+                            <tr key={entry}>
+                              <td className="text-right">
+                                <p>{val.teamAName}</p>
+                              </td>
+                              <td className="justify-content-center d-flex">
+                                {val.teamAResult !== undefined
+                                  ? val.teamAResult
+                                  : ""}
+                                X
+                                {val.teamBResult !== undefined
+                                  ? val.teamBResult
+                                  : ""}
+                              </td>
+                              <td className="text-left">
+                                <p>{val.teamBName}</p>
+                              </td>
+                              <td>
+                                <ResultsModal
+                                  selectedMatch={val}
+                                ></ResultsModal>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={4}>No Results</td>
+                        </tr>
+                      )}
+                      {matches.length > 0 && wasFetched ? (
+                        <td>
                           <Form.Control
+                            value={currentPage}
+                            onChange={(e) => {
+                              setCurrentPage(e.target.value);
+                            }}
+                            as="select"
                             size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
+                          >
+                            {matches.length > 0 && wasFetched
+                              ? matches.map((val, index) => {
+                                  return <option key={index}>{index}</option>;
+                                })
+                              : null}
+                          </Form.Control>
                         </td>
-                        <td className="text-left">
-                          <h4>Flamengo</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Fluminense</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Vasco</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Bragantino</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Corinthians</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Sao Paulo</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Santos</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Sao Paulo</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Santos</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Sao Paulo</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Santos</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <h4>Sao Paulo</h4>
-                        </td>
-                        <td className="justify-content-center d-flex">
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                          X
-                          <Form.Control
-                            size="sm"
-                            style={{ width: "10%" }}
-                          ></Form.Control>
-                        </td>
-                        <td className="text-left">
-                          <h4>Santos</h4>
-                        </td>
-                      </tr>
+                      ) : null}
                     </tbody>
                   </Table>
                 </Row>
               </Form.Group>
-              <Row className="justify-content-center pb-3 pt-3">
-                <Button variant="dark">Update</Button>
-              </Row>
             </Form>
           </Col>
         </Row>
