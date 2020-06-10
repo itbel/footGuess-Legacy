@@ -18,7 +18,7 @@ const ResultModal = (val) => {
   useEffect(() => {
     setTeamAResult(val.selectedMatch.teamAResult);
     setTeamBResult(val.selectedMatch.teamBResult);
-  }, [show]);
+  }, [show, val.selectedMatch.teamAResult, val.selectedMatch.teamBResult]);
 
   return (
     <>

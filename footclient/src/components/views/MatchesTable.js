@@ -1,4 +1,4 @@
-import { Table, Form, Button } from "react-bootstrap";
+import { Table, Form, Button, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import FetchMatches from "../functional/FetchMatches";
 import { AuthContext } from "../../App";
@@ -33,74 +33,83 @@ const MatchesTable = () => {
   }, [authState.matches, dispatch, authState]);
 
   return (
-    <Table bordered striped variant="light" size="sm">
-      <thead>
-        <tr>
-          {headers.map((val, key) => {
-            return <th key={key}>{val}</th>;
-          })}
-          <th colSpan={1}></th>
-        </tr>
-      </thead>
-      <tbody>
-        {arr !== undefined &&
-        arr.length > 0 &&
-        arr[currentPage] !== undefined &&
-        wasFetched ? (
-          arr[currentPage].map((val, key) => {
-            return (
-              <tr key={key}>
-                <td>{val.teamAName}</td>
-                <td>{val.teamBName}</td>
-                <td>{val.round}</td>
-                <td className="d-table-cell w-25">
-                  <Button
-                    variant="dark"
-                    onClick={() => {
-                      if (arr[currentPage].length === 1) {
-                        if (currentPage !== 0) setCurrentPage(currentPage - 1);
-                      }
-                      RemoveMatch(val._id, authState, dispatch);
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </td>
-              </tr>
-            );
-          })
-        ) : (
+    <Row className="justify-content-center">
+      <Table
+        style={{ width: "50%", padding: "0" }}
+        bordered
+        striped
+        variant="light"
+        size="sm"
+      >
+        <thead>
           <tr>
-            <td colSpan={4}>No matches found</td>
+            {headers.map((val, key) => {
+              return <th key={key}>{val}</th>;
+            })}
+            <th colSpan={1}></th>
           </tr>
-        )}
-        {arr !== undefined && arr.length > 0 ? (
-          <tr>
-            <td colSpan={4}>
-              <Form.Control
-                style={{ width: "20%" }}
-                value={currentPage}
-                onChange={(e) => {
-                  setCurrentPage(e.target.value);
-                }}
-                as="select"
-                size="sm"
-              >
-                {arr.length > 0 && wasFetched
-                  ? arr.map((val, index) => {
-                      return <option key={index}>{index}</option>;
-                    })
-                  : "No Results"}
-              </Form.Control>
-            </td>
-          </tr>
-        ) : (
-          <tr>
-            <td colSpan={4}></td>
-          </tr>
-        )}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {arr !== undefined &&
+          arr.length > 0 &&
+          arr[currentPage] !== undefined &&
+          wasFetched ? (
+            arr[currentPage].map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.teamAName}</td>
+                  <td>{val.teamBName}</td>
+                  <td>{val.round}</td>
+                  <td className="d-table-cell w-25">
+                    <Button
+                      variant="dark"
+                      onClick={() => {
+                        if (arr[currentPage].length === 1) {
+                          if (currentPage !== 0)
+                            setCurrentPage(currentPage - 1);
+                        }
+                        RemoveMatch(val._id, authState, dispatch);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={4}>No matches found</td>
+            </tr>
+          )}
+          {arr !== undefined && arr.length > 0 ? (
+            <tr>
+              <td colSpan={4}>
+                <Form.Control
+                  style={{ width: "20%" }}
+                  value={currentPage}
+                  onChange={(e) => {
+                    setCurrentPage(e.target.value);
+                  }}
+                  as="select"
+                  size="sm"
+                >
+                  {arr.length > 0 && wasFetched
+                    ? arr.map((val, index) => {
+                        return <option key={index}>{index}</option>;
+                      })
+                    : "No Results"}
+                </Form.Control>
+              </td>
+            </tr>
+          ) : (
+            <tr>
+              <td colSpan={4}></td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+    </Row>
   );
 };
 
