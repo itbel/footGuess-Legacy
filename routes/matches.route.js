@@ -2,6 +2,7 @@ const express = require("express");
 const server = express.Router();
 
 let matchModel = require("../models/match.model");
+let guessModel = require("../models/guess.model");
 
 server.route("/addmatch").post((req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
@@ -29,6 +30,27 @@ server.route("/addresult").post((req, res, next) => {
       else res.json(doc);
     }
   );
+});
+
+server.route("/getunguessedmatches").post((req, res, next) => {
+  console.log("========== FETCHING UNGUESSED MATCHES ==========");
+  matchModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
+    if (err) res.json(err);
+    else {
+      let arr = [];
+      for (let i in doc) {
+        arr.push(doc[i]);
+      }
+      console.log(arr);
+      guessModel.find({ matchid: { $in: arr } }, (err, matches) => {
+        if (err) next(err);
+        else {
+          matches.map((match, entry) => {});
+          console.log(arr.length);
+        }
+      });
+    }
+  });
 });
 
 server.route("/getround").post((req, res, next) => {

@@ -5,6 +5,7 @@ const FetchUserGuesses = (authState) => {
     "http://localhost:3001/guess/guesses/",
     {
       userid: authState.userid,
+      tournamentid: authState.selectedTourId,
     },
     { timeout: 2000 }
   )
