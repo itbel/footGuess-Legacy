@@ -17,7 +17,6 @@ server.route("/addmatch").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED ADDING MATCH OPERATION ==========`);
 });
 
 server.route("/addresult").post((req, res, next) => {
@@ -57,7 +56,6 @@ server.route("/allmatches").post((req, res, next) => {
     if (err) console.log(err);
     else res.json(doc);
   });
-  console.log(`========== FINISHED FETCHING ALL MATCHES OPERATION ==========`);
 });
 
 module.exports = server;

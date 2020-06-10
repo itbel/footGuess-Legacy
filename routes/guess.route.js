@@ -7,7 +7,6 @@ server.route("/addguess").post((req, res, next) => {
   console.log(`========== ADDING GUESS ==========`);
   guessModel.create(
     {
-      tournamentid: req.body.tournamentid,
       matchid: req.body.matchid,
       teamAguess: req.body.teamAguess,
       teamBguess: req.body.teamBguess,
@@ -18,7 +17,13 @@ server.route("/addguess").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED ADDING GUESS OPERATION ==========`);
+});
+server.route("/guesses").post((req, res, next) => {
+  console.log(`========== FETCHING USER GUESSES ==========`);
+  guessModel.find({ userid: req.body.userid }, (err, doc) => {
+    if (err) next(err);
+    else res.json(doc);
+  });
 });
 
 module.exports = server;

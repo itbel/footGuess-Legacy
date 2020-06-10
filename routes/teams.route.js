@@ -19,7 +19,6 @@ server.route("/addteam").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED ADDING OPERATION ==========\n`);
 });
 
 server.route("/deleteteam").post((req, res, next) => {
@@ -31,6 +30,7 @@ server.route("/deleteteam").post((req, res, next) => {
 });
 
 server.route("/getteams").post((req, res, next) => {
+  console.log(`========== FETCHING TOURNAMENT TEAMS ==========`);
   teamModel.find({ tournamentid: req.body.tourid }, {}, (err, doc) => {
     if (err) {
       res.json(err);
