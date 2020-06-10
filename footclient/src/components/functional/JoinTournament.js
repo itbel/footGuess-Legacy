@@ -11,7 +11,6 @@ const JoinTournament = (tournamentid, userid, authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      alert(`joined ${response.data.name} tournament successfully`);
       FetchJoinedTournaments(authState, dispatch);
     })
     .catch((error) => {

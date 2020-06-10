@@ -105,50 +105,56 @@ const Results = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {wasFetched
-                        ? matches[currentPage].map((val, entry) => {
-                            return (
-                              <tr key={entry}>
-                                <td className="text-right">
-                                  <p>{val.teamAName}</p>
-                                </td>
-                                <td className="justify-content-center d-flex">
-                                  {val.teamAResult !== undefined
-                                    ? val.teamAResult
-                                    : ""}
-                                  X
-                                  {val.teamBResult !== undefined
-                                    ? val.teamBResult
-                                    : ""}
-                                </td>
-                                <td className="text-left">
-                                  <p>{val.teamBName}</p>
-                                </td>
-                                <td>
-                                  <ResultsModal
-                                    selectedMatch={val}
-                                  ></ResultsModal>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        : "No Results"}
-                      <td>
-                        <Form.Control
-                          value={currentPage}
-                          onChange={(e) => {
-                            setCurrentPage(e.target.value);
-                          }}
-                          as="select"
-                          size="sm"
-                        >
-                          {matches.length > 0 && wasFetched
-                            ? matches.map((val, index) => {
-                                return <option key={index}>{index}</option>;
-                              })
-                            : "No Results"}
-                        </Form.Control>
-                      </td>
+                      {wasFetched ? (
+                        matches[currentPage].map((val, entry) => {
+                          return (
+                            <tr key={entry}>
+                              <td className="text-right">
+                                <p>{val.teamAName}</p>
+                              </td>
+                              <td className="justify-content-center d-flex">
+                                {val.teamAResult !== undefined
+                                  ? val.teamAResult
+                                  : ""}
+                                X
+                                {val.teamBResult !== undefined
+                                  ? val.teamBResult
+                                  : ""}
+                              </td>
+                              <td className="text-left">
+                                <p>{val.teamBName}</p>
+                              </td>
+                              <td>
+                                <ResultsModal
+                                  selectedMatch={val}
+                                ></ResultsModal>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={4}>No Results</td>
+                        </tr>
+                      )}
+                      {matches.length > 0 && wasFetched ? (
+                        <td>
+                          <Form.Control
+                            value={currentPage}
+                            onChange={(e) => {
+                              setCurrentPage(e.target.value);
+                            }}
+                            as="select"
+                            size="sm"
+                          >
+                            {matches.length > 0 && wasFetched
+                              ? matches.map((val, index) => {
+                                  return <option key={index}>{index}</option>;
+                                })
+                              : null}
+                          </Form.Control>
+                        </td>
+                      ) : null}
                     </tbody>
                   </Table>
                 </Row>
