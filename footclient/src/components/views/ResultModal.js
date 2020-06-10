@@ -1,4 +1,4 @@
-import { Modal, Row, Col, Table, Button, Form } from "react-bootstrap";
+import { Modal, Row, Col, Button, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import AddResult from "../functional/AddResult";
 
@@ -18,7 +18,7 @@ const ResultModal = (val) => {
   useEffect(() => {
     setTeamAResult(val.selectedMatch.teamAResult);
     setTeamBResult(val.selectedMatch.teamBResult);
-  }, [show]);
+  }, [show, val.selectedMatch.teamAResult, val.selectedMatch.teamBResult]);
 
   return (
     <>

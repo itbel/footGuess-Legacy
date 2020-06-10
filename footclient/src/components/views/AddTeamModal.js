@@ -1,24 +1,18 @@
 import { Modal, Row, Button, Form } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import CreateTournament from "../functional/CreateTournament";
+import AddTeam from "../functional/AddTeam";
 import { AuthContext } from "../../App";
 
-const CreateTournamentModal = () => {
+const AddTeamModal = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [name, setName] = useState("");
+  const [teamName, setTeamName] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    CreateTournament(name, authState.userid, authState, dispatch).then(
-      (response) => {
-        console.log(response);
-        if (response.length > 0) {
-          console.log("Tournament Created");
-        }
-      }
-    );
+    AddTeam(authState.selectedTourId, teamName, dispatch);
   };
   useEffect(() => {
     console.log("Modal Mounted");
@@ -27,7 +21,7 @@ const CreateTournamentModal = () => {
   return (
     <>
       <Button variant="dark" onClick={handleShow}>
-        Create Tournament
+        Add Team
       </Button>
       <Modal
         centered
@@ -37,21 +31,21 @@ const CreateTournamentModal = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <h1 className="text-center w-100">Create Tournament</h1>
+          <h1 className="text-center w-100">Add Team</h1>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group>
               <Row className="justify-content-center pt-3">
-                <h3>Tournament Name</h3>
+                <h3>Team Name</h3>
               </Row>
               <Row className="justify-content-center pt-3">
                 <Row className="w-50">
                   <Form.Control
-                    value={name}
-                    name="name"
+                    value={teamName}
+                    name="teamName"
                     onChange={(e) => {
-                      setName(e.target.value);
+                      setTeamName(e.target.value);
                     }}
                     type="text"
                     placeholder="Enter name"
@@ -80,4 +74,4 @@ const CreateTournamentModal = () => {
   );
 };
 
-export default CreateTournamentModal;
+export default AddTeamModal;

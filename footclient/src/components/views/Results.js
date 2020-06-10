@@ -1,15 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../../App";
 import ResultsModal from "../views/ResultModal";
-import {
-  Dropdown,
-  Table,
-  Form,
-  Col,
-  Row,
-  Container,
-  Button,
-} from "react-bootstrap";
+import { Dropdown, Table, Form, Col, Row, Container } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
 
 const Results = () => {
@@ -36,7 +28,7 @@ const Results = () => {
         setMatches([]);
       }
     });
-  }, [round, currentPage]);
+  }, [round, currentPage, authState]);
   return (
     <div
       style={{
@@ -54,13 +46,7 @@ const Results = () => {
         </Row>
         <Row className="pt-3">
           <Col>
-            <Form
-              style={{
-                backgroundColor: "#efefef",
-                color: "black",
-                borderRadius: "4px 4px 4px 4px",
-              }}
-            >
+            <Form>
               <Form.Group>
                 <Row className="pt-1 justify-content-center">
                   <Table
@@ -138,22 +124,24 @@ const Results = () => {
                         </tr>
                       )}
                       {matches.length > 0 && wasFetched ? (
-                        <td>
-                          <Form.Control
-                            value={currentPage}
-                            onChange={(e) => {
-                              setCurrentPage(e.target.value);
-                            }}
-                            as="select"
-                            size="sm"
-                          >
-                            {matches.length > 0 && wasFetched
-                              ? matches.map((val, index) => {
-                                  return <option key={index}>{index}</option>;
-                                })
-                              : null}
-                          </Form.Control>
-                        </td>
+                        <tr>
+                          <td>
+                            <Form.Control
+                              value={currentPage}
+                              onChange={(e) => {
+                                setCurrentPage(e.target.value);
+                              }}
+                              as="select"
+                              size="sm"
+                            >
+                              {matches.length > 0 && wasFetched
+                                ? matches.map((val, index) => {
+                                    return <option key={index}>{index}</option>;
+                                  })
+                                : null}
+                            </Form.Control>
+                          </td>
+                        </tr>
                       ) : null}
                     </tbody>
                   </Table>

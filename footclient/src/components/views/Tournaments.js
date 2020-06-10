@@ -31,7 +31,7 @@ const Tournaments = () => {
       }}
     >
       <Row className="d-flex justify-content-center">
-        <h1>Tournament</h1>
+        <h1>Tournaments</h1>
       </Row>
       <Row className="pt-3">
         <Col sm={0} md={3}></Col>
@@ -48,8 +48,11 @@ const Tournaments = () => {
           >
             <thead>
               <tr>
-                <th colSpan="2">
-                  <h3>Tournament Name</h3>
+                <th colSpan="1">
+                  <b>Tournament Name</b>
+                </th>
+                <th>
+                  <b>Manage</b>
                 </th>
               </tr>
             </thead>
