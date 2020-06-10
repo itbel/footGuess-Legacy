@@ -30,7 +30,7 @@ const MatchesTable = () => {
       });
     }
   }, []);
-
+  // Change it to fetch guesses by round
   return (
     <Row className="justify-content-center">
       <Table
@@ -65,7 +65,7 @@ const MatchesTable = () => {
                         {val.teamAResult} X {val.teamBResult}
                       </td>
                     ) : (
-                      <td>""</td>
+                      <td></td>
                     )}
                   </tr>
                 );

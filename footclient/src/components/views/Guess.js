@@ -1,5 +1,7 @@
 import React from "react";
+import { Row } from "react-bootstrap";
 import GuessTable from "./GuessTable";
+import AddGuessModal from "../views/AddGuessModal";
 const Guess = () => {
   return (
     <div
@@ -12,8 +14,13 @@ const Guess = () => {
         color: "#efefef",
       }}
     >
-      <h1>Guess</h1>
+      <Row className="justify-content-center">
+        <h1>Guesses</h1>
+      </Row>
       <GuessTable />
+      <Row className="justify-content-center">
+        <AddGuessModal></AddGuessModal>
+      </Row>
     </div>
   );
 };
