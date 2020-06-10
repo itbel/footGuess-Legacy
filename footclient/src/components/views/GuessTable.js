@@ -5,7 +5,6 @@ import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchMatches from "../functional/FetchMatches";
 const MatchesTable = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  const [matches, setMatches] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [arr, setArr] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
@@ -13,9 +12,6 @@ const MatchesTable = () => {
   useEffect(() => {
     console.log("Guess Table Mounted. Fetching Data");
     if (authState.selectedTourId !== undefined) {
-      FetchMatches(authState, dispatch).then((response) => {
-        setMatches(response);
-      });
       FetchUserGuesses(authState).then((response) => {
         if (response !== undefined) {
           let tempArr = [];
@@ -46,17 +42,31 @@ const MatchesTable = () => {
       >
         <thead>
           <tr>
-            <th>Team 1</th>
-            <th>Team 2</th>
+            <th>Match</th>
+            <th>Guess</th>
+            <th>Result</th>
           </tr>
         </thead>
         <tbody>
           {arr !== undefined && arr[currentPage] !== undefined
             ? arr[currentPage].map((val, entry) => {
+                console.log(val);
                 return (
                   <tr>
-                    <td>{val.teamAguess}</td>
-                    <td>{val.teamBguess}</td>
+                    <td>
+                      {val.teamAName} X {val.teamBName}
+                    </td>
+                    <td>
+                      {val.teamAguess} X {val.teamBguess}
+                    </td>
+                    {typeof val.teamAResult !== "undefined" &&
+                    typeof val.teamBResult !== undefined ? (
+                      <td>
+                        {val.teamAResult} X {val.teamBResult}
+                      </td>
+                    ) : (
+                      <td>""</td>
+                    )}
                   </tr>
                 );
               })
