@@ -1,4 +1,4 @@
-import { Modal, Row, Col, Table, Button, Form } from "react-bootstrap";
+import { Modal, Row, Col, Button, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import AddResult from "../functional/AddResult";
 
