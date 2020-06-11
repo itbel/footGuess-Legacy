@@ -47,19 +47,18 @@ const Dashboard = (props) => {
       }}
     >
       <TopNav></TopNav>
-      <div style={{ height: "72px" }}></div>
+      <div style={{ height: "80px" }}></div>
       <Row className="m-0">
         <Col>
           <Row className="d-flex justify-content-end m-0">
-            <Col lg={2}></Col>
-            <Col>
+            <Col xs={6}>
               {!isLeagueSet ? (
                 <h1>Select a League:&nbsp; </h1>
               ) : (
                 <h1>{authState.selectedTourName}</h1>
               )}
             </Col>
-            <Col>
+            <Col xs={6}>
               <Dropdown className="d-flex mt-2 justify-content-end">
                 <Dropdown.Toggle
                   variant="dark"
@@ -91,11 +90,18 @@ const Dashboard = (props) => {
             </Col>
           </Row>
 
-          <Row>
+          <Row className="justify-content-center">
             <Col lg={2} className="mt-3 d-none d-md-block">
-              <SideNav></SideNav>
+              {authState.selectedTourId !== undefined ? (
+                <SideNav></SideNav>
+              ) : null}
             </Col>
-            <Col sm={12} md={12} lg={10} className="mt-3">
+            <Col
+              sm={12}
+              md={12}
+              lg={authState.selectedTourId !== undefined ? 10 : 12}
+              className="mt-3"
+            >
               <Switch>
                 <Route path={"/home"} component={Home} />
                 <Route path={"/guess"} component={Guess} />

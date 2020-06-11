@@ -2,6 +2,7 @@ const express = require("express");
 const server = express.Router();
 
 let matchModel = require("../models/match.model");
+let guessModel = require("../models/guess.model");
 
 server.route("/addmatch").post((req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
@@ -17,7 +18,6 @@ server.route("/addmatch").post((req, res, next) => {
       else res.json(doc);
     }
   );
-  console.log(`========== FINISHED ADDING MATCH OPERATION ==========`);
 });
 
 server.route("/addresult").post((req, res, next) => {
@@ -28,6 +28,32 @@ server.route("/addresult").post((req, res, next) => {
     (err, doc) => {
       if (err) res.json(err);
       else res.json(doc);
+    }
+  );
+});
+
+server.route("/getunguessedmatches").post((req, res, next) => {
+  console.log("========== FETCHING UNGUESSED MATCHES ==========");
+  matchModel.find(
+    { tournamentid: req.body.tournamentid },
+    (err, allmatches) => {
+      if (err) res.json(err);
+      else {
+        let arr = [];
+        for (let i in allmatches) {
+          arr.push(allmatches[i]);
+        }
+        guessModel.find({ matchid: { $in: arr } }, (err, guessedmatches) => {
+          if (err) next(err);
+          else {
+            let responseArr = allmatches;
+            guessedmatches.map((guess, entry) => {
+              allmatches.map((match, entry) => {});
+            });
+            console.log(arr.length);
+          }
+        });
+      }
     }
   );
 });
@@ -57,7 +83,6 @@ server.route("/allmatches").post((req, res, next) => {
     if (err) console.log(err);
     else res.json(doc);
   });
-  console.log(`========== FINISHED FETCHING ALL MATCHES OPERATION ==========`);
 });
 
 module.exports = server;

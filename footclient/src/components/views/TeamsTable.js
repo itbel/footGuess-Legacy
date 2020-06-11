@@ -34,13 +34,7 @@ const MatchesTable = () => {
 
   return (
     <Row className="justify-content-center">
-      <Table
-        style={{ width: "50%", padding: "0" }}
-        bordered
-        striped
-        variant="light"
-        size="sm"
-      >
+      <Table bordered striped variant="light" size="sm">
         <thead>
           <tr>
             {headers.map((val, key) => {

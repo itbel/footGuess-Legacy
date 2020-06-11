@@ -1,21 +1,19 @@
 import { Table, Form, Button, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import FetchMatches from "../functional/FetchMatches";
 import { AuthContext } from "../../App";
-import RemoveMatch from "../functional/RemoveMatch";
-
+import FetchUserGuesses from "../functional/FetchUserGuesses";
+import FetchMatches from "../functional/FetchMatches";
 const MatchesTable = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
-  const [headers] = useState(["Team1", "Team2", "Round"]);
   const [currentPage, setCurrentPage] = useState(0);
   const [arr, setArr] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
 
   useEffect(() => {
-    console.log("Matches Table Mounted. Fetching Data");
+    console.log("Guess Table Mounted. Fetching Data");
     if (authState.selectedTourId !== undefined) {
-      FetchMatches(authState, dispatch).then((response) => {
-        if (response.length > 0) {
+      FetchUserGuesses(authState).then((response) => {
+        if (response !== undefined) {
           let tempArr = [];
           response.map((value, entry) => {
             if (entry % 5 === 0) {
@@ -24,18 +22,19 @@ const MatchesTable = () => {
             return null;
           });
           setArr(tempArr);
+          console.log(tempArr);
           setWasFetched(true);
         } else {
           setArr([]);
         }
       });
     }
-  }, [authState.matches, dispatch, authState]);
-
+  }, []);
+  // Change it to fetch guesses by round
   return (
     <Row className="justify-content-center">
       <Table
-        style={{ padding: "0" }}
+        style={{ width: "50%", padding: "0" }}
         bordered
         striped
         variant="light"
@@ -43,45 +42,37 @@ const MatchesTable = () => {
       >
         <thead>
           <tr>
-            {headers.map((val, key) => {
-              return <th key={key}>{val}</th>;
-            })}
-            <th colSpan={1}></th>
+            <th>Match</th>
+            <th>Guess</th>
+            <th>Result</th>
           </tr>
         </thead>
         <tbody>
-          {arr !== undefined &&
-          arr.length > 0 &&
-          arr[currentPage] !== undefined &&
-          wasFetched ? (
-            arr[currentPage].map((val, key) => {
-              return (
-                <tr key={key}>
-                  <td>{val.teamAName}</td>
-                  <td>{val.teamBName}</td>
-                  <td>{val.round}</td>
-                  <td className="d-table-cell w-25">
-                    <Button
-                      variant="dark"
-                      onClick={() => {
-                        if (arr[currentPage].length === 1) {
-                          if (currentPage !== 0)
-                            setCurrentPage(currentPage - 1);
-                        }
-                        RemoveMatch(val._id, authState, dispatch);
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan={4}>No matches found</td>
-            </tr>
-          )}
+          {arr !== undefined && arr[currentPage] !== undefined
+            ? arr[currentPage].map((val, entry) => {
+                console.log(val);
+                return (
+                  <tr>
+                    <td>
+                      {val.teamAName} X {val.teamBName}
+                    </td>
+                    <td>
+                      {val.teamAguess} X {val.teamBguess}
+                    </td>
+                    {typeof val.teamAResult !== "undefined" &&
+                    typeof val.teamBResult !== undefined ? (
+                      <td>
+                        {val.teamAResult} X {val.teamBResult}
+                      </td>
+                    ) : (
+                      <td></td>
+                    )}
+                  </tr>
+                );
+              })
+            : authState.selectedTourId === undefined
+            ? "Tournament must be selected"
+            : "No Results"}
           {arr !== undefined && arr.length > 0 ? (
             <tr>
               <td colSpan={4}>
