@@ -49,13 +49,7 @@ const Results = () => {
             <Form>
               <Form.Group>
                 <Row className="pt-1 justify-content-center">
-                  <Table
-                    striped
-                    size="sm"
-                    hover
-                    style={{ width: "50%", padding: "0" }}
-                    variant="light"
-                  >
+                  <Table striped hover variant="light">
                     <thead>
                       <tr>
                         <th colSpan={3} className="text-center">

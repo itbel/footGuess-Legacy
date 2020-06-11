@@ -34,23 +34,28 @@ server.route("/addresult").post((req, res, next) => {
 
 server.route("/getunguessedmatches").post((req, res, next) => {
   console.log("========== FETCHING UNGUESSED MATCHES ==========");
-  matchModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
-    if (err) res.json(err);
-    else {
-      let arr = [];
-      for (let i in doc) {
-        arr.push(doc[i]);
-      }
-      console.log(arr);
-      guessModel.find({ matchid: { $in: arr } }, (err, matches) => {
-        if (err) next(err);
-        else {
-          matches.map((match, entry) => {});
-          console.log(arr.length);
+  matchModel.find(
+    { tournamentid: req.body.tournamentid },
+    (err, allmatches) => {
+      if (err) res.json(err);
+      else {
+        let arr = [];
+        for (let i in allmatches) {
+          arr.push(allmatches[i]);
         }
-      });
+        guessModel.find({ matchid: { $in: arr } }, (err, guessedmatches) => {
+          if (err) next(err);
+          else {
+            let responseArr = allmatches;
+            guessedmatches.map((guess, entry) => {
+              allmatches.map((match, entry) => {});
+            });
+            console.log(arr.length);
+          }
+        });
+      }
     }
-  });
+  );
 });
 
 server.route("/getround").post((req, res, next) => {

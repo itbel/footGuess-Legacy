@@ -35,7 +35,7 @@ const MatchesTable = () => {
   return (
     <Row className="justify-content-center">
       <Table
-        style={{ width: "50%", padding: "0" }}
+        style={{ padding: "0" }}
         bordered
         striped
         variant="light"
