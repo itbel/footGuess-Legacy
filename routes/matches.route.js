@@ -39,20 +39,23 @@ server.route("/getunguessedmatches").post((req, res, next) => {
     (err, allmatches) => {
       if (err) res.json(err);
       else {
-        let arr = [];
-        for (let i in allmatches) {
-          arr.push(allmatches[i]);
-        }
-        guessModel.find({ matchid: { $in: arr } }, (err, guessedmatches) => {
-          if (err) next(err);
-          else {
-            let responseArr = allmatches;
-            guessedmatches.map((guess, entry) => {
-              allmatches.map((match, entry) => {});
-            });
-            console.log(arr.length);
+        guessModel.find(
+          { matchid: { $in: allmatches }, userid: req.body.userid },
+          (err, guessedmatches) => {
+            if (err) next(err);
+            else {
+              let responseArr = allmatches;
+              allmatches.map((match, key) => {
+                guessedmatches.map((guess, key) => {
+                  if (guess.matchid.toString() === match._id.toString()) {
+                    responseArr.pop(match);
+                  }
+                });
+              });
+              res.json(responseArr);
+            }
           }
-        });
+        );
       }
     }
   );

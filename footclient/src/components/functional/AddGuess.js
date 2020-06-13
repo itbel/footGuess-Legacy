@@ -1,10 +1,11 @@
 import Axios from "axios";
-
-const FetchUnguessedMatches = (authState) => {
+const AddGuess = (teamAguess, teamBguess, matchid, authState) => {
   return Axios.post(
-    "http://localhost:3001/matches/getunguessedmatches",
+    "http://localhost:3001/guess/addguess",
     {
-      tournamentid: authState.selectedTourId,
+      matchid: matchid,
+      teamAguess: teamAguess,
+      teamBguess: teamBguess,
       userid: authState.userid,
     },
     { timeout: 2000 }
@@ -17,4 +18,4 @@ const FetchUnguessedMatches = (authState) => {
     });
 };
 
-export default FetchUnguessedMatches;
+export default AddGuess;
