@@ -2,7 +2,7 @@ import Axios from "axios";
 import FetchMatches from "./FetchMatches";
 
 const RemoveMatch = (matchid, authState, dispatch) => {
-  Axios.post(
+  Axios.delete(
     "http://localhost:3001/matches/removematch",
     {
       matchid: matchid,

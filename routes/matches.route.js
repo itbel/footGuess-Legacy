@@ -4,7 +4,7 @@ const server = express.Router();
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
 
-server.route("/addmatch").post((req, res, next) => {
+server.route("/addmatch").put((req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
   matchModel.create(
     {
@@ -20,7 +20,7 @@ server.route("/addmatch").post((req, res, next) => {
   );
 });
 
-server.route("/addresult").post((req, res, next) => {
+server.route("/addresult").patch((req, res, next) => {
   console.log(`========== UPDATING MATCH RESULT==========`);
   matchModel.findByIdAndUpdate(
     { _id: req.body.matchid },
@@ -72,7 +72,7 @@ server.route("/getround").post((req, res, next) => {
   );
 });
 
-server.route("/removematch").post((req, res, next) => {
+server.route("/removematch").delete((req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
   matchModel.findByIdAndDelete({ _id: req.body.matchid }, (err, doc) => {
     if (err) res.json(err);

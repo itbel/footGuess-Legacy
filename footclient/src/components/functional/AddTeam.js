@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const AddTeam = (tourid, team, dispatch) => {
-  Axios.post(
+  Axios.put(
     "http://localhost:3001/teams/addteam",
     {
       teamName: team,

@@ -2,7 +2,7 @@ import Axios from "axios";
 import FetchTeams from "./FetchTeams";
 
 const RemoveTeam = (teamid, authState, dispatch) => {
-  Axios.post(
+  Axios.delete(
     "http://localhost:3001/teams/deleteteam",
     {
       teamid: teamid,
