@@ -14,9 +14,6 @@ const CreateTournamentModal = () => {
     CreateTournament(name, authState.userid, authState, dispatch).then(
       (response) => {
         console.log(response);
-        if (response.length > 0) {
-          console.log("Tournament Created");
-        }
       }
     );
   };

@@ -3,7 +3,7 @@ const server = express.Router();
 
 let tournamentModel = require("../models/tournament.model");
 
-server.route("/createtournament").post((req, res, next) => {
+server.route("/createtournament").put((req, res, next) => {
   console.log(`========== CREATING A TOURNAMENT ==========`);
   tournamentModel.create(
     {

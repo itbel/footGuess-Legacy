@@ -1,12 +1,16 @@
 import { Modal, Button, Col, Dropdown, Form, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
-import FetchMatches from "../functional/FetchMatches";
+import FetchUnguessedMatches from "../functional/FetchUnguessedMatches";
+import AddGuess from "../functional/AddGuess";
 
 const AddGuessModal = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState();
+  const [teamAguess, setTeamAguess] = useState();
+  const [teamBguess, setTeamBguess] = useState();
+
   // Modal Functionality
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -14,10 +18,17 @@ const AddGuessModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (teamAguess !== undefined && teamBguess !== undefined) {
+      AddGuess(teamAguess, teamBguess, selectedMatch._id, authState).then(
+        (response) => {
+          console.log(response);
+        }
+      );
+    }
   };
 
   useEffect(() => {
-    FetchMatches(authState, dispatch).then((response) => {
+    FetchUnguessedMatches(authState).then((response) => {
       setMatches(response);
     });
   }, [show, selectedMatch]);
@@ -69,9 +80,19 @@ const AddGuessModal = () => {
                 <p className="mt-auto mb-auto mr-3 font-weight-bold">
                   {selectedMatch.teamAName}
                 </p>
-                <Form.Control style={{ width: "15%" }}></Form.Control>
+                <Form.Control
+                  onChange={(e) => {
+                    setTeamAguess(e.target.value);
+                  }}
+                  style={{ width: "15%" }}
+                ></Form.Control>
                 <p className="mt-auto mb-auto font-weight-bold ml-3 mr-3">X</p>
-                <Form.Control style={{ width: "15%" }}></Form.Control>
+                <Form.Control
+                  onChange={(e) => {
+                    setTeamBguess(e.target.value);
+                  }}
+                  style={{ width: "15%" }}
+                ></Form.Control>
                 <p className="mt-auto mb-auto ml-3 font-weight-bold">
                   {selectedMatch.teamBName}
                 </p>
