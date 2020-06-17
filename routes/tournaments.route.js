@@ -17,7 +17,7 @@ server.route("/createtournament").put((req, res, next) => {
   );
 });
 
-server.route("/join").post((req, res, next) => {
+server.route("/join").patch((req, res, next) => {
   console.log(`========== USER JOINING TOURNAMENT ==========`);
   tournamentModel.findByIdAndUpdate(
     { _id: req.body.tournamentid },
@@ -37,7 +37,7 @@ server.route("/join").post((req, res, next) => {
   );
 });
 
-server.route("/leave").post((req, res, next) => {
+server.route("/leave").patch((req, res, next) => {
   console.log(`========== USER LEAVING TOURNAMENT ==========`);
   tournamentModel.updateOne(
     { _id: req.body.tournamentid },
