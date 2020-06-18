@@ -3,6 +3,7 @@ const server = express.Router();
 
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
+const { response } = require("express");
 
 server.route("/addmatch").put((req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
@@ -44,15 +45,17 @@ server.route("/getunguessedmatches").post((req, res, next) => {
           (err, guessedmatches) => {
             if (err) next(err);
             else {
-              let responseArr = allmatches;
-              allmatches.map((match, key) => {
-                guessedmatches.map((guess, key) => {
-                  if (guess.matchid.toString() === match._id.toString()) {
-                    responseArr.pop(match);
+              for (let x = 0; x < guessedmatches.length; x++) {
+                for (let i = 0; i < allmatches.length; i++) {
+                  if (
+                    guessedmatches[x].matchid.toString() ===
+                    allmatches[i]._id.toString()
+                  ) {
+                    allmatches.splice(i, 1);
                   }
-                });
-              });
-              res.json(responseArr);
+                }
+              }
+              res.json(allmatches);
             }
           }
         );

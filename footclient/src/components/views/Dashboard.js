@@ -68,23 +68,25 @@ const Dashboard = (props) => {
                   Tournaments
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {authState.joinedTournaments.map((val, key) => {
-                    return (
-                      <Dropdown.Item
-                        key={key}
-                        onClick={() => {
-                          history.push("/home");
-                          dispatch({
-                            type: "SELECT_TOURNAMENT",
-                            payload: val,
-                          });
-                          setIsLeagueSet(true);
-                        }}
-                      >
-                        {val.name}
-                      </Dropdown.Item>
-                    );
-                  })}
+                  {authState.joinedTournaments !== undefined
+                    ? authState.joinedTournaments.map((val, key) => {
+                        return (
+                          <Dropdown.Item
+                            key={key}
+                            onClick={() => {
+                              history.push("/home");
+                              dispatch({
+                                type: "SELECT_TOURNAMENT",
+                                payload: val,
+                              });
+                              setIsLeagueSet(true);
+                            }}
+                          >
+                            {val.name}
+                          </Dropdown.Item>
+                        );
+                      })
+                    : "None"}
                 </Dropdown.Menu>
               </Dropdown>
             </Col>
