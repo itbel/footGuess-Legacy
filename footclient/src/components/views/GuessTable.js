@@ -23,7 +23,6 @@ const MatchesTable = () => {
             return null;
           });
           setArr(tempArr);
-          console.log(tempArr);
           setWasFetched(true);
         } else {
           setArr([]);
@@ -64,7 +63,7 @@ const MatchesTable = () => {
           </th>
         </tr>
         <tr>
-          <th>Match</th>
+          <th className="text-center">Match</th>
           <th>Guess</th>
           <th>Result</th>
         </tr>
@@ -72,19 +71,24 @@ const MatchesTable = () => {
       <tbody>
         {arr !== undefined && arr[currentPage] !== undefined
           ? arr[currentPage].map((val, entry) => {
-              console.log(val);
               return (
                 <tr>
-                  <td>
-                    {val.teamAName} X {val.teamBName}
+                  <td className="text-center">
+                    <b>
+                      {val.teamAName} X {val.teamBName}
+                    </b>
                   </td>
                   <td>
-                    {val.teamAguess} X {val.teamBguess}
+                    <b>
+                      {val.teamAguess} X {val.teamBguess}
+                    </b>
                   </td>
                   {typeof val.teamAResult !== undefined &&
                   typeof val.teamBResult !== undefined ? (
                     <td>
-                      {val.teamAResult} X {val.teamBResult}
+                      <b>
+                        {val.teamAResult} X {val.teamBResult}
+                      </b>
                     </td>
                   ) : (
                     <td></td>

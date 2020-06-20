@@ -3,7 +3,6 @@ const server = express.Router();
 
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
-const { response } = require("express");
 
 server.route("/addmatch").put((req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
@@ -73,6 +72,22 @@ server.route("/getround").post((req, res, next) => {
       else res.json(doc);
     }
   );
+});
+
+server.route("/getmaxround").post((req, res, next) => {
+  matchModel
+    .find({ tournamentid: req.body.tourid })
+    .sort({ round: -1 })
+    .limit(1)
+    .exec((err, doc) => {
+      if (err) res.json(err);
+      else {
+        doc._id = undefined;
+        doc.tournamentid = undefined;
+
+        res.json(doc);
+      }
+    });
 });
 
 server.route("/removematch").delete((req, res, next) => {

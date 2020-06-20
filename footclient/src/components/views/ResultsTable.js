@@ -3,6 +3,7 @@ import { AuthContext } from "../../App";
 import ResultsModal from "./ResultModal";
 import { Dropdown, Table, Form, Row } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
+import FetchHighestRound from "../functional/FetchHighestRound";
 
 const Results = () => {
   const { state: authState } = useContext(AuthContext);
@@ -10,9 +11,14 @@ const Results = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
-
+  const [highestRound, setHighestRound] = useState(1);
   useEffect(() => {
     console.log("Reloading and fetching round");
+    FetchHighestRound(authState).then((response) => {
+      if (response.length > 0) {
+        setHighestRound(response[0].round);
+      }
+    });
     FetchRound(authState, round).then((response) => {
       if (response.length > 0) {
         let tempArr = [];
@@ -68,14 +74,27 @@ const Results = () => {
             return (
               <tr key={entry}>
                 <td className="text-right">
-                  <p>{val.teamAName}</p>
+                  <p>
+                    <b>{val.teamAName}</b>
+                  </p>
                 </td>
                 <td className="justify-content-center d-flex">
-                  {val.teamAResult !== undefined ? val.teamAResult : ""}X
-                  {val.teamBResult !== undefined ? val.teamBResult : ""}
+                  {val.teamAResult !== undefined ? (
+                    <b>{val.teamAResult}</b>
+                  ) : (
+                    ""
+                  )}
+                  X
+                  {val.teamBResult !== undefined ? (
+                    <b>{val.teamBResult}</b>
+                  ) : (
+                    ""
+                  )}
                 </td>
                 <td className="text-left">
-                  <p>{val.teamBName}</p>
+                  <p>
+                    <b>{val.teamBName}</b>
+                  </p>
                 </td>
                 <td>
                   <ResultsModal selectedMatch={val}></ResultsModal>
