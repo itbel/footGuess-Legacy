@@ -66,7 +66,6 @@ const Results = () => {
         style={{ marginTop: "16px" }}
         responsive
         striped
-        bordered
         hover
         variant="light"
         size="sm"
@@ -120,6 +119,7 @@ const Results = () => {
             </>
           )}
           {matches !== undefined &&
+          matches.length > 1 &&
           matches[currentPage] !== undefined &&
           wasFetched ? (
             <tr>

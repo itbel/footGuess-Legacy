@@ -67,7 +67,6 @@ const MatchesTable = () => {
       <Table
         style={{ marginTop: "16px" }}
         responsive
-        bordered
         hover
         striped
         variant="light"
