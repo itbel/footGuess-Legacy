@@ -1,8 +1,9 @@
 import React, { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../../App";
 import ResultsModal from "./ResultModal";
-import { Dropdown, Table, Form, Row } from "react-bootstrap";
+import { Dropdown, Table, Form } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
+import FetchHighestRound from "../functional/FetchHighestRound";
 
 const Results = () => {
   const { state: authState } = useContext(AuthContext);
@@ -10,9 +11,18 @@ const Results = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
-
+  const [rounds, setRounds] = useState([]);
   useEffect(() => {
     console.log("Reloading and fetching round");
+    FetchHighestRound(authState).then((response) => {
+      if (response.length > 0) {
+        let tempArr = [];
+        for (let i = 1; i <= response[0].round; i++) {
+          tempArr.push(i);
+        }
+        setRounds(tempArr);
+      }
+    });
     FetchRound(authState, round).then((response) => {
       if (response.length > 0) {
         let tempArr = [];
@@ -30,86 +40,108 @@ const Results = () => {
     });
   }, [round, currentPage, authState]);
   return (
-    <Table responsive striped bordered hover variant="light" size="sm">
-      <thead>
-        <tr>
-          <th colSpan={4} className="text-center">
-            <Dropdown className="pl-2">
-              <Dropdown.Toggle size="sm" variant="light">
-                <b>Round: {round}</b>
-              </Dropdown.Toggle>
-              <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-                <Dropdown.Item
-                  name={1}
-                  onClick={(e) => {
-                    setCurrentPage(0);
-                    setRound(parseInt(e.target.name));
-                  }}
-                >
-                  1
-                </Dropdown.Item>
-                <Dropdown.Item
-                  name={2}
-                  onClick={(e) => {
-                    setCurrentPage(0);
-                    setRound(parseInt(e.target.name));
-                  }}
-                >
-                  2
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {wasFetched ? (
-          matches[currentPage].map((val, entry) => {
+    <>
+      <Dropdown className="pl-2">
+        <Dropdown.Toggle size="sm" variant="light">
+          <b>Round: {round}</b>
+        </Dropdown.Toggle>
+        <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+          {rounds.map((val, key) => {
             return (
-              <tr key={entry}>
-                <td className="text-right">
-                  <p>{val.teamAName}</p>
-                </td>
-                <td className="justify-content-center d-flex">
-                  {val.teamAResult !== undefined ? val.teamAResult : ""}X
-                  {val.teamBResult !== undefined ? val.teamBResult : ""}
-                </td>
-                <td className="text-left">
-                  <p>{val.teamBName}</p>
-                </td>
-                <td>
-                  <ResultsModal selectedMatch={val}></ResultsModal>
-                </td>
-              </tr>
-            );
-          })
-        ) : (
-          <tr>
-            <td colSpan={4}>No Results</td>
-          </tr>
-        )}
-        {matches !== undefined && wasFetched ? (
-          <tr>
-            <td>
-              <Form.Control
-                value={currentPage}
-                onChange={(e) => {
-                  setCurrentPage(e.target.value);
+              <Dropdown.Item
+                key={key}
+                name={val}
+                onClick={(e) => {
+                  setCurrentPage(0);
+                  setRound(parseInt(e.target.name));
                 }}
-                as="select"
-                size="sm"
               >
-                {matches !== undefined && wasFetched
-                  ? matches.map((val, index) => {
-                      return <option key={index}>{index}</option>;
-                    })
-                  : null}
-              </Form.Control>
-            </td>
+                {val}
+              </Dropdown.Item>
+            );
+          })}
+        </Dropdown.Menu>
+      </Dropdown>
+      <Table
+        style={{ marginTop: "16px" }}
+        responsive
+        striped
+        hover
+        variant="light"
+        size="sm"
+      >
+        <thead>
+          <tr>
+            <th colSpan={4} className="text-center"></th>
           </tr>
-        ) : null}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {matches !== undefined &&
+          matches[currentPage] !== undefined &&
+          wasFetched ? (
+            matches[currentPage].map((val, entry) => {
+              return (
+                <tr key={entry}>
+                  <td className="text-right">
+                    <p>
+                      <b>{val.teamAName}</b>
+                    </p>
+                  </td>
+                  <td className="justify-content-center d-flex">
+                    {val.teamAResult !== undefined ? (
+                      <b>{val.teamAResult}</b>
+                    ) : (
+                      ""
+                    )}
+                    X
+                    {val.teamBResult !== undefined ? (
+                      <b>{val.teamBResult}</b>
+                    ) : (
+                      ""
+                    )}
+                  </td>
+                  <td className="text-left">
+                    <p>
+                      <b>{val.teamBName}</b>
+                    </p>
+                  </td>
+                  <td>
+                    <ResultsModal selectedMatch={val}></ResultsModal>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <>
+              <tr>
+                <td colSpan={4}>No Results</td>
+              </tr>
+            </>
+          )}
+          {matches !== undefined &&
+          matches.length > 1 &&
+          matches[currentPage] !== undefined &&
+          wasFetched ? (
+            <tr>
+              <td>
+                <Form.Control
+                  value={currentPage}
+                  onChange={(e) => {
+                    setCurrentPage(e.target.value);
+                  }}
+                  as="select"
+                  size="sm"
+                >
+                  {matches.map((val, index) => {
+                    return <option key={index}>{index}</option>;
+                  })}
+                </Form.Control>
+              </td>
+            </tr>
+          ) : null}
+        </tbody>
+      </Table>
+    </>
   );
 };
 

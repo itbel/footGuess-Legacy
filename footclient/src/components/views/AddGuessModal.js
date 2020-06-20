@@ -1,11 +1,11 @@
-import { Modal, Button, Col, Dropdown, Form, Row } from "react-bootstrap";
+import { Modal, Button, Dropdown, Form, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 import FetchUnguessedMatches from "../functional/FetchUnguessedMatches";
 import AddGuess from "../functional/AddGuess";
 
 const AddGuessModal = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const { state: authState } = useContext(AuthContext);
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState();
   const [teamAguess, setTeamAguess] = useState();
@@ -55,7 +55,11 @@ const AddGuessModal = () => {
         <Modal.Body>
           <Row className="justify-content-center">
             <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+              <Dropdown.Toggle
+                disabled={matches.length === 0}
+                variant="secondary"
+                id="dropdown-basic"
+              >
                 {selectedMatch !== undefined
                   ? selectedMatch.teamAName + " X " + selectedMatch.teamBName
                   : "Matches"}
