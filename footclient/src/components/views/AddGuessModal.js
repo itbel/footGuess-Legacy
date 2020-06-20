@@ -55,7 +55,11 @@ const AddGuessModal = () => {
         <Modal.Body>
           <Row className="justify-content-center">
             <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+              <Dropdown.Toggle
+                disabled={matches.length === 0}
+                variant="secondary"
+                id="dropdown-basic"
+              >
                 {selectedMatch !== undefined
                   ? selectedMatch.teamAName + " X " + selectedMatch.teamBName
                   : "Matches"}
