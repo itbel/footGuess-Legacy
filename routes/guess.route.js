@@ -39,27 +39,29 @@ server.route("/guesses").post((req, res, next) => {
                 if (
                   JSON.stringify(match._id) === JSON.stringify(guess.matchid)
                 ) {
-                  if (
-                    typeof match.teamAResult !== "undefined" &&
-                    typeof match.teamBResult !== "undefined"
-                  ) {
-                    responseArr.push({
-                      matchid: match._id,
-                      teamAName: match.teamAName,
-                      teamBName: match.teamBName,
-                      teamAguess: guess.teamAguess,
-                      teamBguess: guess.teamBguess,
-                      teamAResult: match.teamAResult,
-                      teamBResult: match.teamBResult,
-                    });
-                  } else
-                    responseArr.push({
-                      matchid: match._id,
-                      teamAName: match.teamAName,
-                      teamBName: match.teamBName,
-                      teamAguess: guess.teamAguess,
-                      teamBguess: guess.teamBguess,
-                    });
+                  if (match.round === req.body.round) {
+                    if (
+                      typeof match.teamAResult !== undefined &&
+                      typeof match.teamBResult !== undefined
+                    ) {
+                      responseArr.push({
+                        matchid: match._id,
+                        teamAName: match.teamAName,
+                        teamBName: match.teamBName,
+                        teamAguess: guess.teamAguess,
+                        teamBguess: guess.teamBguess,
+                        teamAResult: match.teamAResult,
+                        teamBResult: match.teamBResult,
+                      });
+                    } else
+                      responseArr.push({
+                        matchid: match._id,
+                        teamAName: match.teamAName,
+                        teamBName: match.teamBName,
+                        teamAguess: guess.teamAguess,
+                        teamBguess: guess.teamBguess,
+                      });
+                  }
                 }
               });
             });

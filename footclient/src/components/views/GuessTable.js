@@ -1,23 +1,25 @@
-import { Table, Form, Button, Row } from "react-bootstrap";
+import { Table, Form, Button, Row, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchMatches from "../functional/FetchMatches";
+
 const MatchesTable = () => {
   const { state: authState, dispatch } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState(0);
   const [arr, setArr] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
+  const [round, setRound] = useState(1);
 
   useEffect(() => {
     console.log("Guess Table Mounted. Fetching Data");
     if (authState.selectedTourId !== undefined) {
-      FetchUserGuesses(authState).then((response) => {
+      FetchUserGuesses(authState, round).then((response) => {
         if (response !== undefined) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 5 === 0) {
-              tempArr.push(response.slice(entry, entry + 5));
+            if (entry % 10 === 0) {
+              tempArr.push(response.slice(entry, entry + 10));
             }
             return null;
           });
@@ -29,18 +31,40 @@ const MatchesTable = () => {
         }
       });
     }
-  }, []);
-  // Change it to fetch guesses by round
+  }, [round]);
   return (
     <Row className="justify-content-center">
-      <Table
-        style={{ width: "50%", padding: "0" }}
-        bordered
-        striped
-        variant="light"
-        size="sm"
-      >
+      <Table responsive bordered striped variant="light" size="sm">
         <thead>
+          <tr>
+            <th colSpan={4} className="text-center">
+              <Dropdown className="pl-2">
+                <Dropdown.Toggle size="sm" variant="light">
+                  <b>Round: {round}</b>
+                </Dropdown.Toggle>
+                <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+                  <Dropdown.Item
+                    name={1}
+                    onClick={(e) => {
+                      setCurrentPage(0);
+                      setRound(parseInt(e.target.name));
+                    }}
+                  >
+                    1
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    name={2}
+                    onClick={(e) => {
+                      setCurrentPage(0);
+                      setRound(parseInt(e.target.name));
+                    }}
+                  >
+                    2
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </th>
+          </tr>
           <tr>
             <th>Match</th>
             <th>Guess</th>
@@ -59,7 +83,7 @@ const MatchesTable = () => {
                     <td>
                       {val.teamAguess} X {val.teamBguess}
                     </td>
-                    {typeof val.teamAResult !== "undefined" &&
+                    {typeof val.teamAResult !== undefined &&
                     typeof val.teamBResult !== undefined ? (
                       <td>
                         {val.teamAResult} X {val.teamBResult}
