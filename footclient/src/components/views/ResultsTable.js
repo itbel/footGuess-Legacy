@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../../App";
 import ResultsModal from "./ResultModal";
-import { Dropdown, Table, Form, Row } from "react-bootstrap";
+import { Dropdown, Table, Form } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
@@ -114,18 +114,6 @@ const Results = () => {
             })
           ) : (
             <>
-              <tr>
-                <td colSpan={4}>No Results</td>
-              </tr>
-              <tr>
-                <td colSpan={4}>No Results</td>
-              </tr>
-              <tr>
-                <td colSpan={4}>No Results</td>
-              </tr>
-              <tr>
-                <td colSpan={4}>No Results</td>
-              </tr>
               <tr>
                 <td colSpan={4}>No Results</td>
               </tr>

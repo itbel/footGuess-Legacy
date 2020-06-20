@@ -1,4 +1,4 @@
-import { Table, Form, Row, Dropdown } from "react-bootstrap";
+import { Table, Form, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
@@ -64,7 +64,15 @@ const MatchesTable = () => {
           })}
         </Dropdown.Menu>
       </Dropdown>
-      <Table responsive bordered hover striped variant="light" size="sm">
+      <Table
+        style={{ marginTop: "16px" }}
+        responsive
+        bordered
+        hover
+        striped
+        variant="light"
+        size="sm"
+      >
         <thead>
           <tr>
             <th colSpan={4} className="text-center"></th>
@@ -76,37 +84,43 @@ const MatchesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {arr !== undefined && arr[currentPage] !== undefined
-            ? arr[currentPage].map((val, entry) => {
-                return (
-                  <tr>
-                    <td className="text-center">
-                      <b>
-                        {val.teamAName} X {val.teamBName}
-                      </b>
-                    </td>
+          {arr !== undefined && arr[currentPage] !== undefined ? (
+            arr[currentPage].map((val, entry) => {
+              return (
+                <tr>
+                  <td className="text-center">
+                    <b>
+                      {val.teamAName} X {val.teamBName}
+                    </b>
+                  </td>
+                  <td>
+                    <b>
+                      {val.teamAguess} X {val.teamBguess}
+                    </b>
+                  </td>
+                  {typeof val.teamAResult !== undefined &&
+                  typeof val.teamBResult !== undefined ? (
                     <td>
                       <b>
-                        {val.teamAguess} X {val.teamBguess}
+                        {val.teamAResult} X {val.teamBResult}
                       </b>
                     </td>
-                    {typeof val.teamAResult !== undefined &&
-                    typeof val.teamBResult !== undefined ? (
-                      <td>
-                        <b>
-                          {val.teamAResult} X {val.teamBResult}
-                        </b>
-                      </td>
-                    ) : (
-                      <td></td>
-                    )}
-                  </tr>
-                );
-              })
-            : authState.selectedTourId === undefined
-            ? "Tournament must be selected"
-            : "No Results"}
-          {arr !== undefined && arr.length > 0 ? (
+                  ) : (
+                    <td></td>
+                  )}
+                </tr>
+              );
+            })
+          ) : authState.selectedTourId === undefined ? (
+            <tr>
+              <td>Tournament must be selected</td>
+            </tr>
+          ) : (
+            <tr>
+              <td colSpan={4}>No Results</td>
+            </tr>
+          )}
+          {arr !== undefined && arr.length > 1 ? (
             <tr>
               <td colSpan={4}>
                 <Form.Control
@@ -126,11 +140,7 @@ const MatchesTable = () => {
                 </Form.Control>
               </td>
             </tr>
-          ) : (
-            <tr>
-              <td colSpan={4}></td>
-            </tr>
-          )}
+          ) : null}
         </tbody>
       </Table>
     </>
