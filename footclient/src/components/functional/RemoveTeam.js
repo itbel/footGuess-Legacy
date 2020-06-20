@@ -5,7 +5,9 @@ const RemoveTeam = (teamid, authState, dispatch) => {
   Axios.delete(
     "http://localhost:3001/teams/deleteteam",
     {
-      teamid: teamid,
+      data: {
+        teamid: teamid,
+      },
     },
     { timeout: 2000 }
   )

@@ -5,7 +5,9 @@ const RemoveMatch = (matchid, authState, dispatch) => {
   Axios.delete(
     "http://localhost:3001/matches/removematch",
     {
-      matchid: matchid,
+      data: {
+        matchid: matchid,
+      },
     },
     { timeout: 2000 }
   )

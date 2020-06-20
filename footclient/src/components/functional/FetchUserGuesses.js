@@ -1,11 +1,12 @@
 import Axios from "axios";
 
-const FetchUserGuesses = (authState) => {
+const FetchUserGuesses = (authState, round) => {
   return Axios.post(
     "http://localhost:3001/guess/guesses/",
     {
       userid: authState.userid,
       tournamentid: authState.selectedTourId,
+      round: round,
     },
     { timeout: 2000 }
   )

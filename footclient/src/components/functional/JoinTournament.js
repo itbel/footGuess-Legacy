@@ -2,7 +2,7 @@ import Axios from "axios";
 import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
 const JoinTournament = (tournamentid, userid, authState, dispatch) => {
-  Axios.post(
+  Axios.patch(
     "http://localhost:3001/tournaments/join",
     {
       tournamentid: tournamentid,
