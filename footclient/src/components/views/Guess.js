@@ -17,7 +17,9 @@ const Guess = () => {
       <Row className="justify-content-center">
         <h1>Guesses</h1>
       </Row>
-      <GuessTable />
+      <Row className="justify-content-center">
+        <GuessTable />
+      </Row>
       <Row className="justify-content-center">
         <AddGuessModal></AddGuessModal>
       </Row>

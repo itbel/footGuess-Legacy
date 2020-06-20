@@ -2,6 +2,7 @@ import { Table, Form, Row, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
+import FetchHighestRound from "../functional/FetchHighestRound";
 
 const MatchesTable = () => {
   const { state: authState } = useContext(AuthContext);
@@ -9,10 +10,20 @@ const MatchesTable = () => {
   const [arr, setArr] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
   const [round, setRound] = useState(1);
+  const [rounds, setRounds] = useState([]);
 
   useEffect(() => {
     console.log("Guess Table Mounted. Fetching Data");
     if (authState.selectedTourId !== undefined) {
+      FetchHighestRound(authState).then((response) => {
+        if (response.length > 0) {
+          let tempArr = [];
+          for (let i = 1; i <= response[0].round; i++) {
+            tempArr.push(i);
+          }
+          setRounds(tempArr);
+        }
+      });
       FetchUserGuesses(authState, round).then((response) => {
         if (response !== undefined) {
           let tempArr = [];
@@ -31,101 +42,98 @@ const MatchesTable = () => {
     }
   }, [round]);
   return (
-    <Table responsive bordered hover striped variant="light" size="sm">
-      <thead>
-        <tr>
-          <th colSpan={4} className="text-center">
-            <Dropdown className="pl-2">
-              <Dropdown.Toggle size="sm" variant="light">
-                <b>Round: {round}</b>
-              </Dropdown.Toggle>
-              <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-                <Dropdown.Item
-                  name={1}
-                  onClick={(e) => {
-                    setCurrentPage(0);
-                    setRound(parseInt(e.target.name));
-                  }}
-                >
-                  1
-                </Dropdown.Item>
-                <Dropdown.Item
-                  name={2}
-                  onClick={(e) => {
-                    setCurrentPage(0);
-                    setRound(parseInt(e.target.name));
-                  }}
-                >
-                  2
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </th>
-        </tr>
-        <tr>
-          <th className="text-center">Match</th>
-          <th>Guess</th>
-          <th>Result</th>
-        </tr>
-      </thead>
-      <tbody>
-        {arr !== undefined && arr[currentPage] !== undefined
-          ? arr[currentPage].map((val, entry) => {
-              return (
-                <tr>
-                  <td className="text-center">
-                    <b>
-                      {val.teamAName} X {val.teamBName}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {val.teamAguess} X {val.teamBguess}
-                    </b>
-                  </td>
-                  {typeof val.teamAResult !== undefined &&
-                  typeof val.teamBResult !== undefined ? (
-                    <td>
+    <>
+      <Dropdown className="pl-2">
+        <Dropdown.Toggle size="sm" variant="light">
+          <b>Round: {round}</b>
+        </Dropdown.Toggle>
+        <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+          {rounds.map((val, key) => {
+            return (
+              <Dropdown.Item
+                key={key}
+                name={val}
+                onClick={(e) => {
+                  setCurrentPage(0);
+                  setRound(parseInt(e.target.name));
+                }}
+              >
+                {val}
+              </Dropdown.Item>
+            );
+          })}
+        </Dropdown.Menu>
+      </Dropdown>
+      <Table responsive bordered hover striped variant="light" size="sm">
+        <thead>
+          <tr>
+            <th colSpan={4} className="text-center"></th>
+          </tr>
+          <tr>
+            <th className="text-center">Match</th>
+            <th>Guess</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          {arr !== undefined && arr[currentPage] !== undefined
+            ? arr[currentPage].map((val, entry) => {
+                return (
+                  <tr>
+                    <td className="text-center">
                       <b>
-                        {val.teamAResult} X {val.teamBResult}
+                        {val.teamAName} X {val.teamBName}
                       </b>
                     </td>
-                  ) : (
-                    <td></td>
-                  )}
-                </tr>
-              );
-            })
-          : authState.selectedTourId === undefined
-          ? "Tournament must be selected"
-          : "No Results"}
-        {arr !== undefined && arr.length > 0 ? (
-          <tr>
-            <td colSpan={4}>
-              <Form.Control
-                style={{ width: "20%" }}
-                value={currentPage}
-                onChange={(e) => {
-                  setCurrentPage(e.target.value);
-                }}
-                as="select"
-                size="sm"
-              >
-                {arr.length > 0 && wasFetched
-                  ? arr.map((val, index) => {
-                      return <option key={index}>{index}</option>;
-                    })
-                  : "No Results"}
-              </Form.Control>
-            </td>
-          </tr>
-        ) : (
-          <tr>
-            <td colSpan={4}></td>
-          </tr>
-        )}
-      </tbody>
-    </Table>
+                    <td>
+                      <b>
+                        {val.teamAguess} X {val.teamBguess}
+                      </b>
+                    </td>
+                    {typeof val.teamAResult !== undefined &&
+                    typeof val.teamBResult !== undefined ? (
+                      <td>
+                        <b>
+                          {val.teamAResult} X {val.teamBResult}
+                        </b>
+                      </td>
+                    ) : (
+                      <td></td>
+                    )}
+                  </tr>
+                );
+              })
+            : authState.selectedTourId === undefined
+            ? "Tournament must be selected"
+            : "No Results"}
+          {arr !== undefined && arr.length > 0 ? (
+            <tr>
+              <td colSpan={4}>
+                <Form.Control
+                  style={{ width: "20%" }}
+                  value={currentPage}
+                  onChange={(e) => {
+                    setCurrentPage(e.target.value);
+                  }}
+                  as="select"
+                  size="sm"
+                >
+                  {arr.length > 0 && wasFetched
+                    ? arr.map((val, index) => {
+                        return <option key={index}>{index}</option>;
+                      })
+                    : "No Results"}
+                </Form.Control>
+              </td>
+            </tr>
+          ) : (
+            <tr>
+              <td colSpan={4}></td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+    </>
   );
 };
 
