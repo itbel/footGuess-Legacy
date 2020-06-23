@@ -2,6 +2,7 @@ const express = require("express");
 const server = express.Router();
 
 let tournamentModel = require("../models/tournament.model");
+let userModel = require("../models/user.model");
 
 server.route("/createtournament").put((req, res, next) => {
   console.log(`========== CREATING A TOURNAMENT ==========`);
@@ -77,6 +78,49 @@ server.route("/getjoinedtournaments").post((req, res, next) => {
       }
     }
   });
+});
+
+// ???????? expensive query, requires more work
+server.route("/players").post((req, res, next) => {
+  console.log(`========== FETCHING TOURNAMENT PLAYERS ==========`);
+  tournamentModel.find(
+    { _id: req.body.tournamentid },
+    { "users.userid": "", "users.points": "" },
+    (err, doc) => {
+      if (err) {
+        res.json(err);
+      } else {
+        userModel.find(
+          { _id: doc[0].users.userid },
+          { name: "" },
+          (err1, userdoc) => {
+            if (err) res.json(err1);
+            else {
+              let response = [];
+              userdoc.map((touruserentry, key) => {
+                doc[0].users.userid.map((docentry, key2) => {
+                  if (
+                    JSON.stringify(touruserentry._id) ===
+                    JSON.stringify(docentry)
+                  ) {
+                    console.log("A MATCH!!");
+                    response.push({
+                      playername: touruserentry.name,
+                      points: doc[0].users.points[key2],
+                    });
+                    console.log(touruserentry);
+                    console.log(docentry);
+                    console.log(doc[0].users.points);
+                  }
+                });
+              });
+              res.json(response);
+            }
+          }
+        );
+      }
+    }
+  );
 });
 
 server.route("/getownedtournaments").post((req, res, next) => {

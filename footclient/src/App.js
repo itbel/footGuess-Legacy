@@ -72,7 +72,6 @@ const reducer = (state, action) => {
         ...state,
         ownedTournaments: action.payload,
       };
-
     case "LOGOUT":
       localStorage.clear();
       return {
