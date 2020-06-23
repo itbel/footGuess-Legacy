@@ -1,11 +1,11 @@
 import { Table, Form, Button, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import FetchTeams from "../functional/FetchTeams";
 import RemoveTeam from "../functional/RemoveTeam";
 
 const MatchesTable = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
   const [headers] = useState(["Team Name"]);
   const [currentPage, setCurrentPage] = useState(0);
   const [arr, setArr] = useState([]);
@@ -13,8 +13,8 @@ const MatchesTable = () => {
 
   useEffect(() => {
     console.log("Teams Table Mounted. Fetching Data");
-    if (authState.selectedTourId !== undefined) {
-      FetchTeams(authState, dispatch).then((response) => {
+    if (state.selectedTourId !== undefined) {
+      FetchTeams(state, dispatch).then((response) => {
         if (response.length > 0) {
           let tempArr = [];
           response.map((value, entry) => {
@@ -30,7 +30,7 @@ const MatchesTable = () => {
         }
       });
     }
-  }, [authState.teams, dispatch, authState]);
+  }, [state.teams, dispatch, state]);
 
   return (
     <Row className="justify-content-center">
@@ -60,7 +60,7 @@ const MatchesTable = () => {
                           if (currentPage !== 0)
                             setCurrentPage(currentPage - 1);
                         }
-                        RemoveTeam(val._id, authState, dispatch);
+                        RemoveTeam(val._id, state, dispatch);
                       }}
                     >
                       Remove

@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import ResultsModal from "./ResultModal";
 import { Dropdown, Row, Table, Form, Container } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
 const Results = () => {
-  const { state: authState } = useContext(AuthContext);
+  const [state] = useContext(Context);
   const [wasFetched, setWasFetched] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
@@ -14,7 +14,7 @@ const Results = () => {
   const [rounds, setRounds] = useState([]);
   useEffect(() => {
     console.log("Reloading and fetching round");
-    FetchHighestRound(authState).then((response) => {
+    FetchHighestRound(state).then((response) => {
       if (response.length > 0) {
         let tempArr = [];
         for (let i = 1; i <= response[0].round; i++) {
@@ -23,7 +23,7 @@ const Results = () => {
         setRounds(tempArr);
       }
     });
-    FetchRound(authState, round).then((response) => {
+    FetchRound(state, round).then((response) => {
       if (response.length > 0) {
         let tempArr = [];
         response.map((value, entry) => {
@@ -38,7 +38,7 @@ const Results = () => {
         setMatches([]);
       }
     });
-  }, [round, currentPage, authState]);
+  }, [round, currentPage, state]);
   return (
     <Container>
       <Row className="justify-content-center">

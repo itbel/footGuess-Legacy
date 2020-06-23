@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { Col, Row, Container, Button, Form } from "react-bootstrap";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import { useHistory } from "react-router-dom";
 
 const Login = (props) => {
   const history = useHistory(props.history);
-  const { dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
   const initialState = {
     user: "",
     pass: "",
@@ -17,6 +17,7 @@ const Login = (props) => {
   const [data, setData] = useState(initialState);
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(state);
     setData({
       ...data,
       isSubmitting: true,
@@ -49,6 +50,7 @@ const Login = (props) => {
           });
         });
     }
+    console.log(state);
   };
 
   return (

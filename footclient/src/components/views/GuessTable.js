@@ -1,11 +1,11 @@
 import { Table, Form, Row, Dropdown, Container } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
 const MatchesTable = () => {
-  const { state: authState } = useContext(AuthContext);
+  const [state] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [arr, setArr] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
@@ -14,8 +14,8 @@ const MatchesTable = () => {
 
   useEffect(() => {
     console.log("Guess Table Mounted. Fetching Data");
-    if (authState.selectedTourId !== undefined) {
-      FetchHighestRound(authState).then((response) => {
+    if (state.selectedTourId !== undefined) {
+      FetchHighestRound(state).then((response) => {
         if (response.length > 0) {
           let tempArr = [];
           for (let i = 1; i <= response[0].round; i++) {
@@ -24,7 +24,7 @@ const MatchesTable = () => {
           setRounds(tempArr);
         }
       });
-      FetchUserGuesses(authState, round).then((response) => {
+      FetchUserGuesses(state, round).then((response) => {
         if (response !== undefined) {
           let tempArr = [];
           response.map((value, entry) => {
@@ -112,7 +112,7 @@ const MatchesTable = () => {
                 </tr>
               );
             })
-          ) : authState.selectedTourId === undefined ? (
+          ) : state.selectedTourId === undefined ? (
             <tr>
               <td>Tournament must be selected</td>
             </tr>

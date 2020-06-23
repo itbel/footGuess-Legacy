@@ -1,14 +1,14 @@
 import { Table, Container } from "react-bootstrap";
 import React, { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import FetchPlayers from "../functional/FetchPlayers";
 
 const PointsTable = () => {
-  const { state: authState } = useContext(AuthContext);
+  const [state] = useContext(Context);
   const [players, setPlayers] = useState([]);
   useEffect(() => {
-    if (authState.selectedTourId !== undefined) {
-      FetchPlayers(authState).then((response) => {
+    if (state.selectedTourId !== undefined) {
+      FetchPlayers(state).then((response) => {
         setPlayers(response);
       });
     }

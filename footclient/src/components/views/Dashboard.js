@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Dropdown } from "react-bootstrap";
 import { Route, Switch, useHistory } from "react-router-dom";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 
 // Views
 import TopNav from "./TopNav";
@@ -22,14 +22,14 @@ import FetchJoinedTournamentsv2 from "../functional/FetchJoinedTournaments_v2";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   const fetchData = () => {
-    FetchJoinedTournamentsv2(authState.userid).then((val) => {
+    FetchJoinedTournamentsv2(state.userid).then((val) => {
       dispatch({ type: "FETCH_JOINED_TOURNAMENTS", payload: val });
     });
     FetchAll(dispatch);
-    FetchOwned(authState, dispatch);
+    FetchOwned(state, dispatch);
   };
   useEffect(() => {
     console.log("Updating from dashboard");
@@ -55,7 +55,7 @@ const Dashboard = (props) => {
               {!isLeagueSet ? (
                 <h1>Select a League:&nbsp; </h1>
               ) : (
-                <h1>{authState.selectedTourName}</h1>
+                <h1>{state.selectedTourName}</h1>
               )}
             </Col>
             <Col xs={6}>
@@ -68,8 +68,8 @@ const Dashboard = (props) => {
                   Tournaments
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {authState.joinedTournaments !== undefined
-                    ? authState.joinedTournaments.map((val, key) => {
+                  {state.joinedTournaments !== undefined
+                    ? state.joinedTournaments.map((val, key) => {
                         return (
                           <Dropdown.Item
                             key={key}
@@ -94,14 +94,12 @@ const Dashboard = (props) => {
 
           <Row className="justify-content-center">
             <Col lg={2} className="mt-3 d-none d-md-block">
-              {authState.selectedTourId !== undefined ? (
-                <SideNav></SideNav>
-              ) : null}
+              {state.selectedTourId !== undefined ? <SideNav></SideNav> : null}
             </Col>
             <Col
               sm={12}
               md={12}
-              lg={authState.selectedTourId !== undefined ? 10 : 12}
+              lg={state.selectedTourId !== undefined ? 10 : 12}
               className="mt-3"
             >
               <Switch>

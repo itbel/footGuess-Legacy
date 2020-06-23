@@ -1,11 +1,11 @@
 import { Modal, Button, Dropdown, Form, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import FetchUnguessedMatches from "../functional/FetchUnguessedMatches";
 import AddGuess from "../functional/AddGuess";
 
 const AddGuessModal = () => {
-  const { state: authState } = useContext(AuthContext);
+  const [state] = useContext(Context);
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState();
   const [teamAguess, setTeamAguess] = useState();
@@ -19,7 +19,7 @@ const AddGuessModal = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (teamAguess !== undefined && teamBguess !== undefined) {
-      AddGuess(teamAguess, teamBguess, selectedMatch._id, authState).then(
+      AddGuess(teamAguess, teamBguess, selectedMatch._id, state).then(
         (response) => {
           console.log(response);
         }
@@ -28,7 +28,7 @@ const AddGuessModal = () => {
   };
 
   useEffect(() => {
-    FetchUnguessedMatches(authState).then((response) => {
+    FetchUnguessedMatches(state).then((response) => {
       setMatches(response);
     });
   }, [show]);
@@ -37,7 +37,7 @@ const AddGuessModal = () => {
     <>
       <Button
         variant="dark"
-        disabled={authState.selectedTourId === undefined}
+        disabled={state.selectedTourId === undefined}
         onClick={handleShow}
       >
         Add Guess

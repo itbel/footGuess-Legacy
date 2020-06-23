@@ -1,11 +1,11 @@
 import { Modal, Row, Button, Form, Dropdown, Col } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import FetchTeams from "../functional/FetchTeams";
 import AddMatch from "../functional/AddMatch";
 
 const AddMatchModal = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
 
   const [teams, setTeams] = useState([]);
   const [teamA, setTeamA] = useState("");
@@ -18,11 +18,11 @@ const AddMatchModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    AddMatch(teamA, teamB, round, authState, dispatch);
+    AddMatch(teamA, teamB, round, state, dispatch);
   };
 
   useEffect(() => {
-    FetchTeams(authState, dispatch)
+    FetchTeams(state, dispatch)
       .then((response) => {
         setTeams(response);
       })
@@ -33,9 +33,7 @@ const AddMatchModal = () => {
   return (
     <>
       <Button
-        disabled={
-          authState.teams[0] === undefined || authState.teams.length < 2
-        }
+        disabled={state.teams[0] === undefined || state.teams.length < 2}
         variant="dark"
         onClick={handleShow}
       >

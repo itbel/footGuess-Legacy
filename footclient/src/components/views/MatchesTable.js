@@ -1,20 +1,19 @@
 import { Table, Form, Button, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import FetchMatches from "../functional/FetchMatches";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import RemoveMatch from "../functional/RemoveMatch";
 
 const MatchesTable = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
-  const [headers] = useState(["Team1", "Team2", "Round"]);
+  const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [arr, setArr] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
 
   useEffect(() => {
     console.log("Matches Table Mounted. Fetching Data");
-    if (authState.selectedTourId !== undefined) {
-      FetchMatches(authState, dispatch).then((response) => {
+    if (state.selectedTourId !== undefined) {
+      FetchMatches(state, dispatch).then((response) => {
         if (response.length > 0) {
           let tempArr = [];
           response.map((value, entry) => {
@@ -30,7 +29,7 @@ const MatchesTable = () => {
         }
       });
     }
-  }, [authState.matches, dispatch, authState]);
+  }, [state.matches, dispatch, state]);
 
   return (
     <Row>
@@ -61,7 +60,7 @@ const MatchesTable = () => {
                           if (currentPage !== 0)
                             setCurrentPage(currentPage - 1);
                         }
-                        RemoveMatch(val._id, authState, dispatch);
+                        RemoveMatch(val._id, state, dispatch);
                       }}
                     >
                       Remove
