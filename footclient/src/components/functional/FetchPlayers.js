@@ -16,5 +16,4 @@ const FetchPlayers = (authState) => {
     });
 };
 
-export default FetchPlayer;
-s;
+export default FetchPlayers;

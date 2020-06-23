@@ -21,7 +21,7 @@ const TopNav = () => {
           Rules
         </Link>
         <Link className="linkStyle" to="/ranking">
-          All Time Rank
+          Tournament Ranking
         </Link>
       </Nav>
     </Navbar>

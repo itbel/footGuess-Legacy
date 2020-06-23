@@ -103,14 +103,10 @@ server.route("/players").post((req, res, next) => {
                     JSON.stringify(touruserentry._id) ===
                     JSON.stringify(docentry)
                   ) {
-                    console.log("A MATCH!!");
                     response.push({
-                      playername: touruserentry.name,
+                      name: touruserentry.name,
                       points: doc[0].users.points[key2],
                     });
-                    console.log(touruserentry);
-                    console.log(docentry);
-                    console.log(doc[0].users.points);
                   }
                 });
               });

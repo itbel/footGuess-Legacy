@@ -1,4 +1,6 @@
 import React from "react";
+import PointsTable from "../views/PointsTable";
+
 const Ranking = () => {
   return (
     <div
@@ -12,6 +14,7 @@ const Ranking = () => {
       }}
     >
       <h1>Ranking</h1>
+      <PointsTable />
     </div>
   );
 };
