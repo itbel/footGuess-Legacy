@@ -13,6 +13,7 @@ const AddTeamModal = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     AddTeam(authState.selectedTourId, teamName, dispatch);
+    setTeamName("");
   };
   useEffect(() => {
     console.log("Modal Mounted");

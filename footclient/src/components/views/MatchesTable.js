@@ -18,8 +18,8 @@ const MatchesTable = () => {
         if (response.length > 0) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 5 === 0) {
-              tempArr.push(response.slice(entry, entry + 5));
+            if (entry % 10 === 0) {
+              tempArr.push(response.slice(entry, entry + 10));
             }
             return null;
           });
@@ -43,6 +43,7 @@ const MatchesTable = () => {
       >
         <thead>
           <tr>
+            <th>#</th>
             {headers.map((val, key) => {
               return <th key={key}>{val}</th>;
             })}
@@ -57,6 +58,7 @@ const MatchesTable = () => {
             arr[currentPage].map((val, key) => {
               return (
                 <tr key={key}>
+                  <td>{key + 1}</td>
                   <td>{val.teamAName}</td>
                   <td>{val.teamBName}</td>
                   <td>{val.round}</td>

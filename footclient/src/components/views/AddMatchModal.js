@@ -20,14 +20,25 @@ const AddMatchModal = () => {
     event.preventDefault();
     AddMatch(teamA, teamB, round, authState, dispatch);
   };
+
   useEffect(() => {
-    FetchTeams(authState, dispatch).then((response) => {
-      setTeams(response);
-    });
+    FetchTeams(authState, dispatch)
+      .then((response) => {
+        setTeams(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [show]);
   return (
     <>
-      <Button variant="dark" onClick={handleShow}>
+      <Button
+        disabled={
+          authState.teams[0] === undefined || authState.teams.length < 2
+        }
+        variant="dark"
+        onClick={handleShow}
+      >
         Add Match
       </Button>
       <Modal
@@ -47,7 +58,7 @@ const AddMatchModal = () => {
             </Row>
             <Row className="ml-3 pt-3">
               <Col>
-                Select Team 1
+                {teamA || `Select Team 1`}
                 <Dropdown>
                   <Dropdown.Toggle variant="dark">
                     {teamA === "" ? "Team 1" : teamA}
@@ -55,26 +66,28 @@ const AddMatchModal = () => {
                   <Dropdown.Menu
                     style={{ maxHeight: "35vh", overflowY: "auto" }}
                   >
-                    {teams.map((val, key) => {
-                      if (teamA === val.teamName || teamB === val.teamName)
-                        return null;
-                      else
-                        return (
-                          <Dropdown.Item
-                            key={key}
-                            onClick={() => {
-                              setTeamA(val.teamName);
-                            }}
-                          >
-                            {val.teamName}
-                          </Dropdown.Item>
-                        );
-                    })}
+                    {teams !== undefined && teams.length > 0
+                      ? teams.map((val, key) => {
+                          if (teamA === val.teamName || teamB === val.teamName)
+                            return null;
+                          else
+                            return (
+                              <Dropdown.Item
+                                key={key}
+                                onClick={() => {
+                                  setTeamA(val.teamName);
+                                }}
+                              >
+                                {val.teamName}
+                              </Dropdown.Item>
+                            );
+                        })
+                      : null}
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>
               <Col>
-                Select Team 1
+                {teamB || `Select Team 2`}
                 <Dropdown>
                   <Dropdown.Toggle variant="dark">
                     {teamB === "" ? "Team 2" : teamB}
@@ -82,21 +95,23 @@ const AddMatchModal = () => {
                   <Dropdown.Menu
                     style={{ maxHeight: "35vh", overflowY: "auto" }}
                   >
-                    {teams.map((val, key) => {
-                      if (teamA === val.teamName || teamB === val.teamName)
-                        return null;
-                      else
-                        return (
-                          <Dropdown.Item
-                            key={key}
-                            onClick={() => {
-                              setTeamB(val.teamName);
-                            }}
-                          >
-                            {val.teamName}
-                          </Dropdown.Item>
-                        );
-                    })}
+                    {teams !== undefined && teams.length > 0
+                      ? teams.map((val, key) => {
+                          if (teamA === val.teamName || teamB === val.teamName)
+                            return null;
+                          else
+                            return (
+                              <Dropdown.Item
+                                key={key}
+                                onClick={() => {
+                                  setTeamB(val.teamName);
+                                }}
+                              >
+                                {val.teamName}
+                              </Dropdown.Item>
+                            );
+                        })
+                      : null}
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>
