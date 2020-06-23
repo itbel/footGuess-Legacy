@@ -33,7 +33,7 @@ const MatchesTable = () => {
   }, [authState.matches, dispatch, authState]);
 
   return (
-    <Row className="justify-content-center">
+    <Row>
       <Table
         style={{ padding: "0" }}
         bordered
@@ -41,15 +41,6 @@ const MatchesTable = () => {
         variant="light"
         size="sm"
       >
-        <thead>
-          <tr>
-            <th>#</th>
-            {headers.map((val, key) => {
-              return <th key={key}>{val}</th>;
-            })}
-            <th colSpan={1}></th>
-          </tr>
-        </thead>
         <tbody>
           {arr !== undefined &&
           arr.length > 0 &&

@@ -110,6 +110,8 @@ server.route("/players").post((req, res, next) => {
                   }
                 });
               });
+              response.points.sort();
+              console.log(response);
               res.json(response);
             }
           }

@@ -1,4 +1,4 @@
-import { Table } from "react-bootstrap";
+import { Table, Container } from "react-bootstrap";
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../App";
 import FetchPlayers from "../functional/FetchPlayers";
@@ -14,26 +14,28 @@ const PointsTable = () => {
     }
   }, []);
   return (
-    <Table striped hover variant="light">
-      <thead>
-        <tr>
-          <th>Player Name</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-        {players !== undefined
-          ? players.map((player, key) => {
-              return (
-                <tr key={key}>
-                  <td>{player.name}</td>
-                  <td>{player.points}</td>
-                </tr>
-              );
-            })
-          : null}
-      </tbody>
-    </Table>
+    <Container>
+      <Table striped hover variant="light">
+        <thead>
+          <tr>
+            <th>Player Name</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {players !== undefined
+            ? players.map((player, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{player.name}</td>
+                    <td>{player.points}</td>
+                  </tr>
+                );
+              })
+            : null}
+        </tbody>
+      </Table>
+    </Container>
   );
 };
 

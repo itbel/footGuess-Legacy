@@ -1,4 +1,4 @@
-import { Table, Form, Dropdown } from "react-bootstrap";
+import { Table, Form, Row, Dropdown, Container } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
@@ -42,28 +42,30 @@ const MatchesTable = () => {
     }
   }, [round]);
   return (
-    <>
-      <Dropdown className="pl-2">
-        <Dropdown.Toggle size="sm" variant="light">
-          <b>Round: {round}</b>
-        </Dropdown.Toggle>
-        <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-          {rounds.map((val, key) => {
-            return (
-              <Dropdown.Item
-                key={key}
-                name={val}
-                onClick={(e) => {
-                  setCurrentPage(0);
-                  setRound(parseInt(e.target.name));
-                }}
-              >
-                {val}
-              </Dropdown.Item>
-            );
-          })}
-        </Dropdown.Menu>
-      </Dropdown>
+    <Container>
+      <Row className="justify-content-center">
+        <Dropdown className="pl-2">
+          <Dropdown.Toggle size="sm" variant="light">
+            <b>Round: {round}</b>
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+            {rounds.map((val, key) => {
+              return (
+                <Dropdown.Item
+                  key={key}
+                  name={val}
+                  onClick={(e) => {
+                    setCurrentPage(0);
+                    setRound(parseInt(e.target.name));
+                  }}
+                >
+                  {val}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
+      </Row>
       <Table
         style={{ marginTop: "16px" }}
         responsive
@@ -142,7 +144,7 @@ const MatchesTable = () => {
           ) : null}
         </tbody>
       </Table>
-    </>
+    </Container>
   );
 };
 

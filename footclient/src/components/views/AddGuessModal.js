@@ -31,7 +31,7 @@ const AddGuessModal = () => {
     FetchUnguessedMatches(authState).then((response) => {
       setMatches(response);
     });
-  }, [show, selectedMatch]);
+  }, [show]);
 
   return (
     <>
