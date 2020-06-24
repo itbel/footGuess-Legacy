@@ -67,9 +67,12 @@ const AddGuessModal = () => {
 
               <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
                 {matches !== undefined
-                  ? matches.map((val, entry) => {
+                  ? matches.map((val, key) => {
                       return (
-                        <Dropdown.Item onClick={() => setSelectedMatch(val)}>
+                        <Dropdown.Item
+                          key={key}
+                          onClick={() => setSelectedMatch(val)}
+                        >
                           {val.teamAName} x {val.teamBName}
                         </Dropdown.Item>
                       );

@@ -12,7 +12,7 @@ const PointsTable = () => {
         setPlayers(response);
       });
     }
-  }, []);
+  }, [state]);
   return (
     <Container>
       <Table striped hover variant="light">

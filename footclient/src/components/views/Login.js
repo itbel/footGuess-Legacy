@@ -17,7 +17,6 @@ const Login = (props) => {
   const [data, setData] = useState(initialState);
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(state);
     setData({
       ...data,
       isSubmitting: true,

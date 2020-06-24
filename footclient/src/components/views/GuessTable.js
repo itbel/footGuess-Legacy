@@ -86,9 +86,9 @@ const MatchesTable = () => {
         </thead>
         <tbody>
           {arr !== undefined && arr[currentPage] !== undefined ? (
-            arr[currentPage].map((val, entry) => {
+            arr[currentPage].map((val, key) => {
               return (
-                <tr>
+                <tr key={key}>
                   <td className="text-center">
                     <b>
                       {val.teamAName} X {val.teamBName}

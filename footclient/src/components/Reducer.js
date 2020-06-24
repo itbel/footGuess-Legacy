@@ -8,6 +8,13 @@ const Reducer = (state, action) => {
         user: action.payload.name,
         userid: action.payload._id,
       };
+    case "LOGOUT":
+      localStorage.clear();
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+      };
     case "FETCH_ALL_TOURNAMENTS":
       if (state.allTournaments !== action.payload) {
         return {
@@ -46,13 +53,6 @@ const Reducer = (state, action) => {
       return {
         ...state,
         ownedTournaments: action.payload,
-      };
-    case "LOGOUT":
-      localStorage.clear();
-      return {
-        ...state,
-        isAuthenticated: false,
-        user: null,
       };
     default:
       return state;

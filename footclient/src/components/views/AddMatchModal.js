@@ -29,7 +29,7 @@ const AddMatchModal = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [show]);
+  }, [show, state, dispatch]);
   return (
     <>
       <Button

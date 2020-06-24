@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/views/Login";
 import Dashboard from "./components/views/Dashboard";
@@ -20,7 +20,6 @@ function App() {
             <Context.Consumer>
               {(ctr) => (
                 <Route path="/">
-                  {console.log(ctr)}
                   {!ctr[0].isAuthenticated ? <Login /> : <Dashboard />}
                 </Route>
               )}
