@@ -15,9 +15,7 @@ const CreateTournamentModal = () => {
       console.log(response);
     });
   };
-  useEffect(() => {
-    console.log("Modal Mounted");
-  }, [show]);
+  useEffect(() => {}, [show]);
 
   return (
     <>
