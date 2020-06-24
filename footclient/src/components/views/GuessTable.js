@@ -1,21 +1,20 @@
-import { Table, Form, Dropdown } from "react-bootstrap";
+import { Table, Pagination, Row, Dropdown, Container } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
 const MatchesTable = () => {
-  const { state: authState } = useContext(AuthContext);
+  const [state] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
-  const [arr, setArr] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
 
   useEffect(() => {
-    console.log("Guess Table Mounted. Fetching Data");
-    if (authState.selectedTourId !== undefined) {
-      FetchHighestRound(authState).then((response) => {
+    if (state.selectedTourId !== undefined) {
+      FetchHighestRound(state).then((response) => {
         if (response.length > 0) {
           let tempArr = [];
           for (let i = 1; i <= response[0].round; i++) {
@@ -24,46 +23,48 @@ const MatchesTable = () => {
           setRounds(tempArr);
         }
       });
-      FetchUserGuesses(authState, round).then((response) => {
+      FetchUserGuesses(state, round).then((response) => {
         if (response !== undefined) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 10 === 0) {
-              tempArr.push(response.slice(entry, entry + 10));
+            if (entry % 5 === 0) {
+              tempArr.push(response.slice(entry, entry + 5));
             }
             return null;
           });
-          setArr(tempArr);
+          setMatches(tempArr);
           setWasFetched(true);
         } else {
-          setArr([]);
+          setMatches([]);
         }
       });
     }
-  }, [round]);
+  }, [round, state]);
   return (
-    <>
-      <Dropdown className="pl-2">
-        <Dropdown.Toggle size="sm" variant="light">
-          <b>Round: {round}</b>
-        </Dropdown.Toggle>
-        <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-          {rounds.map((val, key) => {
-            return (
-              <Dropdown.Item
-                key={key}
-                name={val}
-                onClick={(e) => {
-                  setCurrentPage(0);
-                  setRound(parseInt(e.target.name));
-                }}
-              >
-                {val}
-              </Dropdown.Item>
-            );
-          })}
-        </Dropdown.Menu>
-      </Dropdown>
+    <Container>
+      <Row className="justify-content-center">
+        <Dropdown className="pl-2">
+          <Dropdown.Toggle size="sm" variant="light">
+            <b>Round: {round}</b>
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+            {rounds.map((val, key) => {
+              return (
+                <Dropdown.Item
+                  key={key}
+                  name={val}
+                  onClick={(e) => {
+                    setCurrentPage(0);
+                    setRound(parseInt(e.target.name));
+                  }}
+                >
+                  {val}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
+      </Row>
       <Table
         style={{ marginTop: "16px" }}
         responsive
@@ -74,19 +75,16 @@ const MatchesTable = () => {
       >
         <thead>
           <tr>
-            <th colSpan={4} className="text-center"></th>
-          </tr>
-          <tr>
             <th className="text-center">Match</th>
             <th>Guess</th>
             <th>Result</th>
           </tr>
         </thead>
         <tbody>
-          {arr !== undefined && arr[currentPage] !== undefined ? (
-            arr[currentPage].map((val, entry) => {
+          {matches !== undefined && matches[currentPage] !== undefined ? (
+            matches[currentPage].map((val, key) => {
               return (
-                <tr>
+                <tr key={key}>
                   <td className="text-center">
                     <b>
                       {val.teamAName} X {val.teamBName}
@@ -110,7 +108,7 @@ const MatchesTable = () => {
                 </tr>
               );
             })
-          ) : authState.selectedTourId === undefined ? (
+          ) : state.selectedTourId === undefined ? (
             <tr>
               <td>Tournament must be selected</td>
             </tr>
@@ -119,30 +117,28 @@ const MatchesTable = () => {
               <td colSpan={4}>No Results</td>
             </tr>
           )}
-          {arr !== undefined && arr.length > 1 ? (
-            <tr>
-              <td colSpan={4}>
-                <Form.Control
-                  style={{ width: "20%" }}
-                  value={currentPage}
-                  onChange={(e) => {
-                    setCurrentPage(e.target.value);
-                  }}
-                  as="select"
-                  size="sm"
-                >
-                  {arr.length > 0 && wasFetched
-                    ? arr.map((val, index) => {
-                        return <option key={index}>{index}</option>;
-                      })
-                    : "No Results"}
-                </Form.Control>
-              </td>
-            </tr>
-          ) : null}
+          <tr>
+            <td colSpan={3}>
+              <Pagination variant="dark">
+                {matches.map((val, key) => {
+                  return (
+                    <Pagination.Item
+                      onClick={() => {
+                        setCurrentPage(key);
+                      }}
+                      active={key === currentPage}
+                      key={key}
+                    >
+                      {key + 1}
+                    </Pagination.Item>
+                  );
+                })}
+              </Pagination>
+            </td>
+          </tr>
         </tbody>
       </Table>
-    </>
+    </Container>
   );
 };
 

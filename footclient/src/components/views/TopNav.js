@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const TopNav = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
   const [tournaments, setTournaments] = useState([]);
   useEffect(() => {
     let arr = [];
-    let entries = Object.entries(authState.ownedTournaments);
+    let entries = Object.entries(state.ownedTournaments);
     for (let entry of entries) {
       arr.push(entry[1].name);
     }
     setTournaments(arr);
-  }, [authState.ownedTournaments]);
+  }, [state.ownedTournaments]);
   return (
     <Navbar
       bg="dark"
@@ -33,11 +33,9 @@ const TopNav = () => {
         </Link>
         <NavDropdown
           disabled={
-            authState.selectedTourName === undefined ||
-            authState.selectedTourName !==
-              tournaments.find(
-                (element) => element === authState.selectedTourName
-              )
+            state.selectedTourName === undefined ||
+            state.selectedTourName !==
+              tournaments.find((element) => element === state.selectedTourName)
           }
           title="Manage Tournaments"
           id="nav-dropdown"
@@ -47,9 +45,7 @@ const TopNav = () => {
             className="d-flex justify-content-center font-weight-bold"
             style={{ color: "green" }}
           >
-            {authState.selectedTourName === undefined
-              ? ""
-              : authState.selectedTourName}
+            {state.selectedTourName === undefined ? "" : state.selectedTourName}
           </NavDropdown.Item>
           <NavDropdown.Divider />
 

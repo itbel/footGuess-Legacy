@@ -1,9 +1,11 @@
 import Axios from "axios";
 
-const FetchHighestRound = (authState) => {
+const FetchPlayers = (authState) => {
   return Axios.post(
-    "http://localhost:3001/matches/getmaxround",
-    { tourid: authState.selectedTourId },
+    "http://localhost:3001/tournaments/players",
+    {
+      tournamentid: authState.selectedTourId,
+    },
     { timeout: 2000 }
   )
     .then((response) => {
@@ -14,4 +16,4 @@ const FetchHighestRound = (authState) => {
     });
 };
 
-export default FetchHighestRound;
+export default FetchPlayers;

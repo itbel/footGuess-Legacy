@@ -1,17 +1,16 @@
 import { Modal, Button, Dropdown, Form, Row } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import FetchUnguessedMatches from "../functional/FetchUnguessedMatches";
 import AddGuess from "../functional/AddGuess";
 
 const AddGuessModal = () => {
-  const { state: authState } = useContext(AuthContext);
+  const [state] = useContext(Context);
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState();
   const [teamAguess, setTeamAguess] = useState();
   const [teamBguess, setTeamBguess] = useState();
 
-  // Modal Functionality
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -19,7 +18,7 @@ const AddGuessModal = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (teamAguess !== undefined && teamBguess !== undefined) {
-      AddGuess(teamAguess, teamBguess, selectedMatch._id, authState).then(
+      AddGuess(teamAguess, teamBguess, selectedMatch._id, state).then(
         (response) => {
           console.log(response);
         }
@@ -28,16 +27,16 @@ const AddGuessModal = () => {
   };
 
   useEffect(() => {
-    FetchUnguessedMatches(authState).then((response) => {
+    FetchUnguessedMatches(state).then((response) => {
       setMatches(response);
     });
-  }, [show, selectedMatch]);
+  }, [show, state]);
 
   return (
     <>
       <Button
         variant="dark"
-        disabled={authState.selectedTourId === undefined}
+        disabled={state.selectedTourId === undefined}
         onClick={handleShow}
       >
         Add Guess
@@ -67,9 +66,12 @@ const AddGuessModal = () => {
 
               <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
                 {matches !== undefined
-                  ? matches.map((val, entry) => {
+                  ? matches.map((val, key) => {
                       return (
-                        <Dropdown.Item onClick={() => setSelectedMatch(val)}>
+                        <Dropdown.Item
+                          key={key}
+                          onClick={() => setSelectedMatch(val)}
+                        >
                           {val.teamAName} x {val.teamBName}
                         </Dropdown.Item>
                       );

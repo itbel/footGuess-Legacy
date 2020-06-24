@@ -84,7 +84,6 @@ server.route("/getmaxround").post((req, res, next) => {
       else {
         doc._id = undefined;
         doc.tournamentid = undefined;
-
         res.json(doc);
       }
     });

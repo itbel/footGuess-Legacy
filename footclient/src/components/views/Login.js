@@ -1,20 +1,14 @@
 import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { Col, Row, Container, Button, Form } from "react-bootstrap";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import { useHistory } from "react-router-dom";
 
 const Login = (props) => {
   const history = useHistory(props.history);
-  const { dispatch } = useContext(AuthContext);
-  const initialState = {
-    user: "",
-    pass: "",
-    userid: "",
-    isSubmitting: false,
-    errorMessage: null,
-  };
-  const [data, setData] = useState(initialState);
+  const [state, dispatch] = useContext(Context);
+
+  const [data, setData] = useState(state);
   const handleSubmit = (event) => {
     event.preventDefault();
     setData({
@@ -34,7 +28,6 @@ const Login = (props) => {
         .then((response) => {
           if (response.data.msg === "Invalid Credentials!") {
           } else {
-            console.log("Successfully authenticated.");
             dispatch({
               type: "LOGIN",
               payload: response.data,

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Dropdown } from "react-bootstrap";
 import { Route, Switch, useHistory } from "react-router-dom";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 
 // Views
 import TopNav from "./TopNav";
@@ -18,21 +18,18 @@ import Results from "./Results";
 // Functionals
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
-import FetchJoinedTournamentsv2 from "../functional/FetchJoinedTournaments_v2";
+import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   const fetchData = () => {
-    FetchJoinedTournamentsv2(authState.userid).then((val) => {
-      dispatch({ type: "FETCH_JOINED_TOURNAMENTS", payload: val });
-    });
+    FetchJoinedTournaments(state, dispatch);
     FetchAll(dispatch);
-    FetchOwned(authState, dispatch);
+    FetchOwned(state, dispatch);
   };
   useEffect(() => {
-    console.log("Updating from dashboard");
     fetchData();
     history.push("/home");
   }, [history]);
@@ -52,11 +49,7 @@ const Dashboard = (props) => {
         <Col>
           <Row className="d-flex justify-content-end m-0">
             <Col xs={6}>
-              {!isLeagueSet ? (
-                <h1>Select a League:&nbsp; </h1>
-              ) : (
-                <h1>{authState.selectedTourName}</h1>
-              )}
+              {!isLeagueSet ? <h1>Select a League:&nbsp; </h1> : ""}
             </Col>
             <Col xs={6}>
               <Dropdown className="d-flex mt-2 justify-content-end">
@@ -68,8 +61,8 @@ const Dashboard = (props) => {
                   Tournaments
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {authState.joinedTournaments !== undefined
-                    ? authState.joinedTournaments.map((val, key) => {
+                  {state.joinedTournaments !== undefined
+                    ? state.joinedTournaments.map((val, key) => {
                         return (
                           <Dropdown.Item
                             key={key}
@@ -93,15 +86,13 @@ const Dashboard = (props) => {
           </Row>
 
           <Row className="justify-content-center">
-            <Col lg={2} className="mt-3 d-none d-md-block">
-              {authState.selectedTourId !== undefined ? (
-                <SideNav></SideNav>
-              ) : null}
+            <Col lg={2} className="mt-3">
+              {state.selectedTourId !== undefined ? <SideNav></SideNav> : null}
             </Col>
             <Col
               sm={12}
               md={12}
-              lg={authState.selectedTourId !== undefined ? 10 : 12}
+              lg={state.selectedTourId !== undefined ? 10 : 12}
               className="mt-3"
             >
               <Switch>

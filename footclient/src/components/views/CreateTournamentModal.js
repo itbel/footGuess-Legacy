@@ -1,25 +1,21 @@
 import { Modal, Row, Button, Form } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import CreateTournament from "../functional/CreateTournament";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 
 const CreateTournamentModal = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [name, setName] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
-    CreateTournament(name, authState.userid, authState, dispatch).then(
-      (response) => {
-        console.log(response);
-      }
-    );
+    CreateTournament(name, state.userid, state, dispatch).then((response) => {
+      console.log(response);
+    });
   };
-  useEffect(() => {
-    console.log("Modal Mounted");
-  }, [show]);
+  useEffect(() => {}, [show]);
 
   return (
     <>

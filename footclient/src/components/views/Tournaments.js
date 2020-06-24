@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Table, Button } from "react-bootstrap";
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
 import CreateTournamentModal from "../views/CreateTournamentModal";
 
 const Tournaments = () => {
-  const { state: authState, dispatch } = useContext(AuthContext);
+  const [state, dispatch] = useContext(Context);
   const [tournaments, setTournaments] = useState([]);
 
   useEffect(() => {
     let arr = [];
-    let entries = Object.entries(authState.joinedTournaments);
+    let entries = Object.entries(state.joinedTournaments);
     for (let entry of entries) {
       arr.push(entry[1].name);
     }
     setTournaments(arr);
     console.log("Updating Tournaments Component");
-  }, [authState.joinedTournaments]);
+  }, [state.joinedTournaments]);
   return (
     <div
       style={{
@@ -58,7 +58,7 @@ const Tournaments = () => {
             </thead>
 
             <tbody>
-              {authState.allTournaments.map((val, key) => {
+              {state.allTournaments.map((val, key) => {
                 return (
                   <tr key={key}>
                     <td className="d-table-cell">{val.name}</td>
@@ -71,8 +71,8 @@ const Tournaments = () => {
                         onClick={() => {
                           JoinTournament(
                             val.tournamentid,
-                            authState.userid,
-                            authState,
+                            state.userid,
+                            state,
                             dispatch
                           );
                         }}
@@ -91,8 +91,8 @@ const Tournaments = () => {
                         onClick={() => {
                           LeaveTournament(
                             val.tournamentid,
-                            authState.userid,
-                            authState,
+                            state.userid,
+                            state,
                             dispatch
                           );
                         }}

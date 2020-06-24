@@ -1,17 +1,15 @@
 import React, { useEffect, useContext } from "react";
 import { Col, Row, Container } from "react-bootstrap";
 
-import { AuthContext } from "../../App";
+import { Context } from "../Store";
 
 import AddMatchModal from "../views/AddMatchModal";
 import MatchesTable from "./MatchesTable";
 
 const Matches = () => {
-  const { state: authState } = useContext(AuthContext);
+  const [state] = useContext(Context);
 
-  useEffect(() => {
-    console.log("Updating Matches Component");
-  }, [authState.selectedTourId]);
+  useEffect(() => {}, [state.selectedTourId]);
 
   return (
     <div
