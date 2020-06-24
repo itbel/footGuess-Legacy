@@ -1,4 +1,4 @@
-import { Table, Form, Button, Row } from "react-bootstrap";
+import { Table, Button, Row, Pagination } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import FetchMatches from "../functional/FetchMatches";
 import { Context } from "../Store";
@@ -7,11 +7,10 @@ import RemoveMatch from "../functional/RemoveMatch";
 const MatchesTable = () => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
-  const [arr, setArr] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
 
   useEffect(() => {
-    console.log("Matches Table Mounted. Fetching Data");
     if (state.selectedTourId !== undefined) {
       FetchMatches(state, dispatch).then((response) => {
         if (response.length > 0) {
@@ -22,10 +21,10 @@ const MatchesTable = () => {
             }
             return null;
           });
-          setArr(tempArr);
+          setMatches(tempArr);
           setWasFetched(true);
         } else {
-          setArr([]);
+          setMatches([]);
         }
       });
     }
@@ -41,11 +40,11 @@ const MatchesTable = () => {
         size="sm"
       >
         <tbody>
-          {arr !== undefined &&
-          arr.length > 0 &&
-          arr[currentPage] !== undefined &&
+          {matches !== undefined &&
+          matches.length > 0 &&
+          matches[currentPage] !== undefined &&
           wasFetched ? (
-            arr[currentPage].map((val, key) => {
+            matches[currentPage].map((val, key) => {
               return (
                 <tr key={key}>
                   <td>{key + 1}</td>
@@ -56,7 +55,7 @@ const MatchesTable = () => {
                     <Button
                       variant="dark"
                       onClick={() => {
-                        if (arr[currentPage].length === 1) {
+                        if (matches[currentPage].length === 1) {
                           if (currentPage !== 0)
                             setCurrentPage(currentPage - 1);
                         }
@@ -74,31 +73,25 @@ const MatchesTable = () => {
               <td colSpan={4}>No matches found</td>
             </tr>
           )}
-          {arr !== undefined && arr.length > 0 ? (
-            <tr>
-              <td colSpan={4}>
-                <Form.Control
-                  style={{ width: "20%" }}
-                  value={currentPage}
-                  onChange={(e) => {
-                    setCurrentPage(e.target.value);
-                  }}
-                  as="select"
-                  size="sm"
-                >
-                  {arr.length > 0 && wasFetched
-                    ? arr.map((val, index) => {
-                        return <option key={index}>{index}</option>;
-                      })
-                    : "No Results"}
-                </Form.Control>
-              </td>
-            </tr>
-          ) : (
-            <tr>
-              <td colSpan={4}></td>
-            </tr>
-          )}
+          <tr>
+            <td colSpan={5}>
+              <Pagination variant="dark">
+                {matches.map((val, key) => {
+                  return (
+                    <Pagination.Item
+                      onClick={() => {
+                        setCurrentPage(key);
+                      }}
+                      active={key === currentPage}
+                      key={key}
+                    >
+                      {key + 1}
+                    </Pagination.Item>
+                  );
+                })}
+              </Pagination>
+            </td>
+          </tr>
         </tbody>
       </Table>
     </Row>

@@ -18,21 +18,18 @@ import Results from "./Results";
 // Functionals
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
-import FetchJoinedTournamentsv2 from "../functional/FetchJoinedTournaments_v2";
+import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
 const Dashboard = (props) => {
   const history = useHistory(props.history);
   const [state, dispatch] = useContext(Context);
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   const fetchData = () => {
-    FetchJoinedTournamentsv2(state.userid).then((val) => {
-      dispatch({ type: "FETCH_JOINED_TOURNAMENTS", payload: val });
-    });
+    FetchJoinedTournaments(state, dispatch);
     FetchAll(dispatch);
     FetchOwned(state, dispatch);
   };
   useEffect(() => {
-    console.log("Updating from dashboard");
     fetchData();
     history.push("/home");
   }, [history]);

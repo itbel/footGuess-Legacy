@@ -1,16 +1,14 @@
 import Axios from "axios";
 
-const FetchJoinedTournaments = (authState, dispatch) => {
-  console.log("FetchJoinedTournaments called.");
+const FetchJoinedTournaments = (state, dispatch) => {
   Axios.post(
     "http://localhost:3001/tournaments/getjoinedtournaments",
     {
-      userid: authState.userid,
+      userid: state.userid,
     },
     { timeout: 2000 }
   )
     .then((response) => {
-      console.log(response.data);
       dispatch({
         type: "FETCH_JOINED_TOURNAMENTS",
         payload: response.data,

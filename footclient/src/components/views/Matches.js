@@ -9,9 +9,7 @@ import MatchesTable from "./MatchesTable";
 const Matches = () => {
   const [state] = useContext(Context);
 
-  useEffect(() => {
-    console.log("Updating Matches Component");
-  }, [state.selectedTourId]);
+  useEffect(() => {}, [state.selectedTourId]);
 
   return (
     <div

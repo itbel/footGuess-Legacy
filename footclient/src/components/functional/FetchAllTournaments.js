@@ -1,7 +1,6 @@
 import Axios from "axios";
 
 const FetchAllTournaments = (dispatch) => {
-  console.log("FetchAllTournaments called.");
   Axios.get(
     "http://localhost:3001/tournaments/getalltournaments",
     {},

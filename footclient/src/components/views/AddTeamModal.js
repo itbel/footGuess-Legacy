@@ -15,9 +15,7 @@ const AddTeamModal = () => {
     AddTeam(state.selectedTourId, teamName, dispatch);
     setTeamName("");
   };
-  useEffect(() => {
-    console.log("Modal Mounted");
-  }, [show]);
+  useEffect(() => {}, [show]);
 
   return (
     <>

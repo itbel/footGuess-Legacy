@@ -11,7 +11,6 @@ const AddGuessModal = () => {
   const [teamAguess, setTeamAguess] = useState();
   const [teamBguess, setTeamBguess] = useState();
 
-  // Modal Functionality
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -31,7 +30,7 @@ const AddGuessModal = () => {
     FetchUnguessedMatches(state).then((response) => {
       setMatches(response);
     });
-  }, [show]);
+  }, [show, state]);
 
   return (
     <>

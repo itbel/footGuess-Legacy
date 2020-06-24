@@ -7,14 +7,8 @@ import { useHistory } from "react-router-dom";
 const Login = (props) => {
   const history = useHistory(props.history);
   const [state, dispatch] = useContext(Context);
-  const initialState = {
-    user: "",
-    pass: "",
-    userid: "",
-    isSubmitting: false,
-    errorMessage: null,
-  };
-  const [data, setData] = useState(initialState);
+
+  const [data, setData] = useState(state);
   const handleSubmit = (event) => {
     event.preventDefault();
     setData({
@@ -34,7 +28,6 @@ const Login = (props) => {
         .then((response) => {
           if (response.data.msg === "Invalid Credentials!") {
           } else {
-            console.log("Successfully authenticated.");
             dispatch({
               type: "LOGIN",
               payload: response.data,
@@ -49,7 +42,6 @@ const Login = (props) => {
           });
         });
     }
-    console.log(state);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Table, Form, Row, Dropdown, Container } from "react-bootstrap";
+import { Table, Pagination, Row, Dropdown, Container } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
@@ -7,13 +7,12 @@ import FetchHighestRound from "../functional/FetchHighestRound";
 const MatchesTable = () => {
   const [state] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
-  const [arr, setArr] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
 
   useEffect(() => {
-    console.log("Guess Table Mounted. Fetching Data");
     if (state.selectedTourId !== undefined) {
       FetchHighestRound(state).then((response) => {
         if (response.length > 0) {
@@ -28,19 +27,19 @@ const MatchesTable = () => {
         if (response !== undefined) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 10 === 0) {
-              tempArr.push(response.slice(entry, entry + 10));
+            if (entry % 5 === 0) {
+              tempArr.push(response.slice(entry, entry + 5));
             }
             return null;
           });
-          setArr(tempArr);
+          setMatches(tempArr);
           setWasFetched(true);
         } else {
-          setArr([]);
+          setMatches([]);
         }
       });
     }
-  }, [round]);
+  }, [round, state]);
   return (
     <Container>
       <Row className="justify-content-center">
@@ -76,17 +75,14 @@ const MatchesTable = () => {
       >
         <thead>
           <tr>
-            <th colSpan={4} className="text-center"></th>
-          </tr>
-          <tr>
             <th className="text-center">Match</th>
             <th>Guess</th>
             <th>Result</th>
           </tr>
         </thead>
         <tbody>
-          {arr !== undefined && arr[currentPage] !== undefined ? (
-            arr[currentPage].map((val, key) => {
+          {matches !== undefined && matches[currentPage] !== undefined ? (
+            matches[currentPage].map((val, key) => {
               return (
                 <tr key={key}>
                   <td className="text-center">
@@ -121,27 +117,25 @@ const MatchesTable = () => {
               <td colSpan={4}>No Results</td>
             </tr>
           )}
-          {arr !== undefined && arr.length > 1 ? (
-            <tr>
-              <td colSpan={4}>
-                <Form.Control
-                  style={{ width: "20%" }}
-                  value={currentPage}
-                  onChange={(e) => {
-                    setCurrentPage(e.target.value);
-                  }}
-                  as="select"
-                  size="sm"
-                >
-                  {arr.length > 0 && wasFetched
-                    ? arr.map((val, index) => {
-                        return <option key={index}>{index}</option>;
-                      })
-                    : "No Results"}
-                </Form.Control>
-              </td>
-            </tr>
-          ) : null}
+          <tr>
+            <td colSpan={3}>
+              <Pagination variant="dark">
+                {matches.map((val, key) => {
+                  return (
+                    <Pagination.Item
+                      onClick={() => {
+                        setCurrentPage(key);
+                      }}
+                      active={key === currentPage}
+                      key={key}
+                    >
+                      {key + 1}
+                    </Pagination.Item>
+                  );
+                })}
+              </Pagination>
+            </td>
+          </tr>
         </tbody>
       </Table>
     </Container>

@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Context } from "../Store";
 import ResultsModal from "./ResultModal";
-import { Dropdown, Row, Table, Form, Container } from "react-bootstrap";
+import { Dropdown, Pagination, Row, Table, Container } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
@@ -13,7 +13,6 @@ const Results = () => {
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
   useEffect(() => {
-    console.log("Reloading and fetching round");
     FetchHighestRound(state).then((response) => {
       if (response.length > 0) {
         let tempArr = [];
@@ -27,8 +26,8 @@ const Results = () => {
       if (response.length > 0) {
         let tempArr = [];
         response.map((value, entry) => {
-          if (entry % 10 === 0) {
-            tempArr.push(response.slice(entry, entry + 10));
+          if (entry % 5 === 0) {
+            tempArr.push(response.slice(entry, entry + 5));
           }
           return null;
         });
@@ -72,11 +71,6 @@ const Results = () => {
         variant="light"
         size="sm"
       >
-        <thead>
-          <tr>
-            <th colSpan={4} className="text-center"></th>
-          </tr>
-        </thead>
         <tbody>
           {matches !== undefined &&
           matches[currentPage] !== undefined &&
@@ -114,33 +108,29 @@ const Results = () => {
               );
             })
           ) : (
-            <>
-              <tr>
-                <td colSpan={4}>No Results</td>
-              </tr>
-            </>
-          )}
-          {matches !== undefined &&
-          matches.length > 1 &&
-          matches[currentPage] !== undefined &&
-          wasFetched ? (
             <tr>
-              <td>
-                <Form.Control
-                  value={currentPage}
-                  onChange={(e) => {
-                    setCurrentPage(e.target.value);
-                  }}
-                  as="select"
-                  size="sm"
-                >
-                  {matches.map((val, index) => {
-                    return <option key={index}>{index}</option>;
-                  })}
-                </Form.Control>
-              </td>
+              <td colSpan={4}>No Results</td>
             </tr>
-          ) : null}
+          )}
+          <tr>
+            <td colSpan={4}>
+              <Pagination variant="dark">
+                {matches.map((val, key) => {
+                  return (
+                    <Pagination.Item
+                      onClick={() => {
+                        setCurrentPage(key);
+                      }}
+                      active={key === currentPage}
+                      key={key}
+                    >
+                      {key + 1}
+                    </Pagination.Item>
+                  );
+                })}
+              </Pagination>
+            </td>
+          </tr>
         </tbody>
       </Table>
     </Container>
