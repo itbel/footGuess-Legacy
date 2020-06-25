@@ -7,10 +7,19 @@ import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import { Context } from "../src/components/Store";
 import Store from "./components/Store";
+import { useSpring, animated } from "react-spring";
 
-function App() {
+const App = () => {
+  const fade = useSpring({
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+    },
+  });
   return (
-    <div className="App">
+    <animated.div className="App" style={fade}>
       <Router>
         <Store>
           <Switch>
@@ -27,8 +36,8 @@ function App() {
           </Switch>
         </Store>
       </Router>
-    </div>
+    </animated.div>
   );
-}
+};
 
 export default App;
