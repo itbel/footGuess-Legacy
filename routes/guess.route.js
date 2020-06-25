@@ -4,7 +4,7 @@ const server = express.Router();
 let guessModel = require("../models/guess.model");
 let matchModel = require("../models/match.model");
 
-server.route("/addguess").put((req, res, next) => {
+server.route("/add").put((req, res, next) => {
   console.log(`========== ADDING GUESS ==========`);
   guessModel.create(
     {
@@ -19,7 +19,7 @@ server.route("/addguess").put((req, res, next) => {
     }
   );
 });
-server.route("/guesses").post((req, res, next) => {
+server.route("/all").post((req, res, next) => {
   console.log(`========== FETCHING USER GUESSES ==========`);
   guessModel.find({ userid: req.body.userid }, (err, doc) => {
     if (err) next(err);

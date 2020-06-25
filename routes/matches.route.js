@@ -4,7 +4,7 @@ const server = express.Router();
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
 
-server.route("/addmatch").put((req, res, next) => {
+server.route("/add").put((req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
   matchModel.create(
     {
@@ -20,7 +20,7 @@ server.route("/addmatch").put((req, res, next) => {
   );
 });
 
-server.route("/addresult").patch((req, res, next) => {
+server.route("/update").patch((req, res, next) => {
   console.log(`========== UPDATING MATCH RESULT==========`);
   matchModel.findByIdAndUpdate(
     { _id: req.body.matchid },
@@ -32,7 +32,7 @@ server.route("/addresult").patch((req, res, next) => {
   );
 });
 // logic can be improved upon
-server.route("/getunguessedmatches").post((req, res, next) => {
+server.route("/unguessed").post((req, res, next) => {
   console.log("========== FETCHING UNGUESSED MATCHES ==========");
   matchModel.find(
     { tournamentid: req.body.tournamentid },
@@ -63,10 +63,10 @@ server.route("/getunguessedmatches").post((req, res, next) => {
   );
 });
 
-server.route("/getround").post((req, res, next) => {
+server.route("/round/:id&:round").get((req, res, next) => {
   console.log(`========== FETCHING ROUND ==========`);
   matchModel.find(
-    { tournamentid: req.body.tournamentid, round: req.body.round },
+    { tournamentid: req.params.id, round: req.params.round },
     (err, doc) => {
       if (err) res.json(err);
       else res.json(doc);
@@ -74,9 +74,9 @@ server.route("/getround").post((req, res, next) => {
   );
 });
 
-server.route("/getmaxround").post((req, res, next) => {
+server.route("/maxround/:id").get((req, res, next) => {
   matchModel
-    .find({ tournamentid: req.body.tourid })
+    .find({ tournamentid: req.params.id })
     .sort({ round: -1 })
     .limit(1)
     .exec((err, doc) => {
@@ -89,7 +89,7 @@ server.route("/getmaxround").post((req, res, next) => {
     });
 });
 
-server.route("/removematch").delete((req, res, next) => {
+server.route("/remove").delete((req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
   matchModel.findByIdAndDelete({ _id: req.body.matchid }, (err, doc) => {
     if (err) res.json(err);
@@ -97,9 +97,9 @@ server.route("/removematch").delete((req, res, next) => {
   });
 });
 
-server.route("/allmatches").post((req, res, next) => {
+server.route("/all/:id").get((req, res, next) => {
   console.log(`========== FETCHING ALL MATCHES IN TOURNAMENT ==========`);
-  matchModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
+  matchModel.find({ tournamentid: req.params.id }, (err, doc) => {
     if (err) console.log(err);
     else res.json(doc);
   });

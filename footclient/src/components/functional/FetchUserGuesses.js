@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const FetchUserGuesses = (authState, round) => {
   return Axios.post(
-    "http://localhost:3001/guess/guesses/",
+    "http://localhost:3001/api/guess/all",
     {
       userid: authState.userid,
       tournamentid: authState.selectedTourId,

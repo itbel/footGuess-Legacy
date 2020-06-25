@@ -1,11 +1,8 @@
 import Axios from "axios";
 
 const FetchTeams = (authState, dispatch) => {
-  return Axios.post(
-    "http://localhost:3001/teams/getteams",
-    {
-      tourid: authState.selectedTourId,
-    },
+  return Axios.get(
+    `http://localhost:3001/api/teams/all/${authState.selectedTourId}`,
     { timeout: 2000 }
   )
     .then((response) => {

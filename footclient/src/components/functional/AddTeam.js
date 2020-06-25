@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const AddTeam = (tourid, team, dispatch) => {
   Axios.put(
-    "http://localhost:3001/teams/addteam",
+    "http://localhost:3001/api/teams/add",
     {
       teamName: team,
       tournamentid: tourid,

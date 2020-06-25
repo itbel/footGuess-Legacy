@@ -6,7 +6,6 @@ import RemoveTeam from "../functional/RemoveTeam";
 
 const MatchesTable = () => {
   const [state, dispatch] = useContext(Context);
-  const [headers] = useState(["Team Name"]);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
   const [wasFetched, setWasFetched] = useState(false);
@@ -17,8 +16,8 @@ const MatchesTable = () => {
         if (response.length > 0) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 10 === 0) {
-              tempArr.push(response.slice(entry, entry + 10));
+            if (entry % 5 === 0) {
+              tempArr.push(response.slice(entry, entry + 5));
             }
             return null;
           });
@@ -34,14 +33,6 @@ const MatchesTable = () => {
   return (
     <Row className="justify-content-center">
       <Table bordered striped variant="light" size="sm">
-        <thead>
-          <tr>
-            {headers.map((val, key) => {
-              return <th key={key}>{val}</th>;
-            })}
-            <th colSpan={1}></th>
-          </tr>
-        </thead>
         <tbody>
           {matches !== undefined &&
           matches.length > 0 &&

@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const FetchOwnedTournaments = (authState, dispatch) => {
   Axios.post(
-    "http://localhost:3001/tournaments/getownedtournaments",
+    "http://localhost:3001/api/tournaments/owned",
     { userid: authState.userid },
     { timeout: 2000 }
   )

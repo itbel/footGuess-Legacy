@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const FetchUnguessedMatches = (authState) => {
   return Axios.post(
-    "http://localhost:3001/matches/getunguessedmatches",
+    "http://localhost:3001/api/matches/unguessed",
     {
       tournamentid: authState.selectedTourId,
       userid: authState.userid,

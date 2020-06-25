@@ -3,7 +3,7 @@ import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
 const LeaveTournament = (tournamentid, userid, authState, dispatch) => {
   Axios.patch(
-    "http://localhost:3001/tournaments/leave",
+    "http://localhost:3001/api/tournaments/leave",
     {
       tournamentid: tournamentid,
       userid: userid,
