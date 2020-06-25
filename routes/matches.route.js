@@ -63,10 +63,10 @@ server.route("/unguessed").post((req, res, next) => {
   );
 });
 
-server.route("/round").post((req, res, next) => {
+server.route("/round/:id&:round").get((req, res, next) => {
   console.log(`========== FETCHING ROUND ==========`);
   matchModel.find(
-    { tournamentid: req.body.tournamentid, round: req.body.round },
+    { tournamentid: req.params.id, round: req.params.round },
     (err, doc) => {
       if (err) res.json(err);
       else res.json(doc);
@@ -74,9 +74,9 @@ server.route("/round").post((req, res, next) => {
   );
 });
 
-server.route("/maxround").post((req, res, next) => {
+server.route("/maxround/:id").get((req, res, next) => {
   matchModel
-    .find({ tournamentid: req.body.tourid })
+    .find({ tournamentid: req.params.id })
     .sort({ round: -1 })
     .limit(1)
     .exec((err, doc) => {
@@ -97,9 +97,9 @@ server.route("/remove").delete((req, res, next) => {
   });
 });
 
-server.route("/all").post((req, res, next) => {
+server.route("/all/:id").get((req, res, next) => {
   console.log(`========== FETCHING ALL MATCHES IN TOURNAMENT ==========`);
-  matchModel.find({ tournamentid: req.body.tournamentid }, (err, doc) => {
+  matchModel.find({ tournamentid: req.params.id }, (err, doc) => {
     if (err) console.log(err);
     else res.json(doc);
   });

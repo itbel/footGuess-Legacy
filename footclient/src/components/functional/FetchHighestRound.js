@@ -1,9 +1,8 @@
 import Axios from "axios";
 
 const FetchHighestRound = (authState) => {
-  return Axios.post(
-    "http://localhost:3001/api/matches/maxround",
-    { tourid: authState.selectedTourId },
+  return Axios.get(
+    `http://localhost:3001/api/matches/maxround/${authState.selectedTourId}`,
     { timeout: 2000 }
   )
     .then((response) => {
