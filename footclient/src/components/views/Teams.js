@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import AddTeamModal from "./AddTeamModal";
 import TeamsTable from "../views/TeamsTable";
-
 const Teams = () => {
   return (
     <div
