@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const FetchTeams = (authState, dispatch) => {
   return Axios.post(
-    "http://localhost:3001/teams/getteams",
+    "http://localhost:3001/api/teams/all",
     {
       tourid: authState.selectedTourId,
     },

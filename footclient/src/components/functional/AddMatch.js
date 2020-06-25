@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const AddMatch = (teamA, teamB, round, authState, dispatch) => {
   Axios.put(
-    "http://localhost:3001/matches/addmatch",
+    "http://localhost:3001/api/matches/add",
     {
       tournamentid: authState.selectedTourId,
       round: round,

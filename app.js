@@ -29,11 +29,11 @@ const guessRouter = require("./routes/guess.route");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/users", usersRouter);
-app.use("/teams", teamsRouter);
-app.use("/tournaments", tournamentRouter);
-app.use("/matches", matchesRouter);
-app.use("/guess", guessRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/teams", teamsRouter);
+app.use("/api/tournaments", tournamentRouter);
+app.use("/api/matches", matchesRouter);
+app.use("/api/guess", guessRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port: ${process.env.PORT}`);

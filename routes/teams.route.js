@@ -3,7 +3,7 @@ const server = express.Router();
 
 let teamModel = require("../models/team.model");
 
-server.route("/addteam").put((req, res, next) => {
+server.route("/add").put((req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
   teamModel.create(
     {
@@ -21,7 +21,7 @@ server.route("/addteam").put((req, res, next) => {
   );
 });
 
-server.route("/deleteteam").delete((req, res, next) => {
+server.route("/remove").delete((req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
   teamModel.findByIdAndDelete({ _id: req.body.teamid }, (err, doc) => {
     if (err) res.json(err);
@@ -29,7 +29,7 @@ server.route("/deleteteam").delete((req, res, next) => {
   });
 });
 
-server.route("/getteams").post((req, res, next) => {
+server.route("/all").post((req, res, next) => {
   console.log(`========== FETCHING TOURNAMENT TEAMS ==========`);
   teamModel.find({ tournamentid: req.body.tourid }, {}, (err, doc) => {
     if (err) {

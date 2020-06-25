@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const FetchJoinedTournaments = (state, dispatch) => {
   Axios.post(
-    "http://localhost:3001/tournaments/getjoinedtournaments",
+    "http://localhost:3001/api/tournaments/joined",
     {
       userid: state.userid,
     },

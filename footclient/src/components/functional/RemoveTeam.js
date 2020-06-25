@@ -3,7 +3,7 @@ import FetchTeams from "./FetchTeams";
 
 const RemoveTeam = (teamid, authState, dispatch) => {
   Axios.delete(
-    "http://localhost:3001/teams/deleteteam",
+    "http://localhost:3001/api/teams/remove",
     {
       data: {
         teamid: teamid,
