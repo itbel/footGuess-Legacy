@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const AddTeam = (tourid, team, dispatch) => {
   Axios.post(
-    "http://localhost:3001/api/teams/add",
+    "http://localhost:3001/api/teams/manage",
     {
       teamName: team,
       tournamentid: tourid,

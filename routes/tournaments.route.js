@@ -4,7 +4,7 @@ const server = express.Router();
 let tournamentModel = require("../models/tournament.model");
 let userModel = require("../models/user.model");
 
-server.route("/create").post((req, res, next) => {
+server.route("/manage").post((req, res, next) => {
   console.log(`========== CREATING A TOURNAMENT ==========`);
   tournamentModel.create(
     {

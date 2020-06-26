@@ -3,7 +3,7 @@ const server = express.Router();
 
 let teamModel = require("../models/team.model");
 
-server.route("/add").post((req, res, next) => {
+server.route("/manage").post((req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
   teamModel.create(
     {
@@ -21,7 +21,7 @@ server.route("/add").post((req, res, next) => {
   );
 });
 
-server.route("/remove").delete((req, res, next) => {
+server.route("/manage").delete((req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
   teamModel.findByIdAndDelete({ _id: req.body.teamid }, (err, doc) => {
     if (err) next(err);

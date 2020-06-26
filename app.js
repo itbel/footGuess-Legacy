@@ -33,7 +33,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/teams", teamsRouter);
 app.use("/api/tournaments", tournamentRouter);
 app.use("/api/matches", matchesRouter);
-app.use("/api/guess", guessRouter);
+app.use("/api/guesses", guessRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port: ${process.env.PORT}`);

@@ -24,6 +24,8 @@ const AddGuessModal = () => {
         }
       );
     }
+    setTeamAguess(undefined);
+    setTeamBguess(undefined);
   };
 
   useEffect(() => {
@@ -111,8 +113,15 @@ const AddGuessModal = () => {
         <Modal.Footer>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
-              handleClose();
+              if (
+                teamAguess !== "" &&
+                teamBguess !== "" &&
+                teamAguess !== undefined &&
+                teamBguess !== undefined
+              ) {
+                handleSubmit(e);
+                handleClose();
+              }
             }}
             variant="dark"
           >

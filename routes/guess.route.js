@@ -4,7 +4,7 @@ const server = express.Router();
 let guessModel = require("../models/guess.model");
 let matchModel = require("../models/match.model");
 
-server.route("/add").post((req, res, next) => {
+server.route("/manage").post((req, res, next) => {
   console.log(`========== ADDING GUESS ==========`);
   guessModel.create(
     {

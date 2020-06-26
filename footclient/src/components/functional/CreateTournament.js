@@ -4,7 +4,7 @@ import JoinTournament from "../functional/JoinTournament";
 
 const CreateTournament = (tourname, userid, authState, dispatch) => {
   return Axios.post(
-    "http://localhost:3001/api/tournaments/create",
+    "http://localhost:3001/api/tournaments/manage",
     {
       name: tourname,
       owner: userid,
