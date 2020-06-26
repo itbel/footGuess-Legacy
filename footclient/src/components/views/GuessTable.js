@@ -5,12 +5,17 @@ import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
 import AddGuessModal from "../views/AddGuessModal";
 
-const MatchesTable = () => {
+const GuessTable = () => {
   const [state] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
+  /* Temp Force render from child*/
+  const [update, setUpdate] = useState(false);
+  const handler = () => {
+    setUpdate(!update);
+  };
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
@@ -38,7 +43,7 @@ const MatchesTable = () => {
         }
       });
     }
-  }, [round, state]);
+  }, [round, state, update]);
   return (
     <Container>
       <Row className="justify-content-center">
@@ -138,10 +143,10 @@ const MatchesTable = () => {
         </tbody>
       </Table>
       <Row className="justify-content-center">
-        <AddGuessModal round={round}></AddGuessModal>
+        <AddGuessModal handler={handler} round={round}></AddGuessModal>
       </Row>
     </Container>
   );
 };
 
-export default MatchesTable;
+export default GuessTable;
