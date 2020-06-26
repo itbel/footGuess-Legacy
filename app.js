@@ -35,6 +35,11 @@ app.use("/api/tournaments", tournamentRouter);
 app.use("/api/matches", matchesRouter);
 app.use("/api/guesses", guessRouter);
 
+app.use((err, req, res, next) => {
+  // handle errors in here
+  res.status(500).send("Internal Server Error!");
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port: ${process.env.PORT}`);
 });
