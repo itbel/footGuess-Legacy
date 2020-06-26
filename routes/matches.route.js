@@ -32,32 +32,35 @@ server.route("/manage").patch((req, res, next) => {
   );
 });
 // logic can be improved upon
-server.route("/unguessed/:id&:user").get((req, res, next) => {
+server.route("/unguessed/:id&:user&:round").get((req, res, next) => {
   console.log("========== FETCHING UNGUESSED MATCHES ==========");
-  matchModel.find({ tournamentid: req.params.id }, (err, allmatches) => {
-    if (err) next(err);
-    else {
-      guessModel.find(
-        { matchid: { $in: allmatches }, userid: req.params.user },
-        (err, guessedmatches) => {
-          if (err) next(err);
-          else {
-            for (let x = 0; x < guessedmatches.length; x++) {
-              for (let i = 0; i < allmatches.length; i++) {
-                if (
-                  guessedmatches[x].matchid.toString() ===
-                  allmatches[i]._id.toString()
-                ) {
-                  allmatches.splice(i, 1);
+  matchModel.find(
+    { tournamentid: req.params.id, round: req.params.round },
+    (err, allmatches) => {
+      if (err) next(err);
+      else {
+        guessModel.find(
+          { matchid: { $in: allmatches }, userid: req.params.user },
+          (err, guessedmatches) => {
+            if (err) next(err);
+            else {
+              for (let x = 0; x < guessedmatches.length; x++) {
+                for (let i = 0; i < allmatches.length; i++) {
+                  if (
+                    guessedmatches[x].matchid.toString() ===
+                    allmatches[i]._id.toString()
+                  ) {
+                    allmatches.splice(i, 1);
+                  }
                 }
               }
+              res.status(200).json(allmatches);
             }
-            res.status(200).json(allmatches);
           }
-        }
-      );
+        );
+      }
     }
-  });
+  );
 });
 
 server.route("/round/:id&:round").get((req, res, next) => {

@@ -3,12 +3,12 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
+import AddGuessModal from "../views/AddGuessModal";
 
 const MatchesTable = () => {
   const [state] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
-  const [wasFetched, setWasFetched] = useState(false);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
 
@@ -33,7 +33,6 @@ const MatchesTable = () => {
             return null;
           });
           setMatches(tempArr);
-          setWasFetched(true);
         } else {
           setMatches([]);
         }
@@ -138,6 +137,9 @@ const MatchesTable = () => {
           </tr>
         </tbody>
       </Table>
+      <Row className="justify-content-center">
+        <AddGuessModal round={round}></AddGuessModal>
+      </Row>
     </Container>
   );
 };

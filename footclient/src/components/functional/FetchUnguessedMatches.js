@@ -1,8 +1,8 @@
 import Axios from "axios";
 
-const FetchUnguessedMatches = (authState) => {
+const FetchUnguessedMatches = (state, round) => {
   return Axios.get(
-    `http://localhost:3001/api/matches/unguessed/${authState.selectedTourId}&${authState.userid}`,
+    `http://localhost:3001/api/matches/unguessed/${state.selectedTourId}&${state.userid}&${round}`,
     { timeout: 2000 }
   )
     .then((response) => {
