@@ -15,7 +15,7 @@ server.route("/add").post((req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.json(doc);
+      else res.status(201).json({ msg: "Guess Created" });
     }
   );
 });
@@ -66,7 +66,7 @@ server.route("/all/:id&:tourid&:round").get((req, res, next) => {
                 }
               });
             });
-            res.json(responseArr);
+            res.status(200).json(responseArr);
           }
         }
       );

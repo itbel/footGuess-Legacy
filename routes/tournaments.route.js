@@ -32,7 +32,7 @@ server.route("/join").patch((req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) res.json(err);
+      if (err) next(err);
       else res.json(doc);
     }
   );
@@ -50,7 +50,7 @@ server.route("/leave").patch((req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) res.json(err);
+      if (err) next(err);
       else res.json(doc);
     }
   );
@@ -59,23 +59,18 @@ server.route("/leave").patch((req, res, next) => {
 server.route("/joined/:id").get((req, res, next) => {
   console.log(`========== FETCHING USER JOINED TOURNAMENTS ==========`);
   tournamentModel.find({ "users.userid": req.params.id }, (err, doc) => {
-    if (err) {
-      res.json(err);
-    } else {
-      if (doc.length > 0) {
-        let entries = Object.entries(doc);
-        let i = 0;
-        for (let entry of entries) {
-          doc[i] = {
-            name: entry[1].name,
-            tournamentid: entry[1]._id,
-          };
-          i++;
-        }
-        res.json(doc);
-      } else {
-        res.json(doc);
+    if (err) next(err);
+    else {
+      let entries = Object.entries(doc);
+      let i = 0;
+      for (let entry of entries) {
+        doc[i] = {
+          name: entry[1].name,
+          tournamentid: entry[1]._id,
+        };
+        i++;
       }
+      res.status(200).json(doc);
     }
   });
 });
@@ -87,9 +82,8 @@ server.route("/players/:id").get((req, res, next) => {
     { _id: req.params.id },
     { "users.userid": "", "users.points": "" },
     (err, doc) => {
-      if (err) {
-        res.json(err);
-      } else {
+      if (err) next(err);
+      else {
         userModel.find(
           { _id: doc[0].users.userid },
           { name: "" },
@@ -110,7 +104,7 @@ server.route("/players/:id").get((req, res, next) => {
                   }
                 });
               });
-              res.json(response);
+              res.status(200).json(response);
             }
           }
         );
@@ -122,23 +116,18 @@ server.route("/players/:id").get((req, res, next) => {
 server.route("/owned/:id").get((req, res, next) => {
   console.log(`========== FETCHING USER OWNED TOURNAMENTS ==========`);
   tournamentModel.find({ owner: req.params.id }, (err, doc) => {
-    if (err) {
-      res.json(err);
-    } else {
-      if (doc.length > 0) {
-        let entries = Object.entries(doc);
-        let i = 0;
-        for (let entry of entries) {
-          doc[i] = {
-            name: entry[1].name,
-            tournamentid: entry[1]._id,
-          };
-          i++;
-        }
-        res.json(doc);
-      } else {
-        res.json(doc);
+    if (err) next(err);
+    else {
+      let entries = Object.entries(doc);
+      let i = 0;
+      for (let entry of entries) {
+        doc[i] = {
+          name: entry[1].name,
+          tournamentid: entry[1]._id,
+        };
+        i++;
       }
+      res.status(200).json(doc);
     }
   });
 });
@@ -146,23 +135,18 @@ server.route("/owned/:id").get((req, res, next) => {
 server.route("/all").get((req, res, next) => {
   console.log(`========== FETCHING ALL TOURNAMENTS ==========`);
   tournamentModel.find({}, (err, doc) => {
-    if (err) {
-      res.json(err);
-    } else {
-      if (doc.length > 0) {
-        let entries = Object.entries(doc);
-        let i = 0;
-        for (let entry of entries) {
-          doc[i] = {
-            name: entry[1].name,
-            tournamentid: entry[1]._id,
-          };
-          i++;
-        }
-        res.json(doc);
-      } else {
-        res.json(doc);
+    if (err) next(err);
+    else {
+      let entries = Object.entries(doc);
+      let i = 0;
+      for (let entry of entries) {
+        doc[i] = {
+          name: entry[1].name,
+          tournamentid: entry[1]._id,
+        };
+        i++;
       }
+      res.status(200).json(doc);
     }
   });
 });

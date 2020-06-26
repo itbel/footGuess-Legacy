@@ -16,7 +16,7 @@ server.route("/add").post((req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.json(doc);
+      else res.status(201).json({ msg: "Team Created" });
     }
   );
 });
@@ -24,23 +24,16 @@ server.route("/add").post((req, res, next) => {
 server.route("/remove").delete((req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
   teamModel.findByIdAndDelete({ _id: req.body.teamid }, (err, doc) => {
-    if (err) res.json(err);
-    else res.status(200).json(doc);
+    if (err) next(err);
+    else res.status(200).json({ msg: "Team Deleted" });
   });
 });
 
 server.route("/all/:id").get((req, res, next) => {
   console.log(`========== FETCHING TOURNAMENT TEAMS ==========`);
   teamModel.find({ tournamentid: req.params.id }, {}, (err, doc) => {
-    if (err) {
-      res.json(err);
-    } else {
-      if (doc.length > 0) {
-        res.json(doc);
-      } else {
-        res.json({});
-      }
-    }
+    if (err) next(err);
+    else res.status(200).json(doc);
   });
 });
 

@@ -6,9 +6,8 @@ let userModel = require("../models/user.model");
 
 server.route("/login").post((req, res, next) => {
   userModel.findOne({ username: req.body.username }, (err, doc) => {
-    if (err) {
-      next(err);
-    } else {
+    if (err) next(err);
+    else {
       if (doc !== null) {
         bcrypt.compare(req.body.password, doc.password, (err, isRight) => {
           if (isRight) {
@@ -16,11 +15,12 @@ server.route("/login").post((req, res, next) => {
             doc.email = undefined;
             doc.username = undefined;
             doc.__v = undefined;
-            res.json(doc);
-          } else res.status(401).json({ msg: "Invalid login" });
+            console.log(doc);
+            res.status(200).json(doc);
+          } else res.status(401).json({ msg: "Invalid Password" });
         });
       } else {
-        res.status(401).json({ msg: "Invalid login" });
+        res.status(401).json({ msg: "User not found" });
       }
     }
   });
@@ -48,7 +48,7 @@ server.route("/register").post((req, res, next) => {
                 doc.username = undefined;
                 doc.__v = undefined;
                 doc._id = undefined;
-                res.json(doc);
+                res.status(201).json({ msg: "User Registered" });
               }
             }
           );

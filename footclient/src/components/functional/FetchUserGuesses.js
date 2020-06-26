@@ -6,7 +6,6 @@ const FetchUserGuesses = (authState, round) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      console.log(response.data);
       return response.data;
     })
     .catch((error) => {
