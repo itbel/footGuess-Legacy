@@ -36,7 +36,6 @@ const Register = (props) => {
       )
         .then((response) => {
           console.log("Successfully Registered");
-          console.log(response.data);
           setData({
             ...data,
             isSubmitting: false,

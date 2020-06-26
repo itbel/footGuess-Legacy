@@ -3,7 +3,7 @@ import FetchAll from "../functional/FetchAllTournaments";
 import JoinTournament from "../functional/JoinTournament";
 
 const CreateTournament = (tourname, userid, authState, dispatch) => {
-  return Axios.put(
+  return Axios.post(
     "http://localhost:3001/api/tournaments/create",
     {
       name: tourname,

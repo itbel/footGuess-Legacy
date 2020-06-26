@@ -3,7 +3,7 @@ const server = express.Router();
 
 let teamModel = require("../models/team.model");
 
-server.route("/add").put((req, res, next) => {
+server.route("/add").post((req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
   teamModel.create(
     {

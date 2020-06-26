@@ -1,6 +1,6 @@
 import Axios from "axios";
 const AddGuess = (teamAguess, teamBguess, matchid, authState) => {
-  return Axios.put(
+  return Axios.post(
     "http://localhost:3001/api/guess/add",
     {
       matchid: matchid,

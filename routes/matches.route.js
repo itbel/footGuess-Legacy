@@ -4,7 +4,7 @@ const server = express.Router();
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
 
-server.route("/add").put((req, res, next) => {
+server.route("/add").post((req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
   matchModel.create(
     {
@@ -32,35 +32,32 @@ server.route("/update").patch((req, res, next) => {
   );
 });
 // logic can be improved upon
-server.route("/unguessed").post((req, res, next) => {
+server.route("/unguessed/:id&:user").get((req, res, next) => {
   console.log("========== FETCHING UNGUESSED MATCHES ==========");
-  matchModel.find(
-    { tournamentid: req.body.tournamentid },
-    (err, allmatches) => {
-      if (err) res.json(err);
-      else {
-        guessModel.find(
-          { matchid: { $in: allmatches }, userid: req.body.userid },
-          (err, guessedmatches) => {
-            if (err) next(err);
-            else {
-              for (let x = 0; x < guessedmatches.length; x++) {
-                for (let i = 0; i < allmatches.length; i++) {
-                  if (
-                    guessedmatches[x].matchid.toString() ===
-                    allmatches[i]._id.toString()
-                  ) {
-                    allmatches.splice(i, 1);
-                  }
+  matchModel.find({ tournamentid: req.params.id }, (err, allmatches) => {
+    if (err) res.json(err);
+    else {
+      guessModel.find(
+        { matchid: { $in: allmatches }, userid: req.params.user },
+        (err, guessedmatches) => {
+          if (err) next(err);
+          else {
+            for (let x = 0; x < guessedmatches.length; x++) {
+              for (let i = 0; i < allmatches.length; i++) {
+                if (
+                  guessedmatches[x].matchid.toString() ===
+                  allmatches[i]._id.toString()
+                ) {
+                  allmatches.splice(i, 1);
                 }
               }
-              res.json(allmatches);
             }
+            res.json(allmatches);
           }
-        );
-      }
+        }
+      );
     }
-  );
+  });
 });
 
 server.route("/round/:id&:round").get((req, res, next) => {

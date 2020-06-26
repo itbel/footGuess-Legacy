@@ -1,8 +1,8 @@
 import Axios from "axios";
 
 const FetchPlayers = (authState) => {
-  return Axios.post(
-    "http://localhost:3001/api/tournaments/players",
+  return Axios.get(
+    `http://localhost:3001/api/tournaments/players/${authState.selectedTourId}`,
     {
       tournamentid: authState.selectedTourId,
     },

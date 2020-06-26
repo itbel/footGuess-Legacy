@@ -4,7 +4,7 @@ const server = express.Router();
 let tournamentModel = require("../models/tournament.model");
 let userModel = require("../models/user.model");
 
-server.route("/create").put((req, res, next) => {
+server.route("/create").post((req, res, next) => {
   console.log(`========== CREATING A TOURNAMENT ==========`);
   tournamentModel.create(
     {
@@ -56,9 +56,9 @@ server.route("/leave").patch((req, res, next) => {
   );
 });
 
-server.route("/joined").post((req, res, next) => {
+server.route("/joined/:id").get((req, res, next) => {
   console.log(`========== FETCHING USER JOINED TOURNAMENTS ==========`);
-  tournamentModel.find({ "users.userid": req.body.userid }, (err, doc) => {
+  tournamentModel.find({ "users.userid": req.params.id }, (err, doc) => {
     if (err) {
       res.json(err);
     } else {
@@ -81,10 +81,10 @@ server.route("/joined").post((req, res, next) => {
 });
 
 // ???????? expensive query, requires more work
-server.route("/players").post((req, res, next) => {
+server.route("/players/:id").get((req, res, next) => {
   console.log(`========== FETCHING TOURNAMENT PLAYERS ==========`);
   tournamentModel.find(
-    { _id: req.body.tournamentid },
+    { _id: req.params.id },
     { "users.userid": "", "users.points": "" },
     (err, doc) => {
       if (err) {
@@ -119,9 +119,9 @@ server.route("/players").post((req, res, next) => {
   );
 });
 
-server.route("/owned").post((req, res, next) => {
+server.route("/owned/:id").get((req, res, next) => {
   console.log(`========== FETCHING USER OWNED TOURNAMENTS ==========`);
-  tournamentModel.find({ owner: req.body.userid }, (err, doc) => {
+  tournamentModel.find({ owner: req.params.id }, (err, doc) => {
     if (err) {
       res.json(err);
     } else {
