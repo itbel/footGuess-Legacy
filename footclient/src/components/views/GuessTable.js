@@ -121,26 +121,30 @@ const GuessTable = () => {
               <td colSpan={4}>No Results</td>
             </tr>
           )}
+        </tbody>
+        <tfoot>
           <tr>
             <td colSpan={3}>
-              <Pagination variant="dark">
-                {matches.map((val, key) => {
-                  return (
-                    <Pagination.Item
-                      onClick={() => {
-                        setCurrentPage(key);
-                      }}
-                      active={key === currentPage}
-                      key={key}
-                    >
-                      {key + 1}
-                    </Pagination.Item>
-                  );
-                })}
-              </Pagination>
+              <Row className="justify-content-center m-0">
+                <Pagination variant="dark">
+                  {matches.map((val, key) => {
+                    return (
+                      <Pagination.Item
+                        onClick={() => {
+                          setCurrentPage(key);
+                        }}
+                        active={key === currentPage}
+                        key={key}
+                      >
+                        {key + 1}
+                      </Pagination.Item>
+                    );
+                  })}
+                </Pagination>
+              </Row>
             </td>
           </tr>
-        </tbody>
+        </tfoot>
       </Table>
       <Row className="justify-content-center">
         <AddGuessModal handler={handler} round={round}></AddGuessModal>

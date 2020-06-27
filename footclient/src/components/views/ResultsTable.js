@@ -5,9 +5,8 @@ import { Dropdown, Pagination, Row, Table, Container } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
-const Results = () => {
+const ResultsTable = () => {
   const [state] = useContext(Context);
-  const [wasFetched, setWasFetched] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
@@ -32,7 +31,6 @@ const Results = () => {
           return null;
         });
         setMatches(tempArr);
-        setWasFetched(true);
       } else {
         setMatches([]);
       }
@@ -72,9 +70,7 @@ const Results = () => {
         size="sm"
       >
         <tbody>
-          {matches !== undefined &&
-          matches[currentPage] !== undefined &&
-          wasFetched ? (
+          {matches !== undefined && matches[currentPage] !== undefined ? (
             matches[currentPage].map((val, entry) => {
               return (
                 <tr key={entry}>
@@ -112,29 +108,33 @@ const Results = () => {
               <td colSpan={4}>No Results</td>
             </tr>
           )}
+        </tbody>
+        <tfoot>
           <tr>
             <td colSpan={4}>
-              <Pagination variant="dark">
-                {matches.map((val, key) => {
-                  return (
-                    <Pagination.Item
-                      onClick={() => {
-                        setCurrentPage(key);
-                      }}
-                      active={key === currentPage}
-                      key={key}
-                    >
-                      {key + 1}
-                    </Pagination.Item>
-                  );
-                })}
-              </Pagination>
+              <Row className="justify-content-center m-0">
+                <Pagination variant="dark">
+                  {matches.map((val, key) => {
+                    return (
+                      <Pagination.Item
+                        onClick={() => {
+                          setCurrentPage(key);
+                        }}
+                        active={key === currentPage}
+                        key={key}
+                      >
+                        {key + 1}
+                      </Pagination.Item>
+                    );
+                  })}
+                </Pagination>
+              </Row>
             </td>
           </tr>
-        </tbody>
+        </tfoot>
       </Table>
     </Container>
   );
 };
 
-export default Results;
+export default ResultsTable;

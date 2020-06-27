@@ -1,6 +1,7 @@
 import React from "react";
 import { Row } from "react-bootstrap";
 import ResultsTable from "./ResultsTable";
+
 const Results = () => {
   return (
     <div
