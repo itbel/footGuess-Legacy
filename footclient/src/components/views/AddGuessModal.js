@@ -4,7 +4,7 @@ import { Context } from "../Store";
 import FetchUnguessedMatches from "../functional/FetchUnguessedMatches";
 import AddGuess from "../functional/AddGuess";
 
-const AddGuessModal = () => {
+const AddGuessModal = (props) => {
   const [state] = useContext(Context);
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState();
@@ -24,13 +24,17 @@ const AddGuessModal = () => {
         }
       );
     }
+    setTeamAguess(undefined);
+    setTeamBguess(undefined);
+    setSelectedMatch(undefined);
+    props.handler();
   };
 
   useEffect(() => {
-    FetchUnguessedMatches(state).then((response) => {
+    FetchUnguessedMatches(state, props.round).then((response) => {
       setMatches(response);
     });
-  }, [show, state]);
+  }, [show, state, props.round]);
 
   return (
     <>
@@ -111,8 +115,15 @@ const AddGuessModal = () => {
         <Modal.Footer>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
-              handleClose();
+              if (
+                teamAguess !== "" &&
+                teamBguess !== "" &&
+                teamAguess !== undefined &&
+                teamBguess !== undefined
+              ) {
+                handleSubmit(e);
+                handleClose();
+              }
             }}
             variant="dark"
           >

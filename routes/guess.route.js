@@ -4,7 +4,7 @@ const server = express.Router();
 let guessModel = require("../models/guess.model");
 let matchModel = require("../models/match.model");
 
-server.route("/add").put((req, res, next) => {
+server.route("/manage").post((req, res, next) => {
   console.log(`========== ADDING GUESS ==========`);
   guessModel.create(
     {
@@ -15,13 +15,14 @@ server.route("/add").put((req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.json(doc);
+      else res.status(201).json({ msg: "Guess Created" });
     }
   );
 });
-server.route("/all").post((req, res, next) => {
+
+server.route("/all/:id&:tourid&:round").get((req, res, next) => {
   console.log(`========== FETCHING USER GUESSES ==========`);
-  guessModel.find({ userid: req.body.userid }, (err, doc) => {
+  guessModel.find({ userid: req.params.id }, (err, doc) => {
     if (err) next(err);
     else {
       let arr = [];
@@ -29,7 +30,7 @@ server.route("/all").post((req, res, next) => {
         arr.push(doc[i].matchid);
       }
       matchModel.find(
-        { _id: { $in: arr }, tournamentid: req.body.tournamentid },
+        { _id: { $in: arr }, tournamentid: req.params.tourid },
         (err, matches) => {
           if (err) next(err);
           else {
@@ -39,7 +40,7 @@ server.route("/all").post((req, res, next) => {
                 if (
                   JSON.stringify(match._id) === JSON.stringify(guess.matchid)
                 ) {
-                  if (match.round === req.body.round) {
+                  if (parseInt(match.round) === parseInt(req.params.round)) {
                     if (
                       typeof match.teamAResult !== undefined &&
                       typeof match.teamBResult !== undefined
@@ -65,7 +66,7 @@ server.route("/all").post((req, res, next) => {
                 }
               });
             });
-            res.json(responseArr);
+            res.status(200).json(responseArr);
           }
         }
       );

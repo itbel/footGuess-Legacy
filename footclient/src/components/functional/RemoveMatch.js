@@ -3,7 +3,7 @@ import FetchMatches from "./FetchMatches";
 
 const RemoveMatch = (matchid, authState, dispatch) => {
   Axios.delete(
-    "http://localhost:3001/api/matches/remove",
+    "http://localhost:3001/api/matches/manage",
     {
       data: {
         matchid: matchid,

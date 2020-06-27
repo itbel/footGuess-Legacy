@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Col, Row, Container } from "react-bootstrap";
-
 import { Context } from "../Store";
-
 import AddMatchModal from "../views/AddMatchModal";
 import MatchesTable from "./MatchesTable";
 

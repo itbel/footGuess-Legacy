@@ -3,14 +3,19 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
+import AddGuessModal from "../views/AddGuessModal";
 
-const MatchesTable = () => {
+const GuessTable = () => {
   const [state] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
-  const [wasFetched, setWasFetched] = useState(false);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
+  /* Temp Force render from child*/
+  const [update, setUpdate] = useState(false);
+  const handler = () => {
+    setUpdate(!update);
+  };
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
@@ -33,13 +38,12 @@ const MatchesTable = () => {
             return null;
           });
           setMatches(tempArr);
-          setWasFetched(true);
         } else {
           setMatches([]);
         }
       });
     }
-  }, [round, state]);
+  }, [round, state, update]);
   return (
     <Container>
       <Row className="justify-content-center">
@@ -117,29 +121,36 @@ const MatchesTable = () => {
               <td colSpan={4}>No Results</td>
             </tr>
           )}
+        </tbody>
+        <tfoot>
           <tr>
             <td colSpan={3}>
-              <Pagination variant="dark">
-                {matches.map((val, key) => {
-                  return (
-                    <Pagination.Item
-                      onClick={() => {
-                        setCurrentPage(key);
-                      }}
-                      active={key === currentPage}
-                      key={key}
-                    >
-                      {key + 1}
-                    </Pagination.Item>
-                  );
-                })}
-              </Pagination>
+              <Row className="justify-content-center m-0">
+                <Pagination variant="dark">
+                  {matches.map((val, key) => {
+                    return (
+                      <Pagination.Item
+                        onClick={() => {
+                          setCurrentPage(key);
+                        }}
+                        active={key === currentPage}
+                        key={key}
+                      >
+                        {key + 1}
+                      </Pagination.Item>
+                    );
+                  })}
+                </Pagination>
+              </Row>
             </td>
           </tr>
-        </tbody>
+        </tfoot>
       </Table>
+      <Row className="justify-content-center">
+        <AddGuessModal handler={handler} round={round}></AddGuessModal>
+      </Row>
     </Container>
   );
 };
 
-export default MatchesTable;
+export default GuessTable;

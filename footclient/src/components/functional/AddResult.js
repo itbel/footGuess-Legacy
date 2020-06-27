@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const AddResult = (matchid, teamAResult, teamBResult) => {
   return Axios.patch(
-    "http://localhost:3001/api/matches/update",
+    "http://localhost:3001/api/matches/manage",
     {
       matchid: matchid,
       teamAResult: teamAResult,

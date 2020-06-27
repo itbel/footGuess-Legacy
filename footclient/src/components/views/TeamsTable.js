@@ -4,7 +4,7 @@ import { Context } from "../Store";
 import FetchTeams from "../functional/FetchTeams";
 import RemoveTeam from "../functional/RemoveTeam";
 
-const MatchesTable = () => {
+const TeamsTable = () => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
@@ -64,29 +64,33 @@ const MatchesTable = () => {
               <td colSpan={4}>No teams found</td>
             </tr>
           )}
+        </tbody>
+        <tfoot>
           <tr>
             <td colSpan={2}>
-              <Pagination variant="dark">
-                {matches.map((val, key) => {
-                  return (
-                    <Pagination.Item
-                      onClick={() => {
-                        setCurrentPage(key);
-                      }}
-                      active={key === currentPage}
-                      key={key}
-                    >
-                      {key + 1}
-                    </Pagination.Item>
-                  );
-                })}
-              </Pagination>
+              <Row className="justify-content-center m-0">
+                <Pagination variant="dark">
+                  {matches.map((val, key) => {
+                    return (
+                      <Pagination.Item
+                        onClick={() => {
+                          setCurrentPage(key);
+                        }}
+                        active={key === currentPage}
+                        key={key}
+                      >
+                        {key + 1}
+                      </Pagination.Item>
+                    );
+                  })}
+                </Pagination>
+              </Row>
             </td>
           </tr>
-        </tbody>
+        </tfoot>
       </Table>
     </Row>
   );
 };
 
-export default MatchesTable;
+export default TeamsTable;

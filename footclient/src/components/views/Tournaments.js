@@ -17,7 +17,6 @@ const Tournaments = () => {
       arr.push(entry[1].name);
     }
     setTournaments(arr);
-    console.log("Updating Tournaments Component");
   }, [state.joinedTournaments]);
   return (
     <div
