@@ -68,12 +68,7 @@ const Tournaments = () => {
                           tournaments.find((element) => element === val.name)
                         }
                         onClick={() => {
-                          JoinTournament(
-                            val.tournamentid,
-                            state.userid,
-                            state,
-                            dispatch
-                          );
+                          JoinTournament(val.tournamentid, state, dispatch);
                         }}
                         variant="dark"
                       >
@@ -88,12 +83,7 @@ const Tournaments = () => {
                           )
                         }
                         onClick={() => {
-                          LeaveTournament(
-                            val.tournamentid,
-                            state.userid,
-                            state,
-                            dispatch
-                          );
+                          LeaveTournament(val.tournamentid, state, dispatch);
                         }}
                         variant="dark"
                       >

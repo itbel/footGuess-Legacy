@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const server = express.Router();
+const jwt = require("jsonwebtoken");
 
 let userModel = require("../models/user.model");
 
@@ -11,11 +12,8 @@ server.route("/login").post((req, res, next) => {
       if (doc !== null) {
         bcrypt.compare(req.body.password, doc.password, (err, isRight) => {
           if (isRight) {
-            doc.password = undefined;
-            doc.email = undefined;
-            doc.username = undefined;
-            doc.__v = undefined;
-            res.status(200).json(doc);
+            const token = jwt.sign({ _id: doc._id, name: doc.name }, "secret");
+            res.header("auth-token", token).send(token);
           } else res.status(401).json({ msg: "Invalid Password" });
         });
       } else {
@@ -42,11 +40,6 @@ server.route("/register").post((req, res, next) => {
             (err, doc) => {
               if (err) next(err);
               else {
-                doc.password = undefined;
-                doc.email = undefined;
-                doc.username = undefined;
-                doc.__v = undefined;
-                doc._id = undefined;
                 res.status(201).json({ msg: "User Registered" });
               }
             }
