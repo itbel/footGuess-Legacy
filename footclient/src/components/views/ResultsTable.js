@@ -12,15 +12,16 @@ const ResultsTable = () => {
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
   useEffect(() => {
-    FetchHighestRound(state).then((response) => {
-      if (response.length > 0) {
-        let tempArr = [];
-        for (let i = 1; i <= response[0].round; i++) {
-          tempArr.push(i);
+    if (state.selectedTourId !== undefined)
+      FetchHighestRound(state).then((response) => {
+        if (response !== undefined && response.length > 0) {
+          let tempArr = [];
+          for (let i = 1; i <= response[0].round; i++) {
+            tempArr.push(i);
+          }
+          setRounds(tempArr);
         }
-        setRounds(tempArr);
-      }
-    });
+      });
     FetchRound(state, round).then((response) => {
       if (response.length > 0) {
         let tempArr = [];

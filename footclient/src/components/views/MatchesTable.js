@@ -8,7 +8,6 @@ const MatchesTable = () => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
-  const [wasFetched, setWasFetched] = useState(false);
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
@@ -22,7 +21,6 @@ const MatchesTable = () => {
             return null;
           });
           setMatches(tempArr);
-          setWasFetched(true);
         } else {
           setMatches([]);
         }
@@ -42,8 +40,7 @@ const MatchesTable = () => {
         <tbody>
           {matches !== undefined &&
           matches.length > 0 &&
-          matches[currentPage] !== undefined &&
-          wasFetched ? (
+          matches[currentPage] !== undefined ? (
             matches[currentPage].map((val, key) => {
               return (
                 <tr key={key}>
