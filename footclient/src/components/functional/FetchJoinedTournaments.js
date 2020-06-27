@@ -1,8 +1,11 @@
 import Axios from "axios";
 
 const FetchJoinedTournaments = (state, dispatch) => {
-  if (state.userid !== undefined)
-    Axios.get(`http://localhost:3001/api/tournaments/joined/${state.userid}`, {
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
+  if (state.isAuthenticated !== false)
+    Axios.get(`http://localhost:3001/api/tournaments/joined`, config, {
       timeout: 2000,
     })
       .then((response) => {

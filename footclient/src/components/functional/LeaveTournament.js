@@ -1,13 +1,16 @@
 import Axios from "axios";
 import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
-const LeaveTournament = (tournamentid, userid, authState, dispatch) => {
+const LeaveTournament = (tournamentid, authState, dispatch) => {
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
   Axios.patch(
     "http://localhost:3001/api/tournaments/leave",
     {
       tournamentid: tournamentid,
-      userid: userid,
     },
+    config,
     { timeout: 2000 }
   )
     .then((response) => {

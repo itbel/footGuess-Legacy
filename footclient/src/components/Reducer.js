@@ -1,19 +1,16 @@
 const Reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("user", action.payload.name);
+      localStorage.setItem("jwtToken", action.payload);
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.name,
-        userid: action.payload._id,
       };
     case "LOGOUT":
       localStorage.clear();
       return {
         ...state,
         isAuthenticated: false,
-        user: null,
       };
     case "FETCH_ALL_TOURNAMENTS":
       if (state.allTournaments !== action.payload) {

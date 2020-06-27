@@ -1,15 +1,15 @@
-const express = require("express");
-const server = express.Router();
+const router = require("express").Router();
+const verify = require("./verifyToken");
 
 let tournamentModel = require("../models/tournament.model");
 let userModel = require("../models/user.model");
 
-server.route("/manage").post((req, res, next) => {
+router.post("/manage", verify, (req, res, next) => {
   console.log(`========== CREATING A TOURNAMENT ==========`);
   tournamentModel.create(
     {
       name: req.body.name,
-      owner: req.body.owner,
+      owner: req.user._id,
     },
     (err, doc) => {
       if (err) next(err);
@@ -18,34 +18,37 @@ server.route("/manage").post((req, res, next) => {
   );
 });
 
-server.route("/join").patch((req, res, next) => {
+router.patch("/join", verify, (req, res, next) => {
   console.log(`========== USER JOINING TOURNAMENT ==========`);
   tournamentModel.findByIdAndUpdate(
     { _id: req.body.tournamentid },
     {
       $addToSet: {
         users: {
-          userid: req.body.userid,
+          userid: req.user._id,
           tournamentid: req.body.tournamentid,
           points: 0,
         },
       },
     },
     (err, doc) => {
-      if (err) next(err);
-      else res.json(doc);
+      if (err) {
+        next(err);
+      } else {
+        res.json(doc);
+      }
     }
   );
 });
 
-server.route("/leave").patch((req, res, next) => {
+router.patch("/leave", verify, (req, res, next) => {
   console.log(`========== USER LEAVING TOURNAMENT ==========`);
   tournamentModel.updateOne(
     { _id: req.body.tournamentid },
     {
       $pull: {
         users: {
-          userid: req.body.userid,
+          userid: req.user._id,
         },
       },
     },
@@ -56,9 +59,9 @@ server.route("/leave").patch((req, res, next) => {
   );
 });
 
-server.route("/joined/:id").get((req, res, next) => {
+router.get("/joined", verify, (req, res, next) => {
   console.log(`========== FETCHING USER JOINED TOURNAMENTS ==========`);
-  tournamentModel.find({ "users.userid": req.params.id }, (err, doc) => {
+  tournamentModel.find({ "users.userid": req.user._id }, (err, doc) => {
     if (err) next(err);
     else {
       let entries = Object.entries(doc);
@@ -76,7 +79,7 @@ server.route("/joined/:id").get((req, res, next) => {
 });
 
 // ???????? expensive query, requires more work
-server.route("/players/:id").get((req, res, next) => {
+router.get("/players/:id", (req, res, next) => {
   console.log(`========== FETCHING TOURNAMENT PLAYERS ==========`);
   tournamentModel.find(
     { _id: req.params.id },
@@ -113,9 +116,9 @@ server.route("/players/:id").get((req, res, next) => {
   );
 });
 
-server.route("/owned/:id").get((req, res, next) => {
+router.get("/owned", verify, (req, res, next) => {
   console.log(`========== FETCHING USER OWNED TOURNAMENTS ==========`);
-  tournamentModel.find({ owner: req.params.id }, (err, doc) => {
+  tournamentModel.find({ owner: req.user._id }, (err, doc) => {
     if (err) next(err);
     else {
       let entries = Object.entries(doc);
@@ -132,7 +135,7 @@ server.route("/owned/:id").get((req, res, next) => {
   });
 });
 
-server.route("/all").get((req, res, next) => {
+router.get("/all", (req, res, next) => {
   console.log(`========== FETCHING ALL TOURNAMENTS ==========`);
   tournamentModel.find({}, (err, doc) => {
     if (err) next(err);
@@ -151,4 +154,4 @@ server.route("/all").get((req, res, next) => {
   });
 });
 
-module.exports = server;
+module.exports = router;

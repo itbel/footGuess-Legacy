@@ -20,7 +20,7 @@ mongoose
   });
 mongoose.set("useCreateIndex", true);
 
-const usersRouter = require("./routes/users.route");
+const usersRouter = require("./routes/auth.route");
 const tournamentRouter = require("./routes/tournaments.route");
 const teamsRouter = require("./routes/teams.route");
 const matchesRouter = require("./routes/matches.route");
