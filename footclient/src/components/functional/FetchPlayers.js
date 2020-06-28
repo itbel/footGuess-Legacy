@@ -1,11 +1,12 @@
 import Axios from "axios";
 
-const FetchPlayers = (authState) => {
+const FetchPlayers = (state) => {
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
   return Axios.get(
-    `http://localhost:3001/api/tournaments/players/${authState.selectedTourId}`,
-    {
-      tournamentid: authState.selectedTourId,
-    },
+    `http://localhost:3001/api/tournaments/players/${state.selectedTourId}`,
+    config,
     { timeout: 2000 }
   )
     .then((response) => {

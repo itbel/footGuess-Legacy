@@ -1,18 +1,15 @@
 import Axios from "axios";
 import FetchTeams from "./FetchTeams";
 
-const RemoveTeam = (teamid, authState, dispatch) => {
-  Axios.delete(
-    "http://localhost:3001/api/teams/manage",
-    {
-      data: {
-        teamid: teamid,
-      },
-    },
-    { timeout: 2000 }
-  )
+const RemoveTeam = (teamid, state, dispatch) => {
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
+  Axios.delete(`http://localhost:3001/api/teams/manage/${teamid}`, config, {
+    timeout: 2000,
+  })
     .then((response) => {
-      FetchTeams(authState, dispatch).then((teams) => {
+      FetchTeams(state, dispatch).then((teams) => {
         return teams.data;
       });
     })

@@ -1,9 +1,9 @@
-const express = require("express");
-const server = express.Router();
+const router = require("express").Router();
+const verify = require("./verifyToken");
 
 let teamModel = require("../models/team.model");
 
-server.route("/manage").post((req, res, next) => {
+router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
   teamModel.create(
     {
@@ -21,15 +21,15 @@ server.route("/manage").post((req, res, next) => {
   );
 });
 
-server.route("/manage").delete((req, res, next) => {
+router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
-  teamModel.findByIdAndDelete({ _id: req.body.teamid }, (err, doc) => {
+  teamModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
     if (err) next(err);
     else res.status(200).json({ msg: "Team Deleted" });
   });
 });
 
-server.route("/all/:id").get((req, res, next) => {
+router.get("/all/:id", verify, (req, res, next) => {
   console.log(`========== FETCHING TOURNAMENT TEAMS ==========`);
   teamModel.find({ tournamentid: req.params.id }, {}, (err, doc) => {
     if (err) next(err);
@@ -37,4 +37,4 @@ server.route("/all/:id").get((req, res, next) => {
   });
 });
 
-module.exports = server;
+module.exports = router;

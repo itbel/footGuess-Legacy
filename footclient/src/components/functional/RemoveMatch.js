@@ -1,18 +1,17 @@
 import Axios from "axios";
 import FetchMatches from "./FetchMatches";
 
-const RemoveMatch = (matchid, authState, dispatch) => {
-  Axios.delete(
-    "http://localhost:3001/api/matches/manage",
-    {
-      data: {
-        matchid: matchid,
-      },
-    },
-    { timeout: 2000 }
-  )
+const RemoveMatch = (matchid, state, dispatch) => {
+  console.log("Trying to remove match with id: " + matchid);
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
+  Axios.delete(`http://localhost:3001/api/matches/manage/${matchid}`, config, {
+    timeout: 2000,
+  })
     .then((response) => {
-      FetchMatches(authState, dispatch).then((matches) => {
+      console.log(response);
+      FetchMatches(state, dispatch).then((matches) => {
         return matches.data;
       });
     })

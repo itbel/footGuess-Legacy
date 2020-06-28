@@ -79,7 +79,7 @@ router.get("/joined", verify, (req, res, next) => {
 });
 
 // ???????? expensive query, requires more work
-router.get("/players/:id", (req, res, next) => {
+router.get("/players/:id", verify, (req, res, next) => {
   console.log(`========== FETCHING TOURNAMENT PLAYERS ==========`);
   tournamentModel.find(
     { _id: req.params.id },

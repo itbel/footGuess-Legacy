@@ -1,8 +1,12 @@
 import Axios from "axios";
 
 const FetchUnguessedMatches = (state, round) => {
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
   return Axios.get(
-    `http://localhost:3001/api/matches/unguessed/${state.selectedTourId}&${state.userid}&${round}`,
+    `http://localhost:3001/api/matches/unguessed/${state.selectedTourId}&${round}`,
+    config,
     { timeout: 2000 }
   )
     .then((response) => {

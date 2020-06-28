@@ -1,17 +1,17 @@
-const express = require("express");
-const server = express.Router();
+const router = require("express").Router();
+const verify = require("./verifyToken");
 
 let guessModel = require("../models/guess.model");
 let matchModel = require("../models/match.model");
 
-server.route("/manage").post((req, res, next) => {
+router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING GUESS ==========`);
   guessModel.create(
     {
       matchid: req.body.matchid,
       teamAguess: req.body.teamAguess,
       teamBguess: req.body.teamBguess,
-      userid: req.body.userid,
+      userid: req.user._id,
     },
     (err, doc) => {
       if (err) next(err);
@@ -20,9 +20,9 @@ server.route("/manage").post((req, res, next) => {
   );
 });
 
-server.route("/all/:id&:tourid&:round").get((req, res, next) => {
+router.get("/all/:tourid&:round", verify, (req, res, next) => {
   console.log(`========== FETCHING USER GUESSES ==========`);
-  guessModel.find({ userid: req.params.id }, (err, doc) => {
+  guessModel.find({ userid: req.user._id }, (err, doc) => {
     if (err) next(err);
     else {
       let arr = [];
@@ -74,4 +74,4 @@ server.route("/all/:id&:tourid&:round").get((req, res, next) => {
   });
 });
 
-module.exports = server;
+module.exports = router;
