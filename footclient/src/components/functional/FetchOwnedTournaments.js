@@ -1,7 +1,7 @@
 import Axios from "axios";
 
-const FetchOwnedTournaments = (authState, dispatch) => {
-  if (authState.isAuthenticated !== false)
+const FetchOwnedTournaments = (state, dispatch) => {
+  if (state.isAuthenticated !== false)
     Axios.get(
       `http://localhost:3001/api/tournaments/owned`,
       {
