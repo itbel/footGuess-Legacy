@@ -11,7 +11,7 @@ const CreateTournamentModal = () => {
   const [name, setName] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
-    CreateTournament(name, state.userid, state, dispatch).then((response) => {
+    CreateTournament(name, state, dispatch).then((response) => {
       console.log(response);
     });
   };

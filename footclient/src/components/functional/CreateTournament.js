@@ -2,7 +2,7 @@ import Axios from "axios";
 import FetchAll from "../functional/FetchAllTournaments";
 import JoinTournament from "../functional/JoinTournament";
 
-const CreateTournament = (tourname, userid, authState, dispatch) => {
+const CreateTournament = (tourname, state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
@@ -15,7 +15,7 @@ const CreateTournament = (tourname, userid, authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      JoinTournament(response.data._id, authState, dispatch);
+      JoinTournament(response.data._id, state, dispatch);
       FetchAll(dispatch);
       return response.data;
     })

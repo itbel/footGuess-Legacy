@@ -1,14 +1,18 @@
 import Axios from "axios";
 
-const AddMatch = (teamA, teamB, round, authState, dispatch) => {
+const AddMatch = (teamA, teamB, round, tourid, dispatch) => {
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
   Axios.post(
     "http://localhost:3001/api/matches/manage",
     {
-      tournamentid: authState.selectedTourId,
+      tournamentid: tourid,
       round: round,
       teamA: teamA,
       teamB: teamB,
     },
+    config,
     { timeout: 2000 }
   )
     .then((response) => {

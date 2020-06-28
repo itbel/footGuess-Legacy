@@ -1,11 +1,12 @@
-const express = require("express");
-const server = express.Router();
+const router = require("express").Router();
+const verify = require("./verifyToken");
 
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
 
-server.route("/manage").post((req, res, next) => {
+router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
+  // CHECK OWNERSHIP OF TOURNAMENT FIRST
   matchModel.create(
     {
       tournamentid: req.body.tournamentid,
@@ -20,8 +21,9 @@ server.route("/manage").post((req, res, next) => {
   );
 });
 
-server.route("/manage").patch((req, res, next) => {
+router.patch("/manage", verify, (req, res, next) => {
   console.log(`========== UPDATING MATCH RESULT==========`);
+  // CHECK OWNERSHIP OF TOURNAMENT FIRST
   matchModel.findByIdAndUpdate(
     { _id: req.body.matchid },
     { teamAResult: req.body.teamAResult, teamBResult: req.body.teamBResult },
@@ -31,8 +33,9 @@ server.route("/manage").patch((req, res, next) => {
     }
   );
 });
+
 // logic can be improved upon
-server.route("/unguessed/:id&:user&:round").get((req, res, next) => {
+router.get("/unguessed/:id&:round", verify, (req, res, next) => {
   console.log("========== FETCHING UNGUESSED MATCHES ==========");
   matchModel.find(
     { tournamentid: req.params.id, round: req.params.round },
@@ -40,7 +43,7 @@ server.route("/unguessed/:id&:user&:round").get((req, res, next) => {
       if (err) next(err);
       else {
         guessModel.find(
-          { matchid: { $in: allmatches }, userid: req.params.user },
+          { matchid: { $in: allmatches }, userid: req.user._id },
           (err, guessedmatches) => {
             if (err) next(err);
             else {
@@ -63,7 +66,7 @@ server.route("/unguessed/:id&:user&:round").get((req, res, next) => {
   );
 });
 
-server.route("/round/:id&:round").get((req, res, next) => {
+router.get("/round/:id&:round", verify, (req, res, next) => {
   console.log(`========== FETCHING ROUND ==========`);
   matchModel.find(
     { tournamentid: req.params.id, round: req.params.round },
@@ -74,7 +77,7 @@ server.route("/round/:id&:round").get((req, res, next) => {
   );
 });
 
-server.route("/maxround/:id").get((req, res, next) => {
+router.get("/maxround/:id", verify, (req, res, next) => {
   matchModel
     .find({ tournamentid: req.params.id })
     .sort({ round: -1 })
@@ -89,15 +92,15 @@ server.route("/maxround/:id").get((req, res, next) => {
     });
 });
 
-server.route("/manage").delete((req, res, next) => {
+router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
-  matchModel.findByIdAndDelete({ _id: req.body.matchid }, (err, doc) => {
+  matchModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
     if (err) next(err);
     else res.status(200).json({ msg: "Match Deleted" });
   });
 });
 
-server.route("/all/:id").get((req, res, next) => {
+router.get("/all/:id", verify, (req, res, next) => {
   console.log(`========== FETCHING ALL MATCHES IN TOURNAMENT ==========`);
   matchModel.find({ tournamentid: req.params.id }, (err, doc) => {
     if (err) next(err);
@@ -153,4 +156,4 @@ server.route("/roundresult/:id&:tourid&:round").get((req, res, next) => {
   });
 });*/
 
-module.exports = server;
+module.exports = router;

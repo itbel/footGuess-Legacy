@@ -18,7 +18,7 @@ const AddMatchModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    AddMatch(teamA, teamB, round, state, dispatch);
+    AddMatch(teamA, teamB, round, state.selectedTourId, dispatch);
   };
 
   useEffect(() => {
