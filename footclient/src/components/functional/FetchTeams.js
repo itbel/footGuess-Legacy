@@ -1,12 +1,16 @@
 import Axios from "axios";
 
-const FetchTeams = (authState, dispatch) => {
+const FetchTeams = (state, dispatch) => {
+  const config = {
+    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+  };
   return Axios.get(
-    `http://localhost:3001/api/teams/all/${authState.selectedTourId}`,
+    `http://localhost:3001/api/teams/all/${state.selectedTourId}`,
+    config,
     { timeout: 2000 }
   )
     .then((response) => {
-      if (JSON.stringify(authState.teams) !== JSON.stringify(response.data)) {
+      if (JSON.stringify(state.teams) !== JSON.stringify(response.data)) {
         dispatch({
           type: "FETCH_TEAMS",
           payload: response.data,
