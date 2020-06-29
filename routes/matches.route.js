@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const verify = require("./verifyToken");
+const verifyMatch = require("./verifyMatch");
 
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
@@ -54,6 +55,60 @@ router.get("/unguessed/:id&:round", verify, (req, res, next) => {
                     allmatches[i]._id.toString()
                   ) {
                     allmatches.splice(i, 1);
+                  }
+                }
+              }
+              res.status(200).json(allmatches);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+// logic can be improved upon
+router.get("/points", verify, (req, res, next) => {
+  console.log("========== FETCHING POINTS ==========");
+  req.params.round = 1;
+  req.params.id = "5ed2e648d4addd26a839833d";
+  let userScore = 0;
+  let match = "";
+  matchModel.find(
+    { tournamentid: req.params.id, round: req.params.round },
+    (err, allmatches) => {
+      if (err) next(err);
+      else {
+        guessModel.find(
+          { matchid: { $in: allmatches }, userid: req.user._id },
+          (err, guessedmatches) => {
+            if (err) next(err);
+            else {
+              for (let x = 0; x < guessedmatches.length; x++) {
+                for (let i = 0; i < allmatches.length; i++) {
+                  if (
+                    guessedmatches[x].matchid.toString() ===
+                    allmatches[i]._id.toString()
+                  ) {
+                    if (
+                      allmatches[i].teamAResult !== undefined &&
+                      allmatches[i].teamBResult !== undefined
+                    ) {
+                      let guessCalc = 0;
+                      console.log("======= Guess =======");
+                      match = `MatchID: ${allmatches[i]._id} - ${allmatches[i].teamAName} ${allmatches[i].teamAResult} x ${allmatches[i].teamBResult} ${allmatches[i].teamBName}`;
+                      guess = `UserID: ${guessedmatches[x].userid} - ${allmatches[i].teamAName} ${guessedmatches[x].teamAguess} x ${guessedmatches[x].teamBguess} ${allmatches[i].teamBName}`;
+                      console.log(
+                        verifyMatch(
+                          guessedmatches[x].teamAguess,
+                          guessedmatches[x].teamBguess,
+                          allmatches[i].teamAResult,
+                          allmatches[i].teamBResult
+                        )
+                      );
+                      console.log(match);
+                      console.log(guess);
+                    }
                   }
                 }
               }

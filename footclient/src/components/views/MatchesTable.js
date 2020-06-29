@@ -14,9 +14,9 @@ const MatchesTable = () => {
       FetchMatches(state, dispatch).then((response) => {
         if (response !== undefined && response.length > 0) {
           let tempArr = [];
-          response.map((value, entry) => {
+          state.matches.map((value, entry) => {
             if (entry % 5 === 0) {
-              tempArr.push(response.slice(entry, entry + 5));
+              tempArr.push(state.matches.slice(entry, entry + 5));
             }
             return null;
           });

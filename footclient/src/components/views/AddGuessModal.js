@@ -25,7 +25,7 @@ const AddGuessModal = (props) => {
     setTeamAguess(undefined);
     setTeamBguess(undefined);
     setSelectedMatch(undefined);
-    props.handler();
+    props.handler(); // update parent
   };
 
   useEffect(() => {
