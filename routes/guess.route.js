@@ -9,6 +9,7 @@ router.post("/manage", verify, (req, res, next) => {
   guessModel.create(
     {
       matchid: req.body.matchid,
+      tournamentid: req.body.tourid,
       teamAguess: req.body.teamAguess,
       teamBguess: req.body.teamBguess,
       userid: req.user._id,
@@ -19,7 +20,7 @@ router.post("/manage", verify, (req, res, next) => {
     }
   );
 });
-
+// use populate instead (?)
 router.get("/all/:tourid&:round", verify, (req, res, next) => {
   console.log(`========== FETCHING USER GUESSES ==========`);
   guessModel.find({ userid: req.user._id }, (err, doc) => {

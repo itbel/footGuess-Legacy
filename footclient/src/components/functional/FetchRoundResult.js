@@ -1,16 +1,11 @@
 import Axios from "axios";
-const AddGuess = (teamAguess, teamBguess, matchid, tourid) => {
+
+const FetchRoundResult = (state, selectedRound) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  return Axios.post(
-    "http://localhost:3001/api/guesses/manage",
-    {
-      matchid: matchid,
-      tourid: tourid,
-      teamAguess: teamAguess,
-      teamBguess: teamBguess,
-    },
+  return Axios.get(
+    `http://localhost:3001/api/matches/round/ranking/${state.selectedTourId}&${selectedRound}`,
     config,
     { timeout: 2000 }
   )
@@ -22,4 +17,4 @@ const AddGuess = (teamAguess, teamBguess, matchid, tourid) => {
     });
 };
 
-export default AddGuess;
+export default FetchRoundResult;

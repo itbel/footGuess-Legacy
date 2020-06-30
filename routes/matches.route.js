@@ -4,6 +4,7 @@ const verifyMatch = require("./verifyMatch");
 
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
+let userModel = require("../models/user.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
@@ -69,7 +70,7 @@ router.get("/unguessed/:id&:round", verify, (req, res, next) => {
 
 // logic can be improved upon
 router.get("/points", verify, (req, res, next) => {
-  console.log("========== FETCHING POINTS ==========");
+  console.log("========== FETCHING ROUND TABLE ==========");
   req.params.round = 1;
   req.params.id = "5ed2e648d4addd26a839833d";
   let userScore = 0;
@@ -80,7 +81,7 @@ router.get("/points", verify, (req, res, next) => {
       if (err) next(err);
       else {
         guessModel.find(
-          { matchid: { $in: allmatches }, userid: req.user._id },
+          { matchid: { $in: allmatches } },
           (err, guessedmatches) => {
             if (err) next(err);
             else {
@@ -94,24 +95,41 @@ router.get("/points", verify, (req, res, next) => {
                       allmatches[i].teamAResult !== undefined &&
                       allmatches[i].teamBResult !== undefined
                     ) {
-                      let guessCalc = 0;
-                      console.log("======= Guess =======");
-                      match = `MatchID: ${allmatches[i]._id} - ${allmatches[i].teamAName} ${allmatches[i].teamAResult} x ${allmatches[i].teamBResult} ${allmatches[i].teamBName}`;
-                      guess = `UserID: ${guessedmatches[x].userid} - ${allmatches[i].teamAName} ${guessedmatches[x].teamAguess} x ${guessedmatches[x].teamBguess} ${allmatches[i].teamBName}`;
-                      console.log(
-                        verifyMatch(
-                          guessedmatches[x].teamAguess,
-                          guessedmatches[x].teamBguess,
-                          allmatches[i].teamAResult,
-                          allmatches[i].teamBResult
-                        )
+                      let name = "";
+                      userModel.find(
+                        { _id: guessedmatches[x].userid },
+                        (err, user) => {
+                          if (err) next(err);
+                          else {
+                            guess += "Player : " + user.name;
+
+                            match = `MatchID: ${allmatches[i]._id} - ${allmatches[i].teamAName} ${allmatches[i].teamAResult} x ${allmatches[i].teamBResult} ${allmatches[i].teamBName}`;
+                            guess = ` ${allmatches[i].teamAName} ${guessedmatches[x].teamAguess} x ${guessedmatches[x].teamBguess} ${allmatches[i].teamBName}`;
+                            guess +=
+                              " Points: " +
+                              verifyMatch(
+                                guessedmatches[x].teamAguess,
+                                guessedmatches[x].teamBguess,
+                                allmatches[i].teamAResult,
+                                allmatches[i].teamBResult
+                              );
+                            console.log(match);
+                            console.log(guess);
+                            /*
+                      userScore += verifyMatch(
+                        guessedmatches[x].teamAguess,
+                        guessedmatches[x].teamBguess,
+                        allmatches[i].teamAResult,
+                        allmatches[i].teamBResult
+                      );*/
+                          }
+                        }
                       );
-                      console.log(match);
-                      console.log(guess);
                     }
                   }
                 }
               }
+              console.log(userScore);
               res.status(200).json(allmatches);
             }
           }
@@ -119,6 +137,49 @@ router.get("/points", verify, (req, res, next) => {
       }
     }
   );
+});
+
+router.get("/round/ranking/:tourid&:round", verify, (req, res, next) => {
+  console.log(`========== FETCHING ROUND ==========`);
+  guessModel
+    .find({ tournamentid: req.params.tourid })
+    .populate({
+      path: "userid",
+      select: "name",
+    })
+    .populate({
+      path: "matchid",
+    })
+    .exec((err, guesses) => {
+      if (err) next(err);
+      else {
+        let matches = [];
+        guesses.map((entry, key) => {
+          if (
+            entry.matchid.teamAResult !== undefined &&
+            entry.matchid.teamBResult !== undefined &&
+            parseInt(entry.matchid.round, 10) === parseInt(req.params.round, 10)
+          ) {
+            matches.push({
+              teamAName: entry.matchid.teamAName,
+              teamBName: entry.matchid.teamBName,
+              teamAResult: entry.matchid.teamAResult,
+              teamBResult: entry.matchid.teamBResult,
+              teamAGuess: entry.teamAguess,
+              teamBGuess: entry.teamBguess,
+              points: verifyMatch(
+                entry.teamAGuess,
+                entry.teamBGuess,
+                entry.matchid.teamAResult,
+                entry.matchid.teamBResult
+              ),
+              player: entry.userid.name,
+            });
+          }
+        });
+        res.status(200).json(matches);
+      }
+    });
 });
 
 router.get("/round/:id&:round", verify, (req, res, next) => {
