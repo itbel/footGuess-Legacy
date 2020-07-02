@@ -1,16 +1,18 @@
 import Axios from "axios";
 
-const FetchMatches = (authState, dispatch) => {
+const FetchMatches = (state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://localhost:3001/api/matches/all/${authState.selectedTourId}`,
+    `http://localhost:3001/api/matches/all/${state.selectedTourId}`,
     config,
-    { timeout: 2000 }
+    {
+      timeout: 2000,
+    }
   )
     .then((response) => {
-      if (JSON.stringify(authState.matches) !== JSON.stringify(response.data)) {
+      if (JSON.stringify(state.matches) !== JSON.stringify(response.data)) {
         dispatch({
           type: "FETCH_MATCHES",
           payload: response.data,

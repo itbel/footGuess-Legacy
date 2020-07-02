@@ -1,11 +1,11 @@
 import Axios from "axios";
 
-const FetchHighestRound = (authState) => {
+const FetchHighestRound = (tournamentid) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://localhost:3001/api/matches/maxround/${authState.selectedTourId}`,
+    `http://localhost:3001/api/matches/maxround/${tournamentid}`,
     config,
     { timeout: 2000 }
   )

@@ -1,7 +1,7 @@
 import Axios from "axios";
 import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
-const LeaveTournament = (tournamentid, authState, dispatch) => {
+const LeaveTournament = (tournamentid, state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
@@ -14,7 +14,7 @@ const LeaveTournament = (tournamentid, authState, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      FetchJoinedTournaments(authState, dispatch);
+      FetchJoinedTournaments(state, dispatch);
     })
     .catch((error) => {
       console.log(error);

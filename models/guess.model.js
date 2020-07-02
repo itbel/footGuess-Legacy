@@ -7,6 +7,11 @@ const Guess = new Schema({
     ref: "match",
     required: true,
   },
+  tournamentid: {
+    type: Schema.Types.ObjectId,
+    ref: "tournament",
+    required: true,
+  },
   teamAguess: { type: Number, required: true },
   teamBguess: { type: Number, required: true },
   userid: {

@@ -19,8 +19,8 @@ const GuessTable = () => {
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchHighestRound(state).then((response) => {
-        if (response.length > 0) {
+      FetchHighestRound(state.selectedTourId).then((response) => {
+        if (response !== undefined && response.length > 0) {
           let tempArr = [];
           for (let i = 1; i <= response[0].round; i++) {
             tempArr.push(i);
@@ -32,8 +32,8 @@ const GuessTable = () => {
         if (response !== undefined) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 5 === 0) {
-              tempArr.push(response.slice(entry, entry + 5));
+            if (entry % 10 === 0) {
+              tempArr.push(response.slice(entry, entry + 10));
             }
             return null;
           });

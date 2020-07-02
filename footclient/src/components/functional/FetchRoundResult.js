@@ -1,14 +1,12 @@
 import Axios from "axios";
 
-const FetchUserGuesses = (state, round) => {
+const FetchRoundResult = () => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  return Axios.get(
-    `http://localhost:3001/api/guesses/all/${state.selectedTourId}&${round}`,
-    config,
-    { timeout: 2000 }
-  )
+  return Axios.get(`http://localhost:3001/api/matches/points`, config, {
+    timeout: 2000,
+  })
     .then((response) => {
       return response.data;
     })
@@ -17,4 +15,4 @@ const FetchUserGuesses = (state, round) => {
     });
 };
 
-export default FetchUserGuesses;
+export default FetchRoundResult;

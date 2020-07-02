@@ -12,7 +12,7 @@ const MatchesTable = () => {
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
       FetchMatches(state, dispatch).then((response) => {
-        if (response.length > 0) {
+        if (response !== undefined && response.length > 0) {
           let tempArr = [];
           response.map((value, entry) => {
             if (entry % 5 === 0) {

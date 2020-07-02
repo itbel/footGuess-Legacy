@@ -58,7 +58,11 @@ const Dashboard = (props) => {
           <Col>
             <Row className="d-flex justify-content-end m-0">
               <Col xs={6}>
-                {!isLeagueSet ? <h1>Select a League:&nbsp; </h1> : ""}
+                {!isLeagueSet ? (
+                  <h1>Select a League:&nbsp; </h1>
+                ) : (
+                  <h1>{state.selectedTourName}</h1>
+                )}
               </Col>
               <Col xs={6}>
                 <Dropdown className="d-flex mt-2 justify-content-end">

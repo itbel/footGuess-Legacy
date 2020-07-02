@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const verify = require("./verifyToken");
+const verifyMatch = require("./verifyMatch");
 
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
+let userModel = require("../models/user.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
@@ -32,6 +34,20 @@ router.patch("/manage", verify, (req, res, next) => {
       else res.status(204).send();
     }
   );
+});
+
+// deep population
+router.get("/points", verify, (req, res, next) => {
+  console.log("========== FETCHING ROUND POINTS ==========");
+  matchModel
+    .find({ tournamentid: "5ed2e648d4addd26a839833d", round: 1 })
+    .populate("guesses.guessid")
+    .exec((err, doc) => {
+      if (err) next(err);
+      else {
+        console.log(doc);
+      }
+    });
 });
 
 // logic can be improved upon
@@ -107,53 +123,5 @@ router.get("/all/:id", verify, (req, res, next) => {
     else res.status(200).json(doc);
   });
 });
-
-/* WIP calculating result
-server.route("/roundresult/:id&:tourid&:round").get((req, res, next) => {
-  console.log(`========== FETCHING USER GUESSES ==========`);
-  guessModel.find({ userid: req.params.id }, (err, doc) => {
-    if (err) next(err);
-    else {
-      let arr = [];
-      for (let i in doc) {
-        arr.push(doc[i].matchid);
-      }
-      matchModel.find(
-        { _id: { $in: arr }, tournamentid: req.params.tourid },
-        (err, matches) => {
-          if (err) next(err);
-          else {
-            let responseArr = [];
-            matches.map((match, entry) => {
-              doc.map((guess, entry) => {
-                if (
-                  JSON.stringify(match._id) === JSON.stringify(guess.matchid)
-                ) {
-                  if (parseInt(match.round) === parseInt(req.params.round)) {
-                    if (
-                      typeof match.teamAResult !== undefined &&
-                      typeof match.teamBResult !== undefined
-                    ) {
-                      responseArr.push({
-                        matchid: match._id,
-                        teamAName: match.teamAName,
-                        teamBName: match.teamBName,
-                        teamAguess: guess.teamAguess,
-                        teamBguess: guess.teamBguess,
-                        teamAResult: match.teamAResult,
-                        teamBResult: match.teamBResult,
-                      });
-                    }
-                  }
-                }
-              });
-            });
-            res.json(responseArr);
-          }
-        }
-      );
-    }
-  });
-});*/
 
 module.exports = router;

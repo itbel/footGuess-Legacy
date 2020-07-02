@@ -1,15 +1,14 @@
 import { Table, Container } from "react-bootstrap";
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../Store";
-import FetchPlayers from "../functional/FetchPlayers";
+import FetchRoundResult from "../functional/FetchRoundResult";
 
 const PointsTable = () => {
   const [state] = useContext(Context);
-  const [players, setPlayers] = useState([]);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchPlayers(state).then((response) => {
-        setPlayers(response);
+      FetchRoundResult().then((response) => {
+        console.log(response);
       });
     }
   }, [state]);
@@ -18,21 +17,13 @@ const PointsTable = () => {
       <Table striped hover variant="light">
         <thead>
           <tr>
-            <th>Player Name</th>
-            <th>Points</th>
+            <th>Match</th>
           </tr>
         </thead>
         <tbody>
-          {players !== undefined
-            ? players.map((player, key) => {
-                return (
-                  <tr key={key}>
-                    <td>{player.name}</td>
-                    <td>{player.points}</td>
-                  </tr>
-                );
-              })
-            : null}
+          <tr>
+            <td className="justify-content-center d-flex">Points</td>
+          </tr>
         </tbody>
       </Table>
     </Container>

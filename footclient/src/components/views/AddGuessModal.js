@@ -18,14 +18,19 @@ const AddGuessModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (teamAguess !== undefined && teamBguess !== undefined) {
-      AddGuess(teamAguess, teamBguess, selectedMatch._id).then((response) => {
+      AddGuess(
+        teamAguess,
+        teamBguess,
+        selectedMatch._id,
+        state.selectedTourId
+      ).then((response) => {
         console.log(response);
       });
     }
     setTeamAguess(undefined);
     setTeamBguess(undefined);
     setSelectedMatch(undefined);
-    props.handler();
+    props.handler(); // update parent
   };
 
   useEffect(() => {
