@@ -16,7 +16,24 @@ router.post("/manage", verify, (req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.status(201).json({ msg: "Guess Created" });
+      else {
+        matchModel.findByIdAndUpdate(
+          { _id: req.body.matchid },
+          {
+            $addToSet: {
+              guesses: {
+                guessid: doc._id,
+              },
+            },
+          },
+          (err, doc) => {
+            if (err) next(err);
+            else {
+              res.status(201).json({ msg: "Guess Created" });
+            }
+          }
+        );
+      }
     }
   );
 });

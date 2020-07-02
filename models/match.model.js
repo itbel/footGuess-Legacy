@@ -12,6 +12,7 @@ const Match = new Schema({
   teamAResult: { type: Number },
   teamBName: { type: String, required: true },
   teamBResult: { type: Number },
+  guesses: { guessid: { type: Schema.Types.ObjectId, ref: "guess" } },
 });
 
 module.exports = mongoose.model("match", Match);
