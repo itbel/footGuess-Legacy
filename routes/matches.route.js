@@ -41,11 +41,42 @@ router.get("/points", verify, (req, res, next) => {
   console.log("========== FETCHING ROUND POINTS ==========");
   matchModel
     .find({ tournamentid: "5ed2e648d4addd26a839833d", round: 1 })
-    .populate("guesses.guessid")
+    .populate({
+      path: "guesses.guessid",
+      populate: {
+        path: "userid",
+        select: "_id name",
+      },
+    })
     .exec((err, doc) => {
       if (err) next(err);
       else {
-        console.log(doc);
+        let playerArr = {};
+        for (let i = 0; i < doc.length; i++) {
+          for (let x = 0; x < doc[i].guesses.guessid.length; x++) {
+            console.log(
+              `${doc[i].teamAName} ${
+                doc[i].teamAResult !== undefined ? doc[i].teamAResult : ""
+              } X ${
+                doc[i].teamBResult !== undefined ? doc[i].teamBResult : ""
+              } ${doc[i].teamBName}`
+            );
+            if (playerArr[doc[i].guesses.guessid[x].userid.name] === undefined)
+            playerArr[doc[i].guesses.guessid[x].userid.name].matches = []
+            else {
+
+              playerArr[doc[i].guesses.guessid[x].userid.name].matches.push(
+                doc[i].guesses.guessid[x]
+            }
+            console.log(
+              `${doc[i].teamAName} ${doc[i].guesses.guessid[x].teamAguess} X ${doc[i].guesses.guessid[x].teamBguess} ${doc[i].teamBName} by ${doc[i].guesses.guessid[x].userid.name}`
+            );
+          }
+        }
+        console.log("===============================");
+        console.log(playerArr);
+        console.log("===============================");
+        res.json(doc);
       }
     });
 });
