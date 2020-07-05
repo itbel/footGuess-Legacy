@@ -51,31 +51,37 @@ router.get("/points", verify, (req, res, next) => {
     .exec((err, doc) => {
       if (err) next(err);
       else {
-        let playerArr = {};
+        let matches = [];
+        let match = {};
         for (let i = 0; i < doc.length; i++) {
-          for (let x = 0; x < doc[i].guesses.guessid.length; x++) {
-            console.log(
-              `${doc[i].teamAName} ${
-                doc[i].teamAResult !== undefined ? doc[i].teamAResult : ""
-              } X ${
-                doc[i].teamBResult !== undefined ? doc[i].teamBResult : ""
-              } ${doc[i].teamBName}`
-            );
-            if (playerArr[doc[i].guesses.guessid[x].userid.name] === undefined)
-            playerArr[doc[i].guesses.guessid[x].userid.name].matches = []
-            else {
-
-              playerArr[doc[i].guesses.guessid[x].userid.name].matches.push(
-                doc[i].guesses.guessid[x]
+          if (
+            doc[i].teamAResult === undefined ||
+            doc[i].teamBResult === undefined
+          )
+            match = {
+              teamAName: doc[i].teamAName,
+              teamBName: doc[i].teamBName,
+              guesses: [],
+            };
+          else {
+            match = {
+              teamAName: doc[i].teamAName,
+              teamBName: doc[i].teamBName,
+              guesses: [],
+              teamAResult: doc[i].teamAResult,
+              teamBResult: doc[i].teamBResult,
+            };
+          }
+          matches.push(match);
+        }
+        for (let t = 0; t < doc.length; t++) {
+          for (let a = 0; a < doc[t].guesses.guessid.length; a++) {
+            if (doc[t].guesses.guessid[a] !== null) {
+              matches[t].guesses.push(doc[t].guesses.guessid[a]);
             }
-            console.log(
-              `${doc[i].teamAName} ${doc[i].guesses.guessid[x].teamAguess} X ${doc[i].guesses.guessid[x].teamBguess} ${doc[i].teamBName} by ${doc[i].guesses.guessid[x].userid.name}`
-            );
           }
         }
-        console.log("===============================");
-        console.log(playerArr);
-        console.log("===============================");
+        console.log(matches);
         res.json(doc);
       }
     });
@@ -141,9 +147,16 @@ router.get("/maxround/:id", verify, (req, res, next) => {
 
 router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
-  matchModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
+  matchModel.findByIdAndDelete({ _id: req.params.id }, (err, matchdoc) => {
     if (err) next(err);
-    else res.status(200).json({ msg: "Match Deleted" });
+    else {
+      guessModel.deleteMany({ matchid: req.params.id }, (err, guessdoc) => {
+        if (err) next(err);
+        else {
+          res.status(200).json({ msg: "Match Deleted" });
+        }
+      });
+    }
   });
 });
 

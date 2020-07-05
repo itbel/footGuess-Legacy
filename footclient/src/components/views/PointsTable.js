@@ -9,7 +9,9 @@ const PointsTable = () => {
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
       FetchRoundResult().then((response) => {
-        setMatches(response);
+        for (let i = 0; i < response.length; i++) {
+          console.log(response);
+        }
       });
     }
   }, [state]);
