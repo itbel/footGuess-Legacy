@@ -6,12 +6,23 @@ import FetchRoundResult from "../functional/FetchRoundResult";
 const PointsTable = () => {
   const [state] = useContext(Context);
   const [matches, setMatches] = useState([]);
+  const [players, setPlayers] = useState([]);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
       FetchRoundResult().then((response) => {
+        setMatches(response);
+        let playerArr = [];
         for (let i = 0; i < response.length; i++) {
-          console.log(response);
+          //looping matches
+          for (let x = 0; x < response[i].guesses.length; x++) {
+            //looping match guesses
+            if (response[i].guesses[x].player.name !== undefined) {
+              if (!playerArr.includes(response[i].guesses[x].player.name))
+                playerArr.push(response[i].guesses[x].player.name);
+            }
+          }
         }
+        setPlayers(playerArr);
       });
     }
   }, [state]);
@@ -21,21 +32,39 @@ const PointsTable = () => {
         <thead>
           <tr>
             <th>Match</th>
-            {matches !== undefined ? matches.map((entry, key) => {}) : null}
+            {matches !== undefined && players !== undefined
+              ? players.map((entry1, key) => {
+                  return <th key={key}>{entry1}</th>;
+                })
+              : null}
           </tr>
         </thead>
         <tbody>
           {matches !== undefined ? (
-            matches.map((entry, key) => {
+            matches.map((match, key) => {
               return (
                 <tr key={key}>
                   <td>
-                    {entry.teamAName}
-                    {entry.teamAResult !== undefined ? entry.teamAResult : null}
+                    {match.teamAName}
+                    {match.teamAResult !== undefined ? match.teamAResult : null}
                     X
-                    {entry.teamBResult !== undefined ? entry.teamBResult : null}
-                    {entry.teamBName}
+                    {match.teamBResult !== undefined ? match.teamBResult : null}
+                    {match.teamBName}
                   </td>
+                  {players.map((player, key2) => {
+                    for (let i = 0; i < players.length; i++) {
+                      let found = match.guesses.find(
+                        (el) => el.player.name === player
+                      );
+                      return (
+                        <td>
+                          {found !== undefined
+                            ? `${found.teamAguess} X ${found.teamBguess} +(${found.points})`
+                            : ""}
+                        </td>
+                      );
+                    }
+                  })}
                 </tr>
               );
             })

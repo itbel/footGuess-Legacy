@@ -59,12 +59,14 @@ router.get("/points", verify, (req, res, next) => {
             doc[i].teamBResult === undefined
           )
             match = {
+              matchid: doc[i]._id,
               teamAName: doc[i].teamAName,
               teamBName: doc[i].teamBName,
               guesses: [],
             };
           else {
             match = {
+              matchid: doc[i]._id,
               teamAName: doc[i].teamAName,
               teamBName: doc[i].teamBName,
               guesses: [],
@@ -74,15 +76,39 @@ router.get("/points", verify, (req, res, next) => {
           }
           matches.push(match);
         }
+        let guess = {};
         for (let t = 0; t < doc.length; t++) {
-          for (let a = 0; a < doc[t].guesses.guessid.length; a++) {
-            if (doc[t].guesses.guessid[a] !== null) {
-              matches[t].guesses.push(doc[t].guesses.guessid[a]);
+          if (doc[t].guesses.guessid !== undefined)
+            for (let a = 0; a < doc[t].guesses.guessid.length; a++) {
+              if (doc[t].guesses.guessid[a] !== null) {
+                guess = {
+                  player: doc[t].guesses.guessid[a].userid,
+                  matchid: doc[t].guesses.guessid[a].matchid,
+                  teamAguess: doc[t].guesses.guessid[a].teamAguess,
+                  teamBguess: doc[t].guesses.guessid[a].teamBguess,
+                  points: 0,
+                };
+                matches[t].guesses.push(guess);
+              }
             }
-          }
         }
-        console.log(matches);
-        res.json(doc);
+        matches.map((match, key) => {
+          if (
+            match.teamAResult !== undefined &&
+            match.teamBResult !== undefined
+          ) {
+            match.guesses.map((guess, key2) => {
+              matches[key].guesses[key2].points = verifyMatch(
+                guess.teamAguess,
+                guess.teamBguess,
+                match.teamAResult,
+                match.teamBResult
+              );
+            });
+          }
+        });
+
+        res.json(matches);
       }
     });
 });
