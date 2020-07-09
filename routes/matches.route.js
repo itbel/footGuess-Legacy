@@ -8,7 +8,6 @@ let userModel = require("../models/user.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
-  // CHECK OWNERSHIP OF TOURNAMENT FIRST
   matchModel.create(
     {
       tournamentid: req.body.tournamentid,
@@ -25,7 +24,6 @@ router.post("/manage", verify, (req, res, next) => {
 
 router.patch("/manage", verify, (req, res, next) => {
   console.log(`========== UPDATING MATCH RESULT==========`);
-  // CHECK OWNERSHIP OF TOURNAMENT FIRST
   matchModel.findByIdAndUpdate(
     { _id: req.body.matchid },
     { teamAResult: req.body.teamAResult, teamBResult: req.body.teamBResult },
