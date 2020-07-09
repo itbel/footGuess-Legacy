@@ -107,6 +107,9 @@ router.get("/players/:id", verify, (req, res, next) => {
                   }
                 });
               });
+              response.sort((a, b) => {
+                return b.points - a.points;
+              });
               res.status(200).json(response);
             }
           }

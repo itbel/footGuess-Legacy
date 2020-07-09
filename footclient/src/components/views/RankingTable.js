@@ -19,6 +19,7 @@ const PointsTable = () => {
       <table className="rankingTable" style={{ marginTop: "16px" }}>
         <thead>
           <tr>
+            <th>#</th>
             <th>Player</th>
             <th>Points</th>
           </tr>
@@ -27,6 +28,7 @@ const PointsTable = () => {
           {players.map((player, key) => {
             return (
               <tr>
+                <td className="results">{key + 1}</td>
                 <td className="results">{player.name}</td>
                 <td className="results">{player.points}</td>
               </tr>
