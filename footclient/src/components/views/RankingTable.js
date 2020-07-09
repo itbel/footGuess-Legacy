@@ -3,7 +3,7 @@ import { Context } from "../Store";
 import FetchPlayers from "../functional/FetchPlayers";
 
 const PointsTable = () => {
-  const [state] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const [players, setPlayers] = useState([]);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
@@ -28,7 +28,7 @@ const PointsTable = () => {
             return (
               <tr>
                 <td className="results">{player.name}</td>
-                <td className="results text-center">{player.points}</td>
+                <td className="results">{player.points}</td>
               </tr>
             );
           })}

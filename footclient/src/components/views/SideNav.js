@@ -12,7 +12,7 @@ const SideNav = () => {
         Rules
       </Link>
       <Link className="side" to="/ranking">
-        Tournament Ranking
+        Round Ranking
       </Link>
       <Link className="side" to="/allranking">
         Overall Ranking

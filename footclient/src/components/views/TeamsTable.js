@@ -28,7 +28,7 @@ const TeamsTable = () => {
         }
       });
     }
-  }, [state.teams, dispatch, state]);
+  }, [state.teams]);
 
   return (
     <Row className="justify-content-center">

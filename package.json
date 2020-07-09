@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.9",
+    "react-loading": "^2.0.3",
     "react-router-dom": "^5.2.0",
     "react-spring": "^8.0.27"
   }

@@ -12,7 +12,7 @@ const ResultsTable = () => {
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
   useEffect(() => {
-    if (state.selectedTourId !== undefined)
+    if (state.selectedTourId !== undefined) {
       FetchHighestRound(state.selectedTourId).then((response) => {
         if (response !== undefined && response.length > 0) {
           let tempArr = [];
@@ -22,21 +22,22 @@ const ResultsTable = () => {
           setRounds(tempArr);
         }
       });
-    FetchRound(state, round).then((response) => {
-      if (response !== undefined && response.length > 0) {
-        let tempArr = [];
-        response.map((value, entry) => {
-          if (entry % 5 === 0) {
-            tempArr.push(response.slice(entry, entry + 5));
-          }
-          return null;
-        });
-        setMatches(tempArr);
-      } else {
-        setMatches([]);
-      }
-    });
-  }, [round, currentPage, state]);
+      FetchRound(state, round).then((response) => {
+        if (response !== undefined && response.length > 0) {
+          let tempArr = [];
+          response.map((value, entry) => {
+            if (entry % 5 === 0) {
+              tempArr.push(response.slice(entry, entry + 5));
+            }
+            return null;
+          });
+          setMatches(tempArr);
+        } else {
+          setMatches([]);
+        }
+      });
+    }
+  }, [round, currentPage]);
   return (
     <Container>
       <Row className="justify-content-center">
