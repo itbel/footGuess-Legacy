@@ -1,4 +1,4 @@
-import { Table, Container, Row, Dropdown } from "react-bootstrap";
+import { Row, Dropdown } from "react-bootstrap";
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../Store";
 import FetchRoundResult from "../functional/FetchRoundResult";
@@ -85,7 +85,7 @@ const PointsTable = () => {
                   key={key}
                 >
                   <td className="results">
-                    {match.teamAName + " "}X{" " + match.teamBName}
+                    {match.teamAName}X{match.teamBName}
                   </td>
                   <td className="results">
                     {match.teamAResult !== undefined ? (

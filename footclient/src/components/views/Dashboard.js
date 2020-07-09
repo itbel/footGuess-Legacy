@@ -14,6 +14,7 @@ import Matches from "./Matches";
 import Tournaments from "./Tournaments";
 import Teams from "./Teams";
 import Results from "./Results";
+import OverallRanking from "./OverallRanking";
 
 // Functionals
 import FetchAll from "../functional/FetchAllTournaments";
@@ -119,6 +120,7 @@ const Dashboard = (props) => {
                   <Route path={"/matches"} component={Matches} />
                   <Route path={"/teams"} component={Teams} />
                   <Route path={"/results"} component={Results} />
+                  <Route path={"/allranking"} component={OverallRanking} />
                 </Switch>
               </Col>
             </Row>
