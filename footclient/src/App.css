@@ -53,3 +53,51 @@ body {
   background-color: white;
   position: relative;
 }
+
+.rankingTable {
+  margin: auto;
+  background-color: #efefef;
+  color: black;
+  font-size: 1.1em;
+}
+.rankingTable td {
+  text-align: left;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.rankingTable th {
+  text-align: center;
+}
+.sideNav {
+  border-radius: 4px 4px 4px 4px;
+  display: block;
+  background-color: #25282a;
+  padding: 16px;
+}
+.side {
+  display: block;
+  color: white;
+  padding: 8px;
+}
+.side:hover {
+  color: lightslategray;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 800px) {
+  .rankingTable {
+    width: 100%;
+    font-size: 0.8em;
+    padding: 0;
+  }
+  .sideNav {
+    display: inline;
+    padding: 16px;
+    background-color: #131313;
+  }
+  .side {
+    display: inline;
+    color: white;
+    padding: 8px;
+  }
+}

@@ -41,11 +41,74 @@ router.get("/points", verify, (req, res, next) => {
   console.log("========== FETCHING ROUND POINTS ==========");
   matchModel
     .find({ tournamentid: "5ed2e648d4addd26a839833d", round: 1 })
-    .populate("guesses.guessid")
+    .populate({
+      path: "guesses.guessid",
+      populate: {
+        path: "userid",
+        select: "_id name",
+      },
+    })
     .exec((err, doc) => {
       if (err) next(err);
       else {
-        console.log(doc);
+        let matches = [];
+        let match = {};
+        for (let i = 0; i < doc.length; i++) {
+          if (
+            doc[i].teamAResult === undefined ||
+            doc[i].teamBResult === undefined
+          )
+            match = {
+              matchid: doc[i]._id,
+              teamAName: doc[i].teamAName,
+              teamBName: doc[i].teamBName,
+              guesses: [],
+            };
+          else {
+            match = {
+              matchid: doc[i]._id,
+              teamAName: doc[i].teamAName,
+              teamBName: doc[i].teamBName,
+              guesses: [],
+              teamAResult: doc[i].teamAResult,
+              teamBResult: doc[i].teamBResult,
+            };
+          }
+          matches.push(match);
+        }
+        let guess = {};
+        for (let t = 0; t < doc.length; t++) {
+          if (doc[t].guesses.guessid !== undefined)
+            for (let a = 0; a < doc[t].guesses.guessid.length; a++) {
+              if (doc[t].guesses.guessid[a] !== null) {
+                guess = {
+                  player: doc[t].guesses.guessid[a].userid,
+                  matchid: doc[t].guesses.guessid[a].matchid,
+                  teamAguess: doc[t].guesses.guessid[a].teamAguess,
+                  teamBguess: doc[t].guesses.guessid[a].teamBguess,
+                  points: 0,
+                };
+                matches[t].guesses.push(guess);
+              }
+            }
+        }
+        matches.map((match, key) => {
+          if (
+            match.teamAResult !== undefined &&
+            match.teamBResult !== undefined
+          ) {
+            match.guesses.map((guess, key2) => {
+              matches[key].guesses[key2].points = verifyMatch(
+                guess.teamAguess,
+                guess.teamBguess,
+                match.teamAResult,
+                match.teamBResult
+              );
+            });
+          }
+        });
+
+        res.json(matches);
       }
     });
 });
@@ -110,9 +173,16 @@ router.get("/maxround/:id", verify, (req, res, next) => {
 
 router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
-  matchModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
+  matchModel.findByIdAndDelete({ _id: req.params.id }, (err, matchdoc) => {
     if (err) next(err);
-    else res.status(200).json({ msg: "Match Deleted" });
+    else {
+      guessModel.deleteMany({ matchid: req.params.id }, (err, guessdoc) => {
+        if (err) next(err);
+        else {
+          res.status(200).json({ msg: "Match Deleted" });
+        }
+      });
+    }
   });
 });
 
