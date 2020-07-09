@@ -53,3 +53,26 @@ body {
   background-color: white;
   position: relative;
 }
+
+.rankingTable {
+  margin: auto;
+  background-color: #efefef;
+  color: black;
+  font-size: 1.1em;
+}
+.rankingTable td {
+  text-align: left;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.rankingTable th {
+  text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .rankingTable {
+    width: 100%;
+    font-size: 0.8em;
+    padding: 0;
+  }
+}
