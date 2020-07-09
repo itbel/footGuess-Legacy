@@ -37,10 +37,10 @@ router.patch("/manage", verify, (req, res, next) => {
 });
 
 // deep population
-router.get("/points", verify, (req, res, next) => {
+router.get("/points/:round&:tourid", verify, (req, res, next) => {
   console.log("========== FETCHING ROUND POINTS ==========");
   matchModel
-    .find({ tournamentid: "5ed2e648d4addd26a839833d", round: 1 })
+    .find({ tournamentid: req.params.tourid, round: req.params.round })
     .populate({
       path: "guesses.guessid",
       populate: {

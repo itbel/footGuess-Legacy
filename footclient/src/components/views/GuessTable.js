@@ -90,21 +90,15 @@ const GuessTable = () => {
               return (
                 <tr key={key}>
                   <td className="text-center">
-                    <b>
-                      {val.teamAName} X {val.teamBName}
-                    </b>
+                    {val.teamAName} X {val.teamBName}
                   </td>
                   <td>
-                    <b>
-                      {val.teamAguess} X {val.teamBguess}
-                    </b>
+                    {val.teamAguess} X {val.teamBguess}
                   </td>
                   {typeof val.teamAResult !== undefined &&
                   typeof val.teamBResult !== undefined ? (
                     <td>
-                      <b>
-                        {val.teamAResult} X {val.teamBResult}
-                      </b>
+                      {val.teamAResult} X {val.teamBResult}
                     </td>
                   ) : (
                     <td></td>

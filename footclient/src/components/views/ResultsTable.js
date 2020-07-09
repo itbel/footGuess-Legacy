@@ -76,28 +76,13 @@ const ResultsTable = () => {
               return (
                 <tr key={entry}>
                   <td className="text-right">
-                    <p>
-                      <b>{val.teamAName}</b>
-                    </p>
+                    <p>{val.teamAName}</p>
                   </td>
                   <td className="justify-content-center d-flex">
-                    {val.teamAResult !== undefined ? (
-                      <b>{val.teamAResult}</b>
-                    ) : (
-                      ""
-                    )}
-                    X
-                    {val.teamBResult !== undefined ? (
-                      <b>{val.teamBResult}</b>
-                    ) : (
-                      ""
-                    )}
+                    {val.teamAResult !== undefined ? val.teamAResult : ""}X
+                    {val.teamBResult !== undefined ? val.teamBResult : ""}
                   </td>
-                  <td className="text-left">
-                    <p>
-                      <b>{val.teamBName}</b>
-                    </p>
-                  </td>
+                  <td className="text-left">{val.teamBName}</td>
                   <td>
                     <ResultsModal selectedMatch={val}></ResultsModal>
                   </td>
