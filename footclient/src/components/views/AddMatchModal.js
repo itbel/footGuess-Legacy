@@ -10,7 +10,7 @@ const AddMatchModal = () => {
   const [teams, setTeams] = useState([]);
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
-  const [round, setRound] = useState(0);
+  const [round, setRound] = useState(1);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

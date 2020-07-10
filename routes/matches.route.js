@@ -88,11 +88,6 @@ router.patch("/manage", verify, (req, res, next) => {
                 }
               });
               players.map((player, key) => {
-                console.log("======");
-                console.log(player.id);
-                console.log(player.name);
-                console.log(player.points);
-                console.log("======");
                 tournamentModel.findOneAndUpdate(
                   {
                     _id: req.body.tourid,
@@ -104,7 +99,7 @@ router.patch("/manage", verify, (req, res, next) => {
                   (err, doc) => {
                     if (err) next(err);
                     else {
-                      console.log(doc);
+                      //verify
                     }
                   }
                 );
