@@ -5,6 +5,7 @@ const verifyMatch = require("./verifyMatch");
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
 let userModel = require("../models/user.model");
+let tournamentModel = require("../models/tournament.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
@@ -24,14 +25,80 @@ router.post("/manage", verify, (req, res, next) => {
 
 router.patch("/manage", verify, (req, res, next) => {
   console.log(`========== UPDATING MATCH RESULT==========`);
-  matchModel.findByIdAndUpdate(
-    { _id: req.body.matchid },
-    { teamAResult: req.body.teamAResult, teamBResult: req.body.teamBResult },
-    (err, doc) => {
+  matchModel
+    .findByIdAndUpdate(
+      { _id: req.body.matchid },
+      { teamAResult: req.body.teamAResult, teamBResult: req.body.teamBResult }
+    )
+    .exec((err, updatedMatch) => {
       if (err) next(err);
-      else res.status(204).send();
-    }
-  );
+      else {
+        matchModel
+          .find({ tournamentid: req.body.tourid })
+          .populate({
+            path: "guesses.guessid",
+            populate: {
+              path: "userid",
+              select: "_id name",
+            },
+          })
+          .exec((err, matches) => {
+            if (err) next(err);
+            else {
+              let players = [];
+              matches.map((match, index) => {
+                if (
+                  match.teamAResult !== undefined ||
+                  match.teamBResult !== undefined
+                ) {
+                  if (match.guesses.guessid !== undefined)
+                    for (let i = 0; i < match.guesses.guessid.length; i++) {
+                      if (match.guesses.guessid[i] !== undefined) {
+                        let currentPlayer =
+                          match.guesses.guessid[i].userid.name;
+                        let points = verifyMatch(
+                          match.guesses.guessid[i].teamAguess,
+                          match.guesses.guessid[i].teamBguess,
+                          match.teamAResult,
+                          match.teamBResult
+                        );
+                        if (
+                          match.guesses.guessid[i].teamAguess !== undefined &&
+                          match.guesses.guessid[i].teamBguess !== undefined
+                        ) {
+                          let found = players.find(
+                            (el) => el.name === currentPlayer
+                          );
+                          if (!found) {
+                            players.push({
+                              id: match.guesses.guessid[i].userid._id,
+                              name: currentPlayer,
+                              points: points,
+                            });
+                          } else {
+                            players.map((val, key) => {
+                              if (val.name === currentPlayer) {
+                                players[key].points += points;
+                              }
+                            });
+                          }
+                        }
+                      }
+                    }
+                }
+              });
+              tournamentModel
+                .updateOne({ _id: req.body.tournamentid }, {})
+                .exec((err, doc1) => {
+                  if (err) next(err);
+                  else {
+                    res.status(204).send();
+                  }
+                });
+            }
+          });
+      }
+    });
 });
 
 // deep population
