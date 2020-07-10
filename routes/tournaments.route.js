@@ -78,42 +78,23 @@ router.get("/joined", verify, (req, res, next) => {
   });
 });
 
-// ???????? expensive query, requires more work
 router.get("/players/:id", verify, (req, res, next) => {
-  console.log(`========== FETCHING TOURNAMENT PLAYERS ==========`);
-  tournamentModel.find(
-    { _id: req.params.id },
-    { "users.userid": "", "users.points": "" },
-    (err, doc) => {
+  tournamentModel
+    .findOne({ _id: req.params.id })
+    .populate({ path: "users.userid" })
+    .exec((err, doc) => {
       if (err) next(err);
       else {
-        userModel.find(
-          { _id: doc[0].users.userid },
-          { name: "" },
-          (err1, userdoc) => {
-            if (err) res.json(err1);
-            else {
-              let response = [];
-              userdoc.map((touruserentry, key) => {
-                doc[0].users.userid.map((docentry, key2) => {
-                  if (
-                    JSON.stringify(touruserentry._id) ===
-                    JSON.stringify(docentry)
-                  ) {
-                    response.push({
-                      name: touruserentry.name,
-                      points: doc[0].users.points[key2],
-                    });
-                  }
-                });
-              });
-              res.status(200).json(response);
-            }
-          }
-        );
+        let users = [];
+        doc.users.map((user, key) => {
+          users.push({ name: user.userid.name, points: user.points });
+        });
+        users.sort((a, b) => {
+          return b.points - a.points;
+        });
+        res.json(users);
       }
-    }
-  );
+    });
 });
 
 router.get("/owned", verify, (req, res, next) => {

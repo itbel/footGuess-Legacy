@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Navbar, Nav, Row } from "react-bootstrap";
+import React from "react";
+import { Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const SideNav = () => {
@@ -12,7 +12,10 @@ const SideNav = () => {
         Rules
       </Link>
       <Link className="side" to="/ranking">
-        Tournament Ranking
+        Round Ranking
+      </Link>
+      <Link className="side" to="/allranking">
+        Overall Ranking
       </Link>
     </Row>
   );

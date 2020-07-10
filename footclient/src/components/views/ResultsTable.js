@@ -12,7 +12,7 @@ const ResultsTable = () => {
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
   useEffect(() => {
-    if (state.selectedTourId !== undefined)
+    if (state.selectedTourId !== undefined) {
       FetchHighestRound(state.selectedTourId).then((response) => {
         if (response !== undefined && response.length > 0) {
           let tempArr = [];
@@ -22,21 +22,22 @@ const ResultsTable = () => {
           setRounds(tempArr);
         }
       });
-    FetchRound(state, round).then((response) => {
-      if (response !== undefined && response.length > 0) {
-        let tempArr = [];
-        response.map((value, entry) => {
-          if (entry % 5 === 0) {
-            tempArr.push(response.slice(entry, entry + 5));
-          }
-          return null;
-        });
-        setMatches(tempArr);
-      } else {
-        setMatches([]);
-      }
-    });
-  }, [round, currentPage, state]);
+      FetchRound(state, round).then((response) => {
+        if (response !== undefined && response.length > 0) {
+          let tempArr = [];
+          response.map((value, entry) => {
+            if (entry % 5 === 0) {
+              tempArr.push(response.slice(entry, entry + 5));
+            }
+            return null;
+          });
+          setMatches(tempArr);
+        } else {
+          setMatches([]);
+        }
+      });
+    }
+  }, [round, currentPage]);
   return (
     <Container>
       <Row className="justify-content-center">
@@ -76,28 +77,13 @@ const ResultsTable = () => {
               return (
                 <tr key={entry}>
                   <td className="text-right">
-                    <p>
-                      <b>{val.teamAName}</b>
-                    </p>
+                    <p>{val.teamAName}</p>
                   </td>
                   <td className="justify-content-center d-flex">
-                    {val.teamAResult !== undefined ? (
-                      <b>{val.teamAResult}</b>
-                    ) : (
-                      ""
-                    )}
-                    X
-                    {val.teamBResult !== undefined ? (
-                      <b>{val.teamBResult}</b>
-                    ) : (
-                      ""
-                    )}
+                    {val.teamAResult !== undefined ? val.teamAResult : ""}X
+                    {val.teamBResult !== undefined ? val.teamBResult : ""}
                   </td>
-                  <td className="text-left">
-                    <p>
-                      <b>{val.teamBName}</b>
-                    </p>
-                  </td>
+                  <td className="text-left">{val.teamBName}</td>
                   <td>
                     <ResultsModal selectedMatch={val}></ResultsModal>
                   </td>

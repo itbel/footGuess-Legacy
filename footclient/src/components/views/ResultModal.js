@@ -1,19 +1,24 @@
 import { Modal, Row, Col, Button, Form } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AddResult from "../functional/AddResult";
+import { Context } from "../Store";
 
 const ResultModal = (val) => {
+  const [state] = useContext(Context);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [teamAResult, setTeamAResult] = useState(val.selectedMatch.teamAResult);
   const [teamBResult, setTeamBResult] = useState(val.selectedMatch.teamBResult);
   const handleSubmit = () => {
-    AddResult(val.selectedMatch._id, teamAResult, teamBResult).then(
-      (response) => {
-        console.log(response);
-      }
-    );
+    AddResult(
+      state.selectedTourId,
+      val.selectedMatch._id,
+      teamAResult,
+      teamBResult
+    ).then((response) => {
+      console.log(response);
+    });
   };
   useEffect(() => {
     setTeamAResult(val.selectedMatch.teamAResult);

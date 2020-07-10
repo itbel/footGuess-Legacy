@@ -14,6 +14,8 @@ import Matches from "./Matches";
 import Tournaments from "./Tournaments";
 import Teams from "./Teams";
 import Results from "./Results";
+import OverallRanking from "./OverallRanking";
+import ReactLoading from "react-loading";
 
 // Functionals
 import FetchAll from "../functional/FetchAllTournaments";
@@ -44,6 +46,15 @@ const Dashboard = (props) => {
 
   return (
     <animated.div style={fade}>
+      {state.isUpdating ? (
+        <ReactLoading
+          type={"spin"}
+          color={"red"}
+          className="spinner"
+          height={"10%"}
+          width={"10%"}
+        ></ReactLoading>
+      ) : null}
       <div
         className="landing p-0"
         style={{
@@ -119,6 +130,7 @@ const Dashboard = (props) => {
                   <Route path={"/matches"} component={Matches} />
                   <Route path={"/teams"} component={Teams} />
                   <Route path={"/results"} component={Results} />
+                  <Route path={"/allranking"} component={OverallRanking} />
                 </Switch>
               </Col>
             </Row>

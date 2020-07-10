@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
+const morgan = require("morgan");
+const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -26,9 +28,12 @@ const teamsRouter = require("./routes/teams.route");
 const matchesRouter = require("./routes/matches.route");
 const guessRouter = require("./routes/guess.route");
 
+app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(helmet());
+
 app.use("/api/users", usersRouter);
 app.use("/api/teams", teamsRouter);
 app.use("/api/tournaments", tournamentRouter);
