@@ -87,14 +87,28 @@ router.patch("/manage", verify, (req, res, next) => {
                     }
                 }
               });
-              tournamentModel
-                .updateOne({ _id: req.body.tournamentid }, {})
-                .exec((err, doc1) => {
-                  if (err) next(err);
-                  else {
-                    res.status(204).send();
+              players.map((player, key) => {
+                console.log("======");
+                console.log(player.id);
+                console.log(player.name);
+                console.log(player.points);
+                console.log("======");
+                tournamentModel.findOneAndUpdate(
+                  {
+                    _id: req.body.tourid,
+                    "users.userid": player.id,
+                  },
+                  {
+                    $set: { "users.$.points": player.points },
+                  },
+                  (err, doc) => {
+                    if (err) next(err);
+                    else {
+                      console.log(doc);
+                    }
                   }
-                });
+                );
+              });
             }
           });
       }
