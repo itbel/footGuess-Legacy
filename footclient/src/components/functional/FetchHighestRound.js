@@ -5,7 +5,7 @@ const FetchHighestRound = (tournamentid) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://localhost:3001/api/matches/maxround/${tournamentid}`,
+    `http://18.224.228.195:3005/api/matches/maxround/${tournamentid}`,
     config,
     { timeout: 2000 }
   )

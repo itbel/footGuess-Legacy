@@ -3,7 +3,7 @@ import Axios from "axios";
 const FetchOwnedTournaments = (state, dispatch) => {
   if (state.isAuthenticated !== false)
     Axios.get(
-      `http://localhost:3001/api/tournaments/owned`,
+      `http://18.224.228.195:3005/api/tournaments/owned`,
       {
         headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
       },

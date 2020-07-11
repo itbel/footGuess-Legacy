@@ -5,7 +5,7 @@ const AddMatch = (teamA, teamB, round, tourid, dispatch) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   Axios.post(
-    "http://localhost:3001/api/matches/manage",
+    "http://18.224.228.195:3005/api/matches/manage",
     {
       tournamentid: tourid,
       round: round,
