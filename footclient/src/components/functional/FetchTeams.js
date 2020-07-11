@@ -5,7 +5,7 @@ const FetchTeams = (state, dispatch) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://localhost:3001/api/teams/all/${state.selectedTourId}`,
+    `http://18.224.228.195:3005/api/teams/all/${state.selectedTourId}`,
     config,
     { timeout: 2000 }
   )

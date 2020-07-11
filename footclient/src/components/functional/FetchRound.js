@@ -5,7 +5,7 @@ const FetchRound = (state, selectedRound) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://localhost:3001/api/matches/round/${state.selectedTourId}&${selectedRound}`,
+    `http://18.224.228.195:3005/api/matches/round/${state.selectedTourId}&${selectedRound}`,
     config,
     { timeout: 2000 }
   )

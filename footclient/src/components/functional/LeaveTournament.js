@@ -6,7 +6,7 @@ const LeaveTournament = (tournamentid, state, dispatch) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   Axios.patch(
-    "http://localhost:3001/api/tournaments/leave",
+    "http://18.224.228.195:3005/api/tournaments/leave",
     {
       tournamentid: tournamentid,
     },

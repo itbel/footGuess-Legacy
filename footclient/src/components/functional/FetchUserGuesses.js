@@ -5,7 +5,7 @@ const FetchUserGuesses = (state, round) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://localhost:3001/api/guesses/all/${state.selectedTourId}&${round}`,
+    `http://18.224.228.195:3005/api/guesses/all/${state.selectedTourId}&${round}`,
     config,
     { timeout: 2000 }
   )

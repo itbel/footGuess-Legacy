@@ -5,7 +5,7 @@ const FetchPlayers = (tourid) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://localhost:3001/api/tournaments/players/${tourid}`,
+    `http://18.224.228.195:3005/api/tournaments/players/${tourid}`,
     config,
     { timeout: 2000 }
   )
