@@ -3,7 +3,7 @@ import { Context } from "../Store";
 import FetchPlayers from "../functional/FetchPlayers";
 
 const PointsTable = () => {
-  const [state, dispatch] = useContext(Context);
+  const [state] = useContext(Context);
   const [players, setPlayers] = useState([]);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {

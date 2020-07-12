@@ -1,9 +1,10 @@
 import Axios from "axios";
 
 const FetchOwnedTournaments = (state, dispatch) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   if (state.isAuthenticated !== false)
     Axios.get(
-      `http://localhost:3005/api/tournaments/owned`,
+      `${BASE_URL}/api/tournaments/owned`,
       {
         headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
       },

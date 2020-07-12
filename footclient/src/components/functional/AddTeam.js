@@ -1,11 +1,12 @@
 import Axios from "axios";
 
 const AddTeam = (tourid, team, dispatch) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   Axios.post(
-    "http://localhost:3005/api/teams/manage",
+    `${BASE_URL}/api/teams/manage`,
     {
       teamName: team,
       tournamentid: tourid,

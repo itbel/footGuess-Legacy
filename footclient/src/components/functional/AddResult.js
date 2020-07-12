@@ -1,11 +1,12 @@
 import Axios from "axios";
 
 const AddResult = (tourid, matchid, teamAResult, teamBResult) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.patch(
-    "http://localhost:3005/api/matches/manage",
+    `${BASE_URL}/api/matches/manage`,
     {
       matchid: matchid,
       teamAResult: teamAResult,

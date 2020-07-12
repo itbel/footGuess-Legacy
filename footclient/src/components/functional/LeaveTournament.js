@@ -2,11 +2,12 @@ import Axios from "axios";
 import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 
 const LeaveTournament = (tournamentid, state, dispatch) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   Axios.patch(
-    "http://localhost:3005/api/tournaments/leave",
+    `${BASE_URL}/api/tournaments/leave`,
     {
       tournamentid: tournamentid,
     },
