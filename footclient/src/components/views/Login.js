@@ -18,7 +18,7 @@ const Login = (props) => {
     });
     if (data.user !== undefined && data.pass !== undefined) {
       Axios.post(
-        "http://18.224.228.195:3005/api/users/login",
+        `http://localhost:3005/api/users/login`,
         {
           username: data.user,
           password: data.pass,
@@ -41,6 +41,11 @@ const Login = (props) => {
             errorMessage: error.message || error.statusText,
           });
         });
+    } else {
+      setData({
+        ...data,
+        isSubmitting: false,
+      });
     }
   };
 

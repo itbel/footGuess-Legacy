@@ -5,7 +5,7 @@ const FetchRoundResult = (round, tourid) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://18.224.228.195:3005/api/matches/points/${round}&${tourid}`,
+    `http://localhost:3005/api/matches/points/${round}&${tourid}`,
     config,
     {
       timeout: 2000,

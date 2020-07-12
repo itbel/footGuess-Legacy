@@ -6,7 +6,7 @@ const JoinTournament = (tournamentid, state, dispatch) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   Axios.patch(
-    "http://18.224.228.195:3005/api/tournaments/join",
+    "http://localhost:3005/api/tournaments/join",
     {
       tournamentid: tournamentid,
     },

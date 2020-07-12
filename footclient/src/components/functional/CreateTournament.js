@@ -7,7 +7,7 @@ const CreateTournament = (tourname, state, dispatch) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.post(
-    "http://18.224.228.195:3005/api/tournaments/manage",
+    "http://localhost:3005/api/tournaments/manage",
     {
       name: tourname,
     },

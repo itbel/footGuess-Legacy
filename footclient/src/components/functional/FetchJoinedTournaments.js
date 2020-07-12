@@ -5,7 +5,7 @@ const FetchJoinedTournaments = (state, dispatch) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   if (state.isAuthenticated !== false)
-    Axios.get(`http://18.224.228.195:3005/api/tournaments/joined`, config, {
+    Axios.get(`http://localhost:3005/api/tournaments/joined`, config, {
       timeout: 2000,
     })
       .then((response) => {

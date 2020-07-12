@@ -4,7 +4,7 @@ const AddGuess = (teamAguess, teamBguess, matchid, tourid) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.post(
-    "http://18.224.228.195:3005/api/guesses/manage",
+    "http://localhost:3005/api/guesses/manage",
     {
       matchid: matchid,
       tourid: tourid,

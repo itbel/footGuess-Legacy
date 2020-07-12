@@ -5,7 +5,7 @@ const AddResult = (tourid, matchid, teamAResult, teamBResult) => {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.patch(
-    "http://18.224.228.195:3005/api/matches/manage",
+    "http://localhost:3005/api/matches/manage",
     {
       matchid: matchid,
       teamAResult: teamAResult,

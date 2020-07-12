@@ -43,6 +43,12 @@ const AddTeamModal = () => {
                   <Form.Control
                     value={teamName}
                     name="teamName"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleSubmit(e);
+                      }
+                    }}
                     onChange={(e) => {
                       setTeamName(e.target.value);
                     }}

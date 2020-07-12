@@ -25,7 +25,7 @@ const Register = (props) => {
     });
     if (data.user !== undefined && data.pass !== undefined) {
       Axios.post(
-        "http://18.224.228.195:3005/api/users/register",
+        "http://localhost:3005/api/users/register",
         {
           username: data.user,
           password: data.pass,
