@@ -1,6 +1,7 @@
 import Axios from "axios";
 import FetchAll from "../functional/FetchAllTournaments";
 import JoinTournament from "../functional/JoinTournament";
+import FetchOwned from "../functional/FetchOwnedTournaments";
 
 const CreateTournament = (tourname, state, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -18,6 +19,7 @@ const CreateTournament = (tourname, state, dispatch) => {
     .then((response) => {
       JoinTournament(response.data._id, state, dispatch);
       FetchAll(dispatch);
+      FetchOwned(state, dispatch);
       return response.data;
     })
     .catch((error) => {
