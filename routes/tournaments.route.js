@@ -20,7 +20,7 @@ router.post("/manage", verify, (req, res, next) => {
 
 router.patch("/join", verify, (req, res, next) => {
   console.log(`========== USER JOINING TOURNAMENT ==========`);
-  tournamentModel.findByIdAndUpdate(
+  tournamentModel.updateOne(
     { _id: req.body.tournamentid },
     {
       $addToSet: {
@@ -35,7 +35,7 @@ router.patch("/join", verify, (req, res, next) => {
       if (err) {
         next(err);
       } else {
-        res.json(doc);
+        res.status(204).send();
       }
     }
   );
@@ -53,8 +53,11 @@ router.patch("/leave", verify, (req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) next(err);
-      else res.json(doc);
+      if (err) {
+        next(err);
+      } else {
+        res.status(204).send();
+      }
     }
   );
 });

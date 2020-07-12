@@ -3,11 +3,12 @@ import FetchAll from "../functional/FetchAllTournaments";
 import JoinTournament from "../functional/JoinTournament";
 
 const CreateTournament = (tourname, state, dispatch) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.post(
-    "http://18.224.228.195:3005/api/tournaments/manage",
+    `${BASE_URL}/api/tournaments/manage`,
     {
       name: tourname,
     },

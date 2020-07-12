@@ -6,7 +6,7 @@ const Tournament = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: "user", required: true },
   users: [
     {
-      userid: { type: Schema.Types.ObjectId, ref: "user", unique: true },
+      userid: { type: Schema.Types.ObjectId, ref: "user" },
       points: Number,
     },
   ],

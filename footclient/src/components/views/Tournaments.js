@@ -84,6 +84,15 @@ const Tournaments = () => {
                         }
                         onClick={() => {
                           LeaveTournament(val.tournamentid, state, dispatch);
+                          if (val.name === state.selectedTourName) {
+                            let tour = {};
+                            tour.name = undefined;
+                            tour.tournamentid = undefined;
+                            dispatch({
+                              type: "SELECT_TOURNAMENT",
+                              payload: tour,
+                            });
+                          }
                         }}
                         variant="dark"
                       >

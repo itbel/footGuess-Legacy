@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Form, Row, Col, Container, Button } from "react-bootstrap";
 import Axios from "axios";
 const Register = (props) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const initialState = {
     user: "",
     pass: "",
@@ -25,7 +26,7 @@ const Register = (props) => {
     });
     if (data.user !== undefined && data.pass !== undefined) {
       Axios.post(
-        "http://18.224.228.195:3005/api/users/register",
+        `${BASE_URL}/api/users/register`,
         {
           username: data.user,
           password: data.pass,

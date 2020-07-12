@@ -18,6 +18,7 @@ const TopNav = () => {
     <Navbar
       bg="dark"
       variant="dark"
+      className="topNav"
       fixed="top"
       style={{
         height: "64px",

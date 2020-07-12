@@ -5,6 +5,7 @@ import { Context } from "../Store";
 import { useHistory } from "react-router-dom";
 
 const Login = (props) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const history = useHistory(props.history);
   const [state, dispatch] = useContext(Context);
 
@@ -18,7 +19,7 @@ const Login = (props) => {
     });
     if (data.user !== undefined && data.pass !== undefined) {
       Axios.post(
-        "http://18.224.228.195:3005/api/users/login",
+        `${BASE_URL}/api/users/login`,
         {
           username: data.user,
           password: data.pass,
@@ -41,6 +42,11 @@ const Login = (props) => {
             errorMessage: error.message || error.statusText,
           });
         });
+    } else {
+      setData({
+        ...data,
+        isSubmitting: false,
+      });
     }
   };
 

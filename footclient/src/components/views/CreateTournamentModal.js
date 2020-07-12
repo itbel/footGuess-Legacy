@@ -14,6 +14,8 @@ const CreateTournamentModal = () => {
     CreateTournament(name, state, dispatch).then((response) => {
       console.log(response);
     });
+    setName("");
+    handleClose();
   };
   useEffect(() => {}, [show]);
 
@@ -46,6 +48,12 @@ const CreateTournamentModal = () => {
                     onChange={(e) => {
                       setName(e.target.value);
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleSubmit(e);
+                      }
+                    }}
                     type="text"
                     placeholder="Enter name"
                   />
@@ -58,7 +66,6 @@ const CreateTournamentModal = () => {
           <Button
             onClick={(e) => {
               handleSubmit(e);
-              handleClose();
             }}
             variant="dark"
           >

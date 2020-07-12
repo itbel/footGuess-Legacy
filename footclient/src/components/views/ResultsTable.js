@@ -11,6 +11,12 @@ const ResultsTable = () => {
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
+  /* Temp Force render from child*/
+  const [update, setUpdate] = useState(false);
+  const handler = () => {
+    setUpdate(!update);
+  };
+
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
       FetchHighestRound(state.selectedTourId).then((response) => {
@@ -37,7 +43,7 @@ const ResultsTable = () => {
         }
       });
     }
-  }, [round, currentPage]);
+  }, [round, currentPage, update]);
   return (
     <Container>
       <Row className="justify-content-center">
@@ -85,7 +91,10 @@ const ResultsTable = () => {
                   </td>
                   <td className="text-left">{val.teamBName}</td>
                   <td>
-                    <ResultsModal selectedMatch={val}></ResultsModal>
+                    <ResultsModal
+                      handler={handler}
+                      selectedMatch={val}
+                    ></ResultsModal>
                   </td>
                 </tr>
               );

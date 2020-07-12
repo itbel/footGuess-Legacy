@@ -1,11 +1,12 @@
 import Axios from "axios";
 
 const FetchTeams = (state, dispatch) => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
   return Axios.get(
-    `http://18.224.228.195:3005/api/teams/all/${state.selectedTourId}`,
+    `${BASE_URL}/api/teams/all/${state.selectedTourId}`,
     config,
     { timeout: 2000 }
   )
