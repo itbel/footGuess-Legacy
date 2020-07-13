@@ -138,6 +138,14 @@ const AddMatchModal = () => {
           <Button
             onClick={(e) => {
               handleSubmit(e);
+            }}
+            variant="dark"
+          >
+            Add Another
+          </Button>
+          <Button
+            onClick={(e) => {
+              handleSubmit(e);
               handleClose();
             }}
             variant="dark"

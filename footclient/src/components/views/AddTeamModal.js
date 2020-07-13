@@ -1,9 +1,10 @@
 import { Modal, Row, Button, Form } from "react-bootstrap";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useContext } from "react";
 import AddTeam from "../functional/AddTeam";
 import { Context } from "../Store";
 
 const AddTeamModal = () => {
+  const teamNameRef = useRef(null);
   const [state, dispatch] = useContext(Context);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -15,7 +16,6 @@ const AddTeamModal = () => {
     AddTeam(state.selectedTourId, teamName, dispatch);
     setTeamName("");
   };
-  useEffect(() => {}, [show]);
 
   return (
     <>
@@ -25,6 +25,9 @@ const AddTeamModal = () => {
       <Modal
         centered
         show={show}
+        onEntered={() => {
+          teamNameRef.current.focus();
+        }}
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
@@ -41,6 +44,7 @@ const AddTeamModal = () => {
               <Row className="justify-content-center pt-3">
                 <Row className="w-50">
                   <Form.Control
+                    ref={teamNameRef}
                     value={teamName}
                     name="teamName"
                     onKeyDown={(e) => {
@@ -61,6 +65,14 @@ const AddTeamModal = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
+          <Button
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+            variant="dark"
+          >
+            Add Another
+          </Button>
           <Button
             onClick={(e) => {
               handleSubmit(e);

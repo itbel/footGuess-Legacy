@@ -29,17 +29,6 @@ router.delete("/manage/:id", verify, (req, res, next) => {
   });
 });
 
-/*router.get("/all/:id", verify, (req, res, next) => {
-  console.log(`========== FETCHING TOURNAMENT TEAMS ==========`);
-  teamModel.find({ tournamentid: req.params.id }, (err, doc) => {
-    if (err) next(err);
-    else {
-      console.log(doc);
-      res.status(200).json(doc);
-    }
-  });
-});*/
-
 router.get("/all/:id", verify, (req, res, next) => {
   teamModel
     .find({ tournamentid: req.params.id })
