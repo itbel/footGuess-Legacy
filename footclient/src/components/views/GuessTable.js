@@ -6,7 +6,7 @@ import FetchHighestRound from "../functional/FetchHighestRound";
 import AddGuessModal from "../views/AddGuessModal";
 
 const GuessTable = () => {
-  const [state] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
@@ -19,7 +19,7 @@ const GuessTable = () => {
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchHighestRound(state.selectedTourId).then((response) => {
+      FetchHighestRound(state.selectedTourId, dispatch).then((response) => {
         if (response !== undefined && response.length > 0) {
           let tempArr = [];
           for (let i = 1; i <= response[0].round; i++) {
@@ -43,7 +43,7 @@ const GuessTable = () => {
         }
       });
     }
-  }, [round, state, update]);
+  }, [round, update]);
   return (
     <Container>
       <Row className="justify-content-center">

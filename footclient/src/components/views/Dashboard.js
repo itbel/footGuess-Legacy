@@ -49,7 +49,7 @@ const Dashboard = (props) => {
       {state.isUpdating ? (
         <ReactLoading
           type={"spin"}
-          color={"red"}
+          color={"grey"}
           className="spinner"
           height={"10%"}
           width={"10%"}

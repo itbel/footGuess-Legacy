@@ -1,14 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { Col, Row, Container } from "react-bootstrap";
-import { Context } from "../Store";
 import AddMatchModal from "../views/AddMatchModal";
 import MatchesTable from "./MatchesTable";
 
 const Matches = () => {
-  const [state] = useContext(Context);
-
-  useEffect(() => {}, [state.selectedTourId]);
-
   return (
     <div
       style={{

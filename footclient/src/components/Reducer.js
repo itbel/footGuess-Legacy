@@ -31,10 +31,20 @@ const Reducer = (state, action) => {
       } else {
         return { ...state };
       }
+    case "UPDATING":
+      return {
+        ...state,
+        isUpdating: action.payload,
+      };
     case "FETCH_MATCHES":
       return {
         ...state,
         matches: action.payload,
+      };
+    case "FETCH_PLAYERS":
+      return {
+        ...state,
+        players: action.payload,
       };
     case "FETCH_TEAMS":
       return {

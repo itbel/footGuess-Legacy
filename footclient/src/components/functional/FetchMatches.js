@@ -5,13 +5,10 @@ const FetchMatches = (state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  return Axios.get(
-    `${BASE_URL}/api/matches/all/${state.selectedTourId}`,
-    config,
-    {
-      timeout: 2000,
-    }
-  )
+  dispatch({ type: "UPDATING", payload: true });
+  Axios.get(`${BASE_URL}/api/matches/all/${state.selectedTourId}`, config, {
+    timeout: 2000,
+  })
     .then((response) => {
       if (JSON.stringify(state.matches) !== JSON.stringify(response.data)) {
         dispatch({
@@ -19,7 +16,7 @@ const FetchMatches = (state, dispatch) => {
           payload: response.data,
         });
       }
-      return response.data;
+      dispatch({ type: "UPDATING", payload: false });
     })
     .catch((error) => {
       console.log(error);

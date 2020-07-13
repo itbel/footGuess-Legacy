@@ -11,22 +11,21 @@ const MatchesTable = () => {
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchMatches(state, dispatch).then((response) => {
-        if (response !== undefined && response.length > 0) {
-          let tempArr = [];
-          response.map((value, entry) => {
-            if (entry % 5 === 0) {
-              tempArr.push(response.slice(entry, entry + 5));
-            }
-            return null;
-          });
-          setMatches(tempArr);
-        } else {
-          setMatches([]);
-        }
-      });
+      FetchMatches(state, dispatch);
+      if (state.matches.length > 0) {
+        let tempArr = [];
+        state.matches.map((value, entry) => {
+          if (entry % 5 === 0) {
+            tempArr.push(state.matches.slice(entry, entry + 5));
+          }
+          return null;
+        });
+        setMatches(tempArr);
+      } else {
+        setMatches([]);
+      }
     }
-  }, [state.matches, dispatch, state]);
+  }, [state.matches]);
 
   return (
     <Row>

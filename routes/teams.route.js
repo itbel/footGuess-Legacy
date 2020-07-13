@@ -30,6 +30,7 @@ router.delete("/manage/:id", verify, (req, res, next) => {
 });
 
 router.get("/all/:id", verify, (req, res, next) => {
+  console.log("FETCH ALL TEAMS");
   teamModel
     .find({ tournamentid: req.params.id })
     .sort({ teamName: 1 })

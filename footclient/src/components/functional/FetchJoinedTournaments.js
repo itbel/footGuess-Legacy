@@ -5,7 +5,8 @@ const FetchJoinedTournaments = (state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  if (state.isAuthenticated !== false)
+  if (state.isAuthenticated !== false) {
+    dispatch({ type: "UPDATING", payload: true });
     Axios.get(`${BASE_URL}/api/tournaments/joined`, config, {
       timeout: 2000,
     })
@@ -14,10 +15,12 @@ const FetchJoinedTournaments = (state, dispatch) => {
           type: "FETCH_JOINED_TOURNAMENTS",
           payload: response.data,
         });
+        dispatch({ type: "UPDATING", payload: false });
       })
       .catch((error) => {
         console.log(error);
       });
+  }
 };
 
 export default FetchJoinedTournaments;
