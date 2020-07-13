@@ -70,15 +70,15 @@ const Dashboard = (props) => {
             <Row className="d-flex justify-content-end m-0">
               <Col xs={6}>
                 {!isLeagueSet && state.joinedTournaments.length !== 0 ? (
-                  <h1>Select a League: </h1>
+                  <h2>Select a League: </h2>
                 ) : (
-                  <h1>
+                  <h2>
                     {state.selectedTourName !== undefined
                       ? state.selectedTourName
                       : state.joinedTournaments.length === 0
                       ? "No joined leagues"
                       : "Select a League:"}
-                  </h1>
+                  </h2>
                 )}
               </Col>
               <Col xs={6}>

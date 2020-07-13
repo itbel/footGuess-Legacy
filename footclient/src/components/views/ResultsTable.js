@@ -11,7 +11,10 @@ const ResultsTable = () => {
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
-  /* Temp Force render from child*/
+  /* Temp Force render from child
+     Is not functioning at all times
+  */
+
   const [update, setUpdate] = useState(false);
   const handler = () => {
     setUpdate(!update);
@@ -48,7 +51,13 @@ const ResultsTable = () => {
     <Container>
       <Row className="justify-content-center">
         <Dropdown>
-          <Dropdown.Toggle size="sm" variant="light">
+          <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
+            size="sm"
+            variant="light"
+          >
             <b>Round: {round}</b>
           </Dropdown.Toggle>
           <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>

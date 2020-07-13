@@ -49,6 +49,9 @@ const GuessTable = () => {
       <Row className="justify-content-center">
         <Dropdown className="pl-2">
           <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
             disabled={rounds.length === 0}
             size="sm"
             variant="light"

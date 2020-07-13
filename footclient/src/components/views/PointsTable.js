@@ -44,7 +44,13 @@ const PointsTable = () => {
     <>
       <Row className="justify-content-center">
         <Dropdown className="pl-2">
-          <Dropdown.Toggle size="sm" variant="light">
+          <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
+            size="sm"
+            variant="light"
+          >
             <b>Round: {round}</b>
           </Dropdown.Toggle>
           <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>

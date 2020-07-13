@@ -34,6 +34,12 @@ const AddMatchModal = () => {
     <>
       <Button
         disabled={state.teams[0] === undefined || state.teams.length < 2}
+        style={{
+          visibility:
+            state.teams[0] === undefined || state.teams.length < 2
+              ? "hidden"
+              : "visible",
+        }}
         variant="dark"
         onClick={handleShow}
       >

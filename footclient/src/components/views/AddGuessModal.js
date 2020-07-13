@@ -43,7 +43,10 @@ const AddGuessModal = (props) => {
     <>
       <Button
         variant="dark"
-        disabled={state.selectedTourId === undefined}
+        disabled={matches.length === 0}
+        style={{
+          visibility: matches.length === 0 ? "hidden" : "visible",
+        }}
         onClick={handleShow}
       >
         Add Guess
