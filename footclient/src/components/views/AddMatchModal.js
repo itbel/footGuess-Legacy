@@ -21,17 +21,7 @@ const AddMatchModal = (props) => {
   useEffect(() => {}, [state.teams]);
   return (
     <>
-      <Button
-        disabled={state.teams[0] === undefined || state.teams.length < 2}
-        style={{
-          visibility:
-            state.teams[0] === undefined || state.teams.length < 2
-              ? "hidden"
-              : "visible",
-        }}
-        variant="dark"
-        onClick={handleShow}
-      >
+      <Button variant="dark" onClick={handleShow}>
         Add Match
       </Button>
       <Modal

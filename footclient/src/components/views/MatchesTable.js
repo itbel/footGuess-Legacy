@@ -1,22 +1,36 @@
-import { Table, Button, Row, Pagination } from "react-bootstrap";
+import { Table, Button, Row, Pagination, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import FetchMatches from "../functional/FetchMatches";
 import { Context } from "../Store";
 import RemoveMatch from "../functional/RemoveMatch";
+import FetchTeams from "../functional/FetchTeams";
+import FetchHighestRound from "../functional/FetchHighestRound";
 
 const MatchesTable = () => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
+  const [round, setRound] = useState(1);
+  const [rounds, setRounds] = useState([]);
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchMatches(state, dispatch);
+      FetchHighestRound(state.selectedTourId, dispatch).then((response) => {
+        if (response !== undefined && response.length > 0) {
+          let tempArr = [];
+          for (let i = 1; i <= response[0].round; i++) {
+            tempArr.push(i);
+          }
+          setRounds(tempArr);
+        }
+      });
+      if (state.teams.length === 0) FetchTeams(state, dispatch);
+      FetchMatches(state, dispatch, round);
       if (state.matches.length > 0) {
         let tempArr = [];
         state.matches.map((value, entry) => {
-          if (entry % 5 === 0) {
-            tempArr.push(state.matches.slice(entry, entry + 5));
+          if (entry % 10 === 0) {
+            tempArr.push(state.matches.slice(entry, entry + 10));
           }
           return null;
         });
@@ -25,75 +39,122 @@ const MatchesTable = () => {
         setMatches([]);
       }
     }
-  }, [state.matches]);
+  }, [state.matches, round]);
 
   return (
-    <Row>
-      <Table
-        style={{ padding: "0" }}
-        bordered
-        striped
-        variant="light"
-        size="sm"
-      >
-        <tbody>
-          {matches !== undefined &&
-          matches.length > 0 &&
-          matches[currentPage] !== undefined ? (
-            matches[currentPage].map((val, key) => {
+    <>
+      <Row className="justify-content-center">
+        <Dropdown>
+          <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
+            size="sm"
+            variant="light"
+          >
+            <b>Round: {round}</b>
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+            {rounds.map((val, key) => {
               return (
-                <tr key={key}>
-                  <td>{val.teamAName}</td>
-                  <td>{val.teamBName}</td>
-                  <td>{val.round}</td>
-                  <td className="d-table-cell w-25">
-                    <Button
-                      variant="dark"
-                      onClick={() => {
-                        if (matches[currentPage].length === 1) {
-                          if (currentPage !== 0)
-                            setCurrentPage(currentPage - 1);
-                        }
-                        RemoveMatch(val._id, state, dispatch);
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </td>
-                </tr>
+                <Dropdown.Item
+                  key={key}
+                  name={val}
+                  onClick={(e) => {
+                    setCurrentPage(0);
+                    setRound(parseInt(e.target.name));
+                  }}
+                >
+                  {val}
+                </Dropdown.Item>
               );
-            })
-          ) : (
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
+      </Row>
+      <Row className="justify-content-center">
+        <table className="matchesTable" style={{ marginTop: "16px" }}>
+          <thead>
             <tr>
-              <td colSpan={4}>No matches found</td>
+              <th>#</th>
+              <th>Team A</th>
+              <th colSpan={3}>Team B</th>
             </tr>
-          )}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={5}>
-              <Row className="justify-content-center m-0">
-                <Pagination variant="dark">
-                  {matches.map((val, key) => {
-                    return (
-                      <Pagination.Item
-                        onClick={() => {
-                          setCurrentPage(key);
+          </thead>
+          <tbody>
+            {matches !== undefined &&
+            matches.length > 0 &&
+            matches[currentPage] !== undefined ? (
+              matches[currentPage].map((val, key) => {
+                return (
+                  <tr
+                    style={{ backgroundColor: key % 2 ? "white" : "lightgrey" }}
+                    key={key}
+                  >
+                    <td>
+                      {currentPage === 0 ? key + 1 : key + 1 + currentPage * 5}
+                    </td>
+                    <td>{val.teamAName}</td>
+                    <td>{val.teamBName}</td>
+                    <td
+                      style={{ textAlign: "center" }}
+                      className="d-table-cell w-25"
+                    >
+                      <button
+                        style={{
+                          backgroundColor: "#25282a",
+                          borderRadius: "4px 4px 4px 4px",
+                          color: "#efefef",
+                          padding: "2px",
+                          margin: "2px",
+                          fontSize: "0.8em",
                         }}
-                        active={key === currentPage}
-                        key={key}
+                        onClick={() => {
+                          if (matches[currentPage].length === 1) {
+                            if (currentPage !== 0)
+                              setCurrentPage(currentPage - 1);
+                          }
+                          RemoveMatch(val._id, state, dispatch);
+                        }}
                       >
-                        {key + 1}
-                      </Pagination.Item>
-                    );
-                  })}
-                </Pagination>
-              </Row>
-            </td>
-          </tr>
-        </tfoot>
-      </Table>
-    </Row>
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={4}>No matches found</td>
+              </tr>
+            )}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={5}>
+                <Row className="justify-content-center m-0">
+                  <Pagination variant="dark">
+                    {matches.map((val, key) => {
+                      return (
+                        <Pagination.Item
+                          onClick={() => {
+                            setCurrentPage(key);
+                          }}
+                          active={key === currentPage}
+                          key={key}
+                        >
+                          {key + 1}
+                        </Pagination.Item>
+                      );
+                    })}
+                  </Pagination>
+                </Row>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </Row>
+    </>
   );
 };
 

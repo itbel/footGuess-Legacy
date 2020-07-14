@@ -31,7 +31,7 @@ const TeamsTable = () => {
         <thead>
           <tr>
             <th>#</th>
-            <th style={{ textAlign: "left" }} colSpan={2}>
+            <th style={{ textAlign: "left", paddingLeft: "32px" }} colSpan={2}>
               Team
             </th>
           </tr>

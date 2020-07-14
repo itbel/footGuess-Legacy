@@ -10,10 +10,7 @@ const RemoveMatch = (matchid, state, dispatch) => {
     timeout: 2000,
   })
     .then((response) => {
-      console.log(response);
-      FetchMatches(state, dispatch).then((matches) => {
-        return matches.data;
-      });
+      FetchMatches(state, dispatch);
     })
     .catch((error) => {
       console.log(error);

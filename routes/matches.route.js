@@ -260,12 +260,15 @@ router.delete("/manage/:id", verify, (req, res, next) => {
   });
 });
 
-router.get("/all/:id", verify, (req, res, next) => {
-  console.log(`========== FETCHING ALL MATCHES IN TOURNAMENT ==========`);
-  matchModel.find({ tournamentid: req.params.id }, (err, doc) => {
-    if (err) next(err);
-    else res.status(200).json(doc);
-  });
+router.get("/all/:id&:round", verify, (req, res, next) => {
+  console.log(`========== FETCHING MATCHES IN SELECTED ROUND ==========`);
+  matchModel.find(
+    { tournamentid: req.params.id, round: req.params.round },
+    (err, doc) => {
+      if (err) next(err);
+      else res.status(200).json(doc);
+    }
+  );
 });
 
 module.exports = router;

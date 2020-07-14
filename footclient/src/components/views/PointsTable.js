@@ -90,8 +90,8 @@ const PointsTable = () => {
                   style={{ backgroundColor: key % 2 ? "white" : "lightgrey" }}
                   key={key}
                 >
-                  <td className="results">
-                    {match.teamAName}X{match.teamBName}
+                  <td style={{ textAlign: "center" }} className="results">
+                    {match.teamAName} X {match.teamBName}
                   </td>
                   <td className="results">
                     {match.teamAResult !== undefined ? (

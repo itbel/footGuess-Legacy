@@ -58,6 +58,7 @@ body {
 }
 
 .teamsTable {
+  width: 60%;
   margin: auto;
   background-color: #efefef;
   color: black;
@@ -94,6 +95,21 @@ body {
 .rankingTable .results {
   border: solid 1px black;
 }
+
+.matchesTable {
+  width: 60%;
+  background-color: #efefef;
+  color: black;
+  font-size: 1.2em;
+}
+
+.matchesTable td {
+  border: solid 1px black;
+}
+.matchesTable th {
+  border: solid 1px black;
+}
+
 .sideNav {
   border-radius: 4px 4px 4px 4px;
   display: block;
@@ -121,6 +137,14 @@ body {
 }
 
 @media only screen and (max-width: 800px) {
+  .matchesTable {
+    width: 100%;
+    padding: 0;
+    font-size: 1em;
+  }
+  .matchesTable {
+    padding: 0;
+  }
   .teamsTable {
     width: 100%;
     padding: 0;
@@ -131,12 +155,12 @@ body {
   }
   .rankingTable {
     width: 100%;
-    font-size: 0.9em;
+    font-size: 1.1em;
     padding: 0;
   }
   .rankingTable td {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 4px;
+    padding-right: 4px;
   }
   .sideNav {
     display: inline;
