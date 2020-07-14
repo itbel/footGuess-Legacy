@@ -15,8 +15,8 @@ const TeamsTable = () => {
       if (state.teams.length > 0) {
         let tempArr = [];
         state.teams.map((value, entry) => {
-          if (entry % 5 === 0) {
-            tempArr.push(state.teams.slice(entry, entry + 5));
+          if (entry % 10 === 0) {
+            tempArr.push(state.teams.slice(entry, entry + 10));
           }
           return null;
         });
@@ -27,18 +27,42 @@ const TeamsTable = () => {
 
   return (
     <Row className="justify-content-center">
-      <Table bordered striped variant="light" size="sm">
+      <table className="teamsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th style={{ textAlign: "left" }} colSpan={2}>
+              Team
+            </th>
+          </tr>
+        </thead>
         <tbody>
           {teams !== undefined &&
           teams.length > 0 &&
           teams[currentPage] !== undefined ? (
             teams[currentPage].map((val, key) => {
               return (
-                <tr key={key}>
+                <tr
+                  key={key}
+                  style={{ backgroundColor: key % 2 ? "white" : "lightgrey" }}
+                >
+                  <td style={{ textAlign: "center" }}>
+                    {currentPage === 0 ? key + 1 : key + 1 + currentPage * 10}
+                  </td>
                   <td>{val.teamName}</td>
-                  <td className="d-table-cell w-25">
-                    <Button
-                      variant="dark"
+                  <td
+                    style={{ textAlign: "center" }}
+                    className="d-table-cell w-25"
+                  >
+                    <button
+                      style={{
+                        backgroundColor: "#25282a",
+                        borderRadius: "4px 4px 4px 4px",
+                        color: "#efefef",
+                        padding: "2px",
+                        margin: "2px",
+                        fontSize: "0.8em",
+                      }}
                       onClick={() => {
                         if (teams[currentPage].length === 1) {
                           if (currentPage !== 0)
@@ -48,7 +72,7 @@ const TeamsTable = () => {
                       }}
                     >
                       Remove
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               );
@@ -61,8 +85,8 @@ const TeamsTable = () => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={2}>
-              <Row className="justify-content-center m-0">
+            <td colSpan={3}>
+              <Row className="justify-content-center m-0 pt-2">
                 <Pagination variant="dark">
                   {teams.map((val, key) => {
                     return (
@@ -82,7 +106,7 @@ const TeamsTable = () => {
             </td>
           </tr>
         </tfoot>
-      </Table>
+      </table>
     </Row>
   );
 };

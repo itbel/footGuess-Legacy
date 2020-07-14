@@ -64,25 +64,25 @@ const Dashboard = (props) => {
         }}
       >
         <TopNav></TopNav>
-        <div style={{ height: "80px" }}></div>
+        <div style={{ height: "50px" }}></div>
         <Row className="m-0">
           <Col>
-            <Row className="d-flex justify-content-end m-0">
+            <Row className="d-flex justify-content-end m-auto">
               <Col xs={6}>
                 {!isLeagueSet && state.joinedTournaments.length !== 0 ? (
-                  <h2>Select a League: </h2>
+                  <h5>Select a League: </h5>
                 ) : (
-                  <h2>
+                  <h5>
                     {state.selectedTourName !== undefined
                       ? state.selectedTourName
                       : state.joinedTournaments.length === 0
                       ? "No joined leagues"
                       : "Select a League:"}
-                  </h2>
+                  </h5>
                 )}
               </Col>
               <Col xs={6}>
-                <Dropdown className="d-flex mt-2 justify-content-end">
+                <Dropdown className="d-flex justify-content-end">
                   <Dropdown.Toggle
                     style={{
                       visibility:
@@ -90,6 +90,7 @@ const Dashboard = (props) => {
                           ? "hidden"
                           : "visible",
                     }}
+                    size="sm"
                     variant="dark"
                     id="dropdown-basic"
                     drop={"down"}
@@ -122,7 +123,7 @@ const Dashboard = (props) => {
             </Row>
 
             <Row className="justify-content-center">
-              <Col lg={2} className="mt-3">
+              <Col lg={2} className="mt-2">
                 {state.selectedTourId !== undefined ? (
                   <SideNav></SideNav>
                 ) : null}
@@ -131,7 +132,7 @@ const Dashboard = (props) => {
                 sm={12}
                 md={12}
                 lg={state.selectedTourId !== undefined ? 10 : 12}
-                className="mt-3"
+                className="mt-1"
               >
                 <Switch>
                   <Route path={"/home"} component={Home} />
