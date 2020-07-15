@@ -21,7 +21,7 @@ const CreateTournamentModal = () => {
 
   return (
     <>
-      <Button variant="dark" onClick={handleShow}>
+      <Button variant="light" onClick={handleShow}>
         Create Tournament
       </Button>
       <Modal

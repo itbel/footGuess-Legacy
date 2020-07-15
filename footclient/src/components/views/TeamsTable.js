@@ -1,4 +1,4 @@
-import { Table, Button, Row, Pagination } from "react-bootstrap";
+import { Row, Pagination } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../Store";
 import FetchTeams from "../functional/FetchTeams";

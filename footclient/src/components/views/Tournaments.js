@@ -11,6 +11,7 @@ const Tournaments = () => {
   const [tournaments, setTournaments] = useState([]);
 
   useEffect(() => {
+    console.log();
     let arr = [];
     let entries = Object.entries(state.joinedTournaments);
     for (let entry of entries) {
@@ -50,6 +51,7 @@ const Tournaments = () => {
                 <th colSpan="1">
                   <b>Tournament Name</b>
                 </th>
+                <th>Manager</th>
                 <th>
                   <b>Manage</b>
                 </th>
@@ -61,6 +63,7 @@ const Tournaments = () => {
                 return (
                   <tr key={key}>
                     <td className="d-table-cell">{val.name}</td>
+                    <td>{val.owner}</td>
                     <td className="d-table-cell">
                       <Button
                         disabled={

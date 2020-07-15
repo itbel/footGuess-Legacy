@@ -121,21 +121,25 @@ router.get("/owned", verify, (req, res, next) => {
 
 router.get("/all", (req, res, next) => {
   console.log(`========== FETCHING ALL TOURNAMENTS ==========`);
-  tournamentModel.find({}, (err, doc) => {
-    if (err) next(err);
-    else {
-      let entries = Object.entries(doc);
-      let i = 0;
-      for (let entry of entries) {
-        doc[i] = {
-          name: entry[1].name,
-          tournamentid: entry[1]._id,
-        };
-        i++;
+  tournamentModel
+    .find({})
+    .populate({ path: "owner" })
+    .exec((err, doc) => {
+      if (err) next(err);
+      else {
+        let entries = Object.entries(doc);
+        let i = 0;
+        for (let entry of entries) {
+          doc[i] = {
+            name: entry[1].name,
+            tournamentid: entry[1]._id,
+            owner: entry[1].owner.name,
+          };
+          i++;
+        }
+        res.status(200).json(doc);
       }
-      res.status(200).json(doc);
-    }
-  });
+    });
 });
 
 module.exports = router;

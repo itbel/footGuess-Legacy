@@ -1,4 +1,4 @@
-import { Table, Pagination, Row, Dropdown, Container } from "react-bootstrap";
+import { Pagination, Row, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
