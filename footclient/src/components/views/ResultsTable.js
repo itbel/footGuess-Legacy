@@ -82,16 +82,33 @@ const ResultsTable = () => {
         <table className="resultsTable">
           <thead>
             <tr>
+              <th
+                style={{ borderRight: "1px solid black" }}
+                className="text-center"
+              >
+                #
+              </th>
               <th className="text-right">Team A</th>
-              <th>&nbsp;</th>
+              <th className="text-center">X</th>
               <th className="text-left">Team B</th>
             </tr>
           </thead>
           <tbody>
             {matches !== undefined && matches[currentPage] !== undefined ? (
-              matches[currentPage].map((val, entry) => {
+              matches[currentPage].map((val, key) => {
                 return (
-                  <tr key={entry}>
+                  <tr
+                    key={key}
+                    style={{
+                      backgroundColor: key % 2 ? "white" : "lightgrey",
+                    }}
+                  >
+                    <td
+                      className="text-center"
+                      style={{ borderRight: "1px solid black" }}
+                    >
+                      {currentPage === 0 ? key + 1 : key + 1 + currentPage * 10}
+                    </td>
                     <td className="text-right">{val.teamAName}</td>
                     <td style={{ textAlign: "center" }}>
                       {val.teamAResult !== undefined ? val.teamAResult : ""}X

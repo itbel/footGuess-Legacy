@@ -24,7 +24,7 @@ const Matches = () => {
             <MatchesTable></MatchesTable>
           </Col>
         </Row>
-        <Row className="justify-content-center">
+        <Row className="justify-content-center mt-1">
           <AddMatchModal />
         </Row>
       </Container>
