@@ -24,7 +24,7 @@ const Teams = () => {
           </Col>
         </Row>
         <Row className="justify-content-center mt-1">
-          <AddTeamModal></AddTeamModal>
+          <AddTeamModal />
         </Row>
       </Container>
     </div>

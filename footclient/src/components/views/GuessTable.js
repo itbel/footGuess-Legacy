@@ -77,76 +77,82 @@ const GuessTable = () => {
         </Dropdown>
       </Row>
       <Row className="justify-content-center">
-        <table className="guessTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th className="text-center">Match</th>
-              <th>Guess</th>
-              <th>Result</th>
-            </tr>
-          </thead>
-          <tbody>
-            {matches !== undefined && matches[currentPage] !== undefined ? (
-              matches[currentPage].map((val, key) => {
-                return (
-                  <tr key={key}>
-                    <td>
-                      {currentPage === 0 ? key + 1 : key + 1 + currentPage * 10}
-                    </td>
-                    <td className="text-center">
-                      {val.teamAName} X {val.teamBName}
-                    </td>
-                    <td>
-                      {val.teamAguess} X {val.teamBguess}
-                    </td>
-                    {typeof val.teamAResult !== undefined &&
-                    typeof val.teamBResult !== undefined ? (
+        {matches.length > 0 ? (
+          <table className="guessTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th className="text-center">Match</th>
+                <th>Guess</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              {matches !== undefined && matches[currentPage] !== undefined ? (
+                matches[currentPage].map((val, key) => {
+                  return (
+                    <tr key={key}>
                       <td>
-                        {val.teamAResult} X {val.teamBResult}
+                        {currentPage === 0
+                          ? key + 1
+                          : key + 1 + currentPage * 10}
                       </td>
-                    ) : (
-                      <td></td>
-                    )}
-                  </tr>
-                );
-              })
-            ) : state.selectedTourId === undefined ? (
+                      <td className="text-center">
+                        {val.teamAName} X {val.teamBName}
+                      </td>
+                      <td>
+                        {val.teamAguess} X {val.teamBguess}
+                      </td>
+                      {typeof val.teamAResult !== undefined &&
+                      typeof val.teamBResult !== undefined ? (
+                        <td>
+                          {val.teamAResult} X {val.teamBResult}
+                        </td>
+                      ) : (
+                        <td></td>
+                      )}
+                    </tr>
+                  );
+                })
+              ) : state.selectedTourId === undefined ? (
+                <tr>
+                  <td>Tournament must be selected</td>
+                </tr>
+              ) : (
+                <tr>
+                  <td colSpan={4}>No Results</td>
+                </tr>
+              )}
+            </tbody>
+            <tfoot>
               <tr>
-                <td>Tournament must be selected</td>
+                <td colSpan={3}>
+                  <Row className="justify-content-center m-0">
+                    {matches.length > 1 ? (
+                      <Pagination variant="dark">
+                        {matches.map((val, key) => {
+                          return (
+                            <Pagination.Item
+                              onClick={() => {
+                                setCurrentPage(key);
+                              }}
+                              active={key === currentPage}
+                              key={key}
+                            >
+                              {key + 1}
+                            </Pagination.Item>
+                          );
+                        })}
+                      </Pagination>
+                    ) : null}
+                  </Row>
+                </td>
               </tr>
-            ) : (
-              <tr>
-                <td colSpan={4}>No Results</td>
-              </tr>
-            )}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={3}>
-                <Row className="justify-content-center m-0">
-                  {matches.length > 1 ? (
-                    <Pagination variant="dark">
-                      {matches.map((val, key) => {
-                        return (
-                          <Pagination.Item
-                            onClick={() => {
-                              setCurrentPage(key);
-                            }}
-                            active={key === currentPage}
-                            key={key}
-                          >
-                            {key + 1}
-                          </Pagination.Item>
-                        );
-                      })}
-                    </Pagination>
-                  ) : null}
-                </Row>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+            </tfoot>
+          </table>
+        ) : (
+          <h1>No guesses found</h1>
+        )}
       </Row>
       <Row className="justify-content-center pt-1">
         <AddGuessModal handler={handler} round={round}></AddGuessModal>

@@ -21,7 +21,7 @@ const AddMatchModal = (props) => {
   useEffect(() => {}, [state.teams]);
   return (
     <>
-      <Button variant="dark" onClick={handleShow}>
+      <Button variant="light" onClick={handleShow}>
         Add Match
       </Button>
       <Modal

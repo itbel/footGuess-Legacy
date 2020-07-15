@@ -27,6 +27,9 @@ const Reducer = (state, action) => {
           ...state,
           selectedTourName: action.payload.name,
           selectedTourId: action.payload.tournamentid,
+          teams: [],
+          matches: [],
+          players: [],
         };
       } else {
         return { ...state };

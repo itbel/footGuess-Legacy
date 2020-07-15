@@ -19,7 +19,7 @@ const AddTeamModal = () => {
 
   return (
     <>
-      <Button variant="dark" onClick={handleShow}>
+      <Button variant="light" onClick={handleShow}>
         Add Team
       </Button>
       <Modal

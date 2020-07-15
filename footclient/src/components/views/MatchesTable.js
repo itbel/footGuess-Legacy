@@ -22,6 +22,8 @@ const MatchesTable = () => {
             tempArr.push(i);
           }
           setRounds(tempArr);
+        } else {
+          setRounds([]);
         }
       });
       if (state.teams.length === 0) FetchTeams(state, dispatch);
@@ -44,129 +46,139 @@ const MatchesTable = () => {
   return (
     <>
       <Row className="justify-content-center">
-        <Dropdown>
-          <Dropdown.Toggle
-            style={{
-              visibility: rounds.length === 0 ? "hidden" : "visible",
-            }}
-            size="sm"
-            variant="light"
-          >
-            <b>Round: {round}</b>
-          </Dropdown.Toggle>
-          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-            {rounds.map((val, key) => {
-              return (
-                <Dropdown.Item
-                  key={key}
-                  name={val}
-                  onClick={(e) => {
-                    setCurrentPage(0);
-                    setRound(parseInt(e.target.name));
-                  }}
-                >
-                  {val}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown.Menu>
-        </Dropdown>
+        {matches.length > 0 ? (
+          <Dropdown>
+            <Dropdown.Toggle
+              style={{
+                visibility: rounds.length === 0 ? "hidden" : "visible",
+              }}
+              size="sm"
+              variant="light"
+            >
+              <b>Round: {round}</b>
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+              {rounds.map((val, key) => {
+                return (
+                  <Dropdown.Item
+                    key={key}
+                    name={val}
+                    onClick={(e) => {
+                      setCurrentPage(0);
+                      setRound(parseInt(e.target.name));
+                    }}
+                  >
+                    {val}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : null}
       </Row>
       <Row className="justify-content-center">
-        <table className="matchesTable">
-          <thead>
-            <tr>
-              <th
-                style={{ borderRight: "1px solid black" }}
-                className="text-center"
-              >
-                #
-              </th>
-              <th className="text-right">Team A</th>
-              <th className="text-center">X</th>
-              <th className="text-left">Team B</th>
-            </tr>
-          </thead>
-          <tbody>
-            {matches !== undefined &&
-            matches.length > 0 &&
-            matches[currentPage] !== undefined ? (
-              matches[currentPage].map((val, key) => {
-                return (
-                  <tr
-                    style={{ backgroundColor: key % 2 ? "white" : "lightgrey" }}
-                    key={key}
-                  >
-                    <td
-                      className="text-center"
-                      style={{ borderRight: "1px solid black" }}
-                    >
-                      {currentPage === 0 ? key + 1 : key + 1 + currentPage * 5}
-                    </td>
-                    <td className="text-right">{val.teamAName}</td>
-                    <td className="text-center">X</td>
-                    <td className="text-left">{val.teamBName}</td>
-                    <td
-                      style={{ textAlign: "center" }}
-                      className="d-table-cell w-25"
-                    >
-                      <button
-                        style={{
-                          backgroundColor: "#25282a",
-                          borderRadius: "4px 4px 4px 4px",
-                          color: "#efefef",
-                          padding: "2px",
-                          margin: "2px",
-                          fontSize: "0.8em",
-                        }}
-                        onClick={() => {
-                          if (matches[currentPage].length === 1) {
-                            if (currentPage !== 0)
-                              setCurrentPage(currentPage - 1);
-                          }
-                          RemoveMatch(val._id, state, dispatch, round);
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
+        {matches.length > 0 ? (
+          <table className="matchesTable">
+            <thead>
               <tr>
-                <td colSpan={4}>No matches found</td>
+                <th
+                  style={{ borderRight: "1px solid black" }}
+                  className="text-center"
+                >
+                  #
+                </th>
+                <th className="text-right">Team A</th>
+                <th className="text-center">X</th>
+                <th className="text-left">Team B</th>
               </tr>
-            )}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={5}>
-                <Row className="justify-content-center m-0 pt-2">
-                  {matches.length > 1 ? (
-                    <Pagination variant="dark">
-                      {matches.map((val, key) => {
-                        return (
-                          <Pagination.Item
-                            onClick={() => {
-                              setCurrentPage(key);
-                            }}
-                            active={key === currentPage}
-                            key={key}
-                          >
-                            {key + 1}
-                          </Pagination.Item>
-                        );
-                      })}
-                    </Pagination>
-                  ) : (
-                    " "
-                  )}
-                </Row>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              {matches !== undefined &&
+              matches.length > 0 &&
+              matches[currentPage] !== undefined ? (
+                matches[currentPage].map((val, key) => {
+                  return (
+                    <tr
+                      style={{
+                        backgroundColor: key % 2 ? "white" : "lightgrey",
+                      }}
+                      key={key}
+                    >
+                      <td
+                        className="text-center"
+                        style={{ borderRight: "1px solid black" }}
+                      >
+                        {currentPage === 0
+                          ? key + 1
+                          : key + 1 + currentPage * 5}
+                      </td>
+                      <td className="text-right">{val.teamAName}</td>
+                      <td className="text-center">X</td>
+                      <td className="text-left">{val.teamBName}</td>
+                      <td
+                        style={{ textAlign: "center" }}
+                        className="d-table-cell w-25"
+                      >
+                        <button
+                          style={{
+                            backgroundColor: "#25282a",
+                            borderRadius: "4px 4px 4px 4px",
+                            color: "#efefef",
+                            padding: "2px",
+                            margin: "2px",
+                            fontSize: "0.8em",
+                          }}
+                          onClick={() => {
+                            if (matches[currentPage].length === 1) {
+                              if (currentPage !== 0)
+                                setCurrentPage(currentPage - 1);
+                            }
+                            RemoveMatch(val._id, state, dispatch, round);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={4}>No matches found</td>
+                </tr>
+              )}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={5}>
+                  <Row className="justify-content-center m-0 pt-2">
+                    {matches.length > 1 ? (
+                      <Pagination variant="dark">
+                        {matches.map((val, key) => {
+                          return (
+                            <Pagination.Item
+                              onClick={() => {
+                                setCurrentPage(key);
+                              }}
+                              active={key === currentPage}
+                              key={key}
+                            >
+                              {key + 1}
+                            </Pagination.Item>
+                          );
+                        })}
+                      </Pagination>
+                    ) : (
+                      " "
+                    )}
+                  </Row>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        ) : (
+          <h1>No matches found</h1>
+        )}
       </Row>
     </>
   );
