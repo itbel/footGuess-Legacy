@@ -14,17 +14,19 @@ const Teams = () => {
         color: "#efefef",
       }}
     >
-      <Row className="justify-content-center">
-        <h1>Teams</h1>
-      </Row>
-      <Row className="pt-1">
-        <Col sm={12}>
-          <TeamsTable></TeamsTable>
-        </Col>
-      </Row>
-      <Row className="justify-content-center mt-1">
-        <AddTeamModal></AddTeamModal>
-      </Row>
+      <Container>
+        <Row className="justify-content-center">
+          <h1>Teams</h1>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <TeamsTable></TeamsTable>
+          </Col>
+        </Row>
+        <Row className="justify-content-center mt-1">
+          <AddTeamModal></AddTeamModal>
+        </Row>
+      </Container>
     </div>
   );
 };

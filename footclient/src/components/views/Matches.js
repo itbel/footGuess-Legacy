@@ -19,7 +19,7 @@ const Matches = () => {
         <Row className="justify-content-center">
           <h1>Matches</h1>
         </Row>
-        <Row className="pt-3">
+        <Row>
           <Col sm={12}>
             <MatchesTable></MatchesTable>
           </Col>

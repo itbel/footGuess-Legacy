@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Context } from "../Store";
 import ResultsModal from "./ResultModal";
-import { Dropdown, Pagination, Row, Table, Container } from "react-bootstrap";
+import { Dropdown, Pagination, Row } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
@@ -35,8 +35,8 @@ const ResultsTable = () => {
         if (response !== undefined && response.length > 0) {
           let tempArr = [];
           response.map((value, entry) => {
-            if (entry % 5 === 0) {
-              tempArr.push(response.slice(entry, entry + 5));
+            if (entry % 10 === 0) {
+              tempArr.push(response.slice(entry, entry + 10));
             }
             return null;
           });
@@ -46,9 +46,9 @@ const ResultsTable = () => {
         }
       });
     }
-  }, [round, currentPage, update]);
+  }, [round, update]);
   return (
-    <Container>
+    <>
       <Row className="justify-content-center">
         <Dropdown>
           <Dropdown.Toggle
@@ -78,67 +78,69 @@ const ResultsTable = () => {
           </Dropdown.Menu>
         </Dropdown>
       </Row>
-      <Table
-        style={{ marginTop: "16px" }}
-        responsive
-        striped
-        hover
-        variant="light"
-        size="sm"
-      >
-        <tbody>
-          {matches !== undefined && matches[currentPage] !== undefined ? (
-            matches[currentPage].map((val, entry) => {
-              return (
-                <tr key={entry}>
-                  <td className="text-right">
-                    <p>{val.teamAName}</p>
-                  </td>
-                  <td className="justify-content-center d-flex">
-                    {val.teamAResult !== undefined ? val.teamAResult : ""}X
-                    {val.teamBResult !== undefined ? val.teamBResult : ""}
-                  </td>
-                  <td className="text-left">{val.teamBName}</td>
-                  <td>
-                    <ResultsModal
-                      handler={handler}
-                      selectedMatch={val}
-                    ></ResultsModal>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
+      <Row className="justify-content-center">
+        <table className="resultsTable">
+          <thead>
             <tr>
-              <td colSpan={4}>No Results</td>
+              <th className="text-right">Team A</th>
+              <th>&nbsp;</th>
+              <th className="text-left">Team B</th>
             </tr>
-          )}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={4}>
-              <Row className="justify-content-center m-0">
-                <Pagination variant="dark">
-                  {matches.map((val, key) => {
-                    return (
-                      <Pagination.Item
-                        onClick={() => {
-                          setCurrentPage(key);
-                        }}
-                        active={key === currentPage}
-                        key={key}
-                      >
-                        {key + 1}
-                      </Pagination.Item>
-                    );
-                  })}
-                </Pagination>
-              </Row>
-            </td>
-          </tr>
-        </tfoot>
-      </Table>
-    </Container>
+          </thead>
+          <tbody>
+            {matches !== undefined && matches[currentPage] !== undefined ? (
+              matches[currentPage].map((val, entry) => {
+                return (
+                  <tr key={entry}>
+                    <td className="text-right">{val.teamAName}</td>
+                    <td style={{ textAlign: "center" }}>
+                      {val.teamAResult !== undefined ? val.teamAResult : ""}X
+                      {val.teamBResult !== undefined ? val.teamBResult : ""}
+                    </td>
+                    <td className="text-left">{val.teamBName}</td>
+                    <td>
+                      <ResultsModal
+                        handler={handler}
+                        selectedMatch={val}
+                      ></ResultsModal>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={4}>No Results</td>
+              </tr>
+            )}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={4}>
+                <Row className="justify-content-center m-0 pt-2">
+                  {matches.length > 1 ? (
+                    <Pagination variant="dark">
+                      {matches.map((val, key) => {
+                        return (
+                          <Pagination.Item
+                            onClick={() => {
+                              setCurrentPage(key);
+                            }}
+                            active={key === currentPage}
+                            key={key}
+                          >
+                            {key + 1}
+                          </Pagination.Item>
+                        );
+                      })}
+                    </Pagination>
+                  ) : null}
+                </Row>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </Row>
+    </>
   );
 };
 

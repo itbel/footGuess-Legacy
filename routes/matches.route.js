@@ -251,8 +251,9 @@ router.delete("/manage/:id", verify, (req, res, next) => {
     if (err) next(err);
     else {
       guessModel.deleteMany({ matchid: req.params.id }, (err, guessdoc) => {
-        if (err) next(err);
-        else {
+        if (err) {
+          next(err);
+        } else {
           res.status(200).json({ msg: "Match Deleted" });
         }
       });

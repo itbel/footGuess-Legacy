@@ -1,4 +1,4 @@
-import { Table, Button, Row, Pagination, Dropdown } from "react-bootstrap";
+import { Row, Pagination, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import FetchMatches from "../functional/FetchMatches";
 import { Context } from "../Store";
@@ -73,7 +73,7 @@ const MatchesTable = () => {
         </Dropdown>
       </Row>
       <Row className="justify-content-center">
-        <table className="matchesTable" style={{ marginTop: "16px" }}>
+        <table className="matchesTable">
           <thead>
             <tr>
               <th>#</th>
@@ -114,7 +114,7 @@ const MatchesTable = () => {
                             if (currentPage !== 0)
                               setCurrentPage(currentPage - 1);
                           }
-                          RemoveMatch(val._id, state, dispatch);
+                          RemoveMatch(val._id, state, dispatch, round);
                         }}
                       >
                         Remove
@@ -132,22 +132,26 @@ const MatchesTable = () => {
           <tfoot>
             <tr>
               <td colSpan={5}>
-                <Row className="justify-content-center m-0">
-                  <Pagination variant="dark">
-                    {matches.map((val, key) => {
-                      return (
-                        <Pagination.Item
-                          onClick={() => {
-                            setCurrentPage(key);
-                          }}
-                          active={key === currentPage}
-                          key={key}
-                        >
-                          {key + 1}
-                        </Pagination.Item>
-                      );
-                    })}
-                  </Pagination>
+                <Row className="justify-content-center m-0 pt-2">
+                  {matches.length > 1 ? (
+                    <Pagination variant="dark">
+                      {matches.map((val, key) => {
+                        return (
+                          <Pagination.Item
+                            onClick={() => {
+                              setCurrentPage(key);
+                            }}
+                            active={key === currentPage}
+                            key={key}
+                          >
+                            {key + 1}
+                          </Pagination.Item>
+                        );
+                      })}
+                    </Pagination>
+                  ) : (
+                    " "
+                  )}
                 </Row>
               </td>
             </tr>

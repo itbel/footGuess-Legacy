@@ -87,21 +87,23 @@ const TeamsTable = () => {
           <tr>
             <td colSpan={3}>
               <Row className="justify-content-center m-0 pt-2">
-                <Pagination variant="dark">
-                  {teams.map((val, key) => {
-                    return (
-                      <Pagination.Item
-                        onClick={() => {
-                          setCurrentPage(key);
-                        }}
-                        active={key === currentPage}
-                        key={key}
-                      >
-                        {key + 1}
-                      </Pagination.Item>
-                    );
-                  })}
-                </Pagination>
+                {teams.length > 1 ? (
+                  <Pagination variant="dark">
+                    {teams.map((val, key) => {
+                      return (
+                        <Pagination.Item
+                          onClick={() => {
+                            setCurrentPage(key);
+                          }}
+                          active={key === currentPage}
+                          key={key}
+                        >
+                          {key + 1}
+                        </Pagination.Item>
+                      );
+                    })}
+                  </Pagination>
+                ) : null}
               </Row>
             </td>
           </tr>

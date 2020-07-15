@@ -1,7 +1,7 @@
 import Axios from "axios";
 import FetchMatches from "./FetchMatches";
 
-const RemoveMatch = (matchid, state, dispatch) => {
+const RemoveMatch = (matchid, state, dispatch, round) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
@@ -10,7 +10,7 @@ const RemoveMatch = (matchid, state, dispatch) => {
     timeout: 2000,
   })
     .then((response) => {
-      FetchMatches(state, dispatch);
+      FetchMatches(state, dispatch, round);
     })
     .catch((error) => {
       console.log(error);
