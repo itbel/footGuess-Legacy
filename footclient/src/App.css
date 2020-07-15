@@ -124,6 +124,18 @@ body {
   border-bottom: solid 1px black;
 }
 
+.guessTable {
+  margin-top: 16px;
+  width: 60%;
+  background-color: #efefef;
+  color: black;
+  font-size: 1.2em;
+}
+.guessTable td {
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+
 /* =========== Side Nav ============*/
 .sideNav {
   border-radius: 4px 4px 4px 4px;
@@ -162,6 +174,7 @@ body {
     padding: 0;
     font-size: 1em;
   }
+
   .resultsTable {
     width: 100%;
     padding: 0;
@@ -169,8 +182,9 @@ body {
   }
 
   .resultsTable td {
-    padding: 1px;
+    padding: 0;
   }
+
   .teamsTable {
     width: 100%;
     padding: 0;
@@ -182,9 +196,18 @@ body {
     font-size: 1.1em;
     padding: 0;
   }
+
   .rankingTable td {
-    padding-left: 4px;
-    padding-right: 4px;
+    padding: 0;
+  }
+
+  .guessTable {
+    width: 100%;
+    font-size: 1.1em;
+  }
+
+  .guessTable td {
+    padding: 0;
   }
 
   /* =========== Side Nav ============*/
@@ -193,6 +216,7 @@ body {
     padding: 8px;
     background-color: #131313;
   }
+
   .side {
     display: inline;
     color: white;
