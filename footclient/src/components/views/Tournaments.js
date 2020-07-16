@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
 import CreateTournamentModal from "../views/CreateTournamentModal";
+import RemoveTournament from "../functional/RemoveTournament";
 
 const Tournaments = () => {
   const [state, dispatch] = useContext(Context);
@@ -106,19 +107,31 @@ const Tournaments = () => {
                         disabled={
                           state.ownedTournaments.find(
                             (el) => el.name === val.name
-                          ) !== undefined
+                          ) === undefined
                             ? true
                             : false
                         }
                         hidden={
                           state.ownedTournaments.find(
                             (el) => el.name === val.name
-                          ) !== undefined
+                          ) === undefined
                             ? true
                             : false
                         }
                         style={{ marginLeft: "8px" }}
                         variant="danger"
+                        onClick={() => {
+                          RemoveTournament(val.tournamentid, state, dispatch);
+                          if (val.name === state.selectedTourName) {
+                            let tour = {};
+                            tour.name = undefined;
+                            tour.tournamentid = undefined;
+                            dispatch({
+                              type: "SELECT_TOURNAMENT",
+                              payload: tour,
+                            });
+                          }
+                        }}
                       >
                         Delete
                       </Button>

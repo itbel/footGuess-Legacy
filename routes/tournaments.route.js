@@ -142,4 +142,21 @@ router.get("/all", (req, res, next) => {
     });
 });
 
+router.delete("/manage/:id", verify, (req, res, next) => {
+  console.log(`========== REMOVING TOURNAMENT ==========`);
+  tournamentModel.findOne({ _id: req.params.id }, (err1, doc1) => {
+    if (err1) next(err1);
+    else {
+      if (req.user._id.toString() === doc1.owner.toString()) {
+        tournamentModel.deleteOne({ _id: req.params.id }, (err2, doc2) => {
+          if (err2) next(err2);
+          else {
+            res.status(200).send();
+          }
+        });
+      }
+    }
+  });
+});
+
 module.exports = router;
