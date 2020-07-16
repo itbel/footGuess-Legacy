@@ -2,6 +2,7 @@ const router = require("express").Router();
 const verify = require("./verifyToken");
 
 let teamModel = require("../models/team.model");
+let matchModel = require("../models/match.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
@@ -25,7 +26,18 @@ router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
   teamModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
     if (err) next(err);
-    else res.status(200).json({ msg: "Team Deleted" });
+    else {
+      matchModel.deleteMany(
+        { tournamentid: doc.tournamentid },
+        { $or: [{ teamAName: doc.teamName }, { teamBName: doc.teamName }] },
+        (err2, doc2) => {
+          if (err2) next(err2);
+          else {
+            res.status(200).json({ msg: "Team Deleted" });
+          }
+        }
+      );
+    }
   });
 });
 
