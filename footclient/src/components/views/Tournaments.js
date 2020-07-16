@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Pagination } from "react-bootstrap";
 import { Context } from "../Store";
 import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
@@ -10,6 +10,7 @@ import RemoveTournament from "../functional/RemoveTournament";
 const Tournaments = () => {
   const [state, dispatch] = useContext(Context);
   const [tournaments, setTournaments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     let arr = [];
@@ -101,8 +102,6 @@ const Tournaments = () => {
                       >
                         Leave
                       </Button>
-                    </td>
-                    <td>
                       <Button
                         disabled={
                           state.ownedTournaments.find(
@@ -140,6 +139,31 @@ const Tournaments = () => {
                 );
               })}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={4}>
+                  <Row className="justify-content-center m-0 pt-2">
+                    {tournaments.length > 1 ? (
+                      <Pagination variant="dark">
+                        {tournaments.map((val, key) => {
+                          return (
+                            <Pagination.Item
+                              onClick={() => {
+                                setCurrentPage(key);
+                              }}
+                              active={key === currentPage}
+                              key={key}
+                            >
+                              {key + 1}
+                            </Pagination.Item>
+                          );
+                        })}
+                      </Pagination>
+                    ) : null}
+                  </Row>
+                </td>
+              </tr>
+            </tfoot>
           </Table>
         </Col>
         <Col sm={0} md={3}></Col>
