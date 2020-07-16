@@ -23,9 +23,7 @@ const AddGuessModal = (props) => {
         teamBguess,
         selectedMatch._id,
         state.selectedTourId
-      ).then((response) => {
-        console.log(response);
-      });
+      ).then((response) => {});
     }
     setTeamAguess(undefined);
     setTeamBguess(undefined);
