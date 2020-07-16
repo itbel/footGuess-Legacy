@@ -30,11 +30,14 @@ router.delete("/manage/:id", verify, (req, res, next) => {
 });
 
 router.get("/all/:id", verify, (req, res, next) => {
-  console.log(`========== FETCHING TOURNAMENT TEAMS ==========`);
-  teamModel.find({ tournamentid: req.params.id }, {}, (err, doc) => {
-    if (err) next(err);
-    else res.status(200).json(doc);
-  });
+  console.log("FETCH ALL TEAMS");
+  teamModel
+    .find({ tournamentid: req.params.id })
+    .sort({ teamName: 1 })
+    .exec((err, doc) => {
+      if (err) next(err);
+      else res.status(200).json(doc);
+    });
 });
 
 module.exports = router;

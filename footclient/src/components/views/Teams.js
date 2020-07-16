@@ -18,13 +18,13 @@ const Teams = () => {
         <Row className="justify-content-center">
           <h1>Teams</h1>
         </Row>
-        <Row className="pt-3">
+        <Row>
           <Col sm={12}>
             <TeamsTable></TeamsTable>
           </Col>
         </Row>
-        <Row className="justify-content-center">
-          <AddTeamModal></AddTeamModal>
+        <Row className="justify-content-center mt-1">
+          <AddTeamModal />
         </Row>
       </Container>
     </div>

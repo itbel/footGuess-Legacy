@@ -1,9 +1,10 @@
 import { Modal, Row, Button, Form } from "react-bootstrap";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useContext } from "react";
 import CreateTournament from "../functional/CreateTournament";
 import { Context } from "../Store";
 
 const CreateTournamentModal = () => {
+  const tourNameRef = useRef(null);
   const [state, dispatch] = useContext(Context);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -17,15 +18,17 @@ const CreateTournamentModal = () => {
     setName("");
     handleClose();
   };
-  useEffect(() => {}, [show]);
 
   return (
     <>
-      <Button variant="dark" onClick={handleShow}>
+      <Button variant="light" onClick={handleShow}>
         Create Tournament
       </Button>
       <Modal
         centered
+        onEntered={() => {
+          tourNameRef.current.focus();
+        }}
         show={show}
         onHide={handleClose}
         backdrop="static"
@@ -43,6 +46,7 @@ const CreateTournamentModal = () => {
               <Row className="justify-content-center pt-3">
                 <Row className="w-50">
                   <Form.Control
+                    ref={tourNameRef}
                     value={name}
                     name="name"
                     onChange={(e) => {

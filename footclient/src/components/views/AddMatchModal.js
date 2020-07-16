@@ -1,13 +1,11 @@
 import { Modal, Row, Button, Form, Dropdown, Col } from "react-bootstrap";
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../Store";
-import FetchTeams from "../functional/FetchTeams";
 import AddMatch from "../functional/AddMatch";
 
-const AddMatchModal = () => {
+const AddMatchModal = (props) => {
   const [state, dispatch] = useContext(Context);
 
-  const [teams, setTeams] = useState([]);
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
   const [round, setRound] = useState(1);
@@ -20,23 +18,10 @@ const AddMatchModal = () => {
     event.preventDefault();
     AddMatch(teamA, teamB, round, state.selectedTourId, dispatch);
   };
-
-  useEffect(() => {
-    FetchTeams(state, dispatch)
-      .then((response) => {
-        setTeams(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [show, state, dispatch]);
+  useEffect(() => {}, [state.teams]);
   return (
     <>
-      <Button
-        disabled={state.teams[0] === undefined || state.teams.length < 2}
-        variant="dark"
-        onClick={handleShow}
-      >
+      <Button variant="light" onClick={handleShow}>
         Add Match
       </Button>
       <Modal
@@ -64,8 +49,8 @@ const AddMatchModal = () => {
                   <Dropdown.Menu
                     style={{ maxHeight: "35vh", overflowY: "auto" }}
                   >
-                    {teams !== undefined && teams.length > 0
-                      ? teams.map((val, key) => {
+                    {state.teams !== undefined && state.teams.length > 0
+                      ? state.teams.map((val, key) => {
                           if (teamA === val.teamName || teamB === val.teamName)
                             return null;
                           else
@@ -93,8 +78,8 @@ const AddMatchModal = () => {
                   <Dropdown.Menu
                     style={{ maxHeight: "35vh", overflowY: "auto" }}
                   >
-                    {teams !== undefined && teams.length > 0
-                      ? teams.map((val, key) => {
+                    {state.teams !== undefined && state.teams.length > 0
+                      ? state.teams.map((val, key) => {
                           if (teamA === val.teamName || teamB === val.teamName)
                             return null;
                           else
@@ -129,6 +114,14 @@ const AddMatchModal = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
+          <Button
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+            variant="dark"
+          >
+            Add Another
+          </Button>
           <Button
             onClick={(e) => {
               handleSubmit(e);

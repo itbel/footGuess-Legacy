@@ -27,14 +27,27 @@ const Reducer = (state, action) => {
           ...state,
           selectedTourName: action.payload.name,
           selectedTourId: action.payload.tournamentid,
+          teams: [],
+          matches: [],
+          players: [],
         };
       } else {
         return { ...state };
       }
+    case "UPDATING":
+      return {
+        ...state,
+        isUpdating: action.payload,
+      };
     case "FETCH_MATCHES":
       return {
         ...state,
         matches: action.payload,
+      };
+    case "FETCH_PLAYERS":
+      return {
+        ...state,
+        players: action.payload,
       };
     case "FETCH_TEAMS":
       return {

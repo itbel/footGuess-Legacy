@@ -33,9 +33,19 @@ const ResultModal = (props) => {
 
   return (
     <>
-      <Button variant="dark" onClick={handleShow}>
+      <button
+        style={{
+          backgroundColor: "#25282a",
+          borderRadius: "4px 4px 4px 4px",
+          color: "#efefef",
+          padding: "2px",
+          margin: "2px",
+          fontSize: "0.8em",
+        }}
+        onClick={handleShow}
+      >
         Update
-      </Button>
+      </button>
       <Modal
         centered
         show={show}

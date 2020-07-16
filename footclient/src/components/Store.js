@@ -13,6 +13,7 @@ const initialState = {
   teams: [],
   matches: [],
   isUpdating: false,
+  players: [],
 };
 
 const Store = ({ children }) => {

@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
 import CreateTournamentModal from "../views/CreateTournamentModal";
+import RemoveTournament from "../functional/RemoveTournament";
 
 const Tournaments = () => {
   const [state, dispatch] = useContext(Context);
@@ -47,10 +48,11 @@ const Tournaments = () => {
           >
             <thead>
               <tr>
-                <th colSpan="1">
+                <th>
                   <b>Tournament Name</b>
                 </th>
-                <th>
+                <th>Manager</th>
+                <th colSpan={2}>
                   <b>Manage</b>
                 </th>
               </tr>
@@ -61,6 +63,7 @@ const Tournaments = () => {
                 return (
                   <tr key={key}>
                     <td className="d-table-cell">{val.name}</td>
+                    <td>{val.owner}</td>
                     <td className="d-table-cell">
                       <Button
                         disabled={
@@ -97,6 +100,40 @@ const Tournaments = () => {
                         variant="dark"
                       >
                         Leave
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        disabled={
+                          state.ownedTournaments.find(
+                            (el) => el.name === val.name
+                          ) === undefined
+                            ? true
+                            : false
+                        }
+                        hidden={
+                          state.ownedTournaments.find(
+                            (el) => el.name === val.name
+                          ) === undefined
+                            ? true
+                            : false
+                        }
+                        style={{ marginLeft: "8px" }}
+                        variant="danger"
+                        onClick={() => {
+                          RemoveTournament(val.tournamentid, state, dispatch);
+                          if (val.name === state.selectedTourName) {
+                            let tour = {};
+                            tour.name = undefined;
+                            tour.tournamentid = undefined;
+                            dispatch({
+                              type: "SELECT_TOURNAMENT",
+                              payload: tour,
+                            });
+                          }
+                        }}
+                      >
+                        Delete
                       </Button>
                     </td>
                   </tr>

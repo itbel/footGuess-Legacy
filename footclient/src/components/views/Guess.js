@@ -1,5 +1,5 @@
 import React from "react";
-import { Row } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import GuessTable from "./GuessTable";
 
 const Guess = () => {
@@ -14,12 +14,16 @@ const Guess = () => {
         color: "#efefef",
       }}
     >
-      <Row className="justify-content-center">
-        <h1>Guesses</h1>
-      </Row>
-      <Row className="justify-content-center">
-        <GuessTable />
-      </Row>
+      <Container>
+        <Row className="justify-content-center">
+          <h1>Guesses</h1>
+        </Row>
+        <Row className="justify-content-center">
+          <Col sm={12}>
+            <GuessTable />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

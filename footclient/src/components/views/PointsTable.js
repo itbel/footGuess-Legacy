@@ -5,14 +5,14 @@ import FetchRoundResult from "../functional/FetchRoundResult";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
 const PointsTable = () => {
-  const [state] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const [matches, setMatches] = useState([]);
   const [players, setPlayers] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchHighestRound(state.selectedTourId).then((response) => {
+      FetchHighestRound(state.selectedTourId, dispatch).then((response) => {
         if (response !== undefined && response.length > 0) {
           let tempArr = [];
           for (let i = 1; i <= response[0].round; i++) {
@@ -39,12 +39,18 @@ const PointsTable = () => {
         }
       });
     }
-  }, [state, round]);
+  }, [round]);
   return (
     <>
       <Row className="justify-content-center">
         <Dropdown className="pl-2">
-          <Dropdown.Toggle size="sm" variant="light">
+          <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
+            size="sm"
+            variant="light"
+          >
             <b>Round: {round}</b>
           </Dropdown.Toggle>
           <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
@@ -84,8 +90,8 @@ const PointsTable = () => {
                   style={{ backgroundColor: key % 2 ? "white" : "lightgrey" }}
                   key={key}
                 >
-                  <td className="results">
-                    {match.teamAName}X{match.teamBName}
+                  <td style={{ textAlign: "center" }} className="results">
+                    {match.teamAName} X {match.teamBName}
                   </td>
                   <td className="results">
                     {match.teamAResult !== undefined ? (
@@ -102,7 +108,7 @@ const PointsTable = () => {
                         (el) => el.player.name === player
                       );
                       return (
-                        <td className="results">
+                        <td key={key2} className="results">
                           {found !== undefined
                             ? `${found.teamAguess} X ${found.teamBguess} ${
                                 found.points !== 0
@@ -125,7 +131,7 @@ const PointsTable = () => {
           <tr className="font-weight-bold">
             <td className="justify-content-center d-flex">Points</td>
             <td></td>
-            {players.map((player, key2) => {
+            {players.map((player, key) => {
               let playerPoints = 0;
               for (let i = 0; i < matches.length; i++) {
                 for (let x = 0; x < matches[i].guesses.length; x++) {
@@ -134,7 +140,9 @@ const PointsTable = () => {
                   }
                 }
               }
-              return <td className="text-center">{`+${playerPoints}`}</td>;
+              return (
+                <td key={key} className="text-center">{`+${playerPoints}`}</td>
+              );
             })}
           </tr>
         </tbody>

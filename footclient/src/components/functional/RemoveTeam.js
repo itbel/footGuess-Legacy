@@ -10,9 +10,7 @@ const RemoveTeam = (teamid, state, dispatch) => {
     timeout: 2000,
   })
     .then((response) => {
-      FetchTeams(state, dispatch).then((teams) => {
-        return teams.data;
-      });
+      FetchTeams(state, dispatch);
     })
     .catch((error) => {
       console.log(error);

@@ -121,19 +121,40 @@ router.get("/owned", verify, (req, res, next) => {
 
 router.get("/all", (req, res, next) => {
   console.log(`========== FETCHING ALL TOURNAMENTS ==========`);
-  tournamentModel.find({}, (err, doc) => {
-    if (err) next(err);
-    else {
-      let entries = Object.entries(doc);
-      let i = 0;
-      for (let entry of entries) {
-        doc[i] = {
-          name: entry[1].name,
-          tournamentid: entry[1]._id,
-        };
-        i++;
+  tournamentModel
+    .find({})
+    .populate({ path: "owner" })
+    .exec((err, doc) => {
+      if (err) next(err);
+      else {
+        let entries = Object.entries(doc);
+        let i = 0;
+        for (let entry of entries) {
+          doc[i] = {
+            name: entry[1].name,
+            tournamentid: entry[1]._id,
+            owner: entry[1].owner.name,
+          };
+          i++;
+        }
+        res.status(200).json(doc);
       }
-      res.status(200).json(doc);
+    });
+});
+
+router.delete("/manage/:id", verify, (req, res, next) => {
+  console.log(`========== REMOVING TOURNAMENT ==========`);
+  tournamentModel.findOne({ _id: req.params.id }, (err1, doc1) => {
+    if (err1) next(err1);
+    else {
+      if (req.user._id.toString() === doc1.owner.toString()) {
+        tournamentModel.deleteOne({ _id: req.params.id }, (err2, doc2) => {
+          if (err2) next(err2);
+          else {
+            res.status(200).send();
+          }
+        });
+      }
     }
   });
 });

@@ -1,14 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { Col, Row, Container } from "react-bootstrap";
-import { Context } from "../Store";
 import AddMatchModal from "../views/AddMatchModal";
 import MatchesTable from "./MatchesTable";
 
 const Matches = () => {
-  const [state] = useContext(Context);
-
-  useEffect(() => {}, [state.selectedTourId]);
-
   return (
     <div
       style={{
@@ -24,12 +19,12 @@ const Matches = () => {
         <Row className="justify-content-center">
           <h1>Matches</h1>
         </Row>
-        <Row className="pt-3">
+        <Row>
           <Col sm={12}>
             <MatchesTable></MatchesTable>
           </Col>
         </Row>
-        <Row className="justify-content-center">
+        <Row className="justify-content-center mt-1">
           <AddMatchModal />
         </Row>
       </Container>

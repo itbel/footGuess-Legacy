@@ -21,7 +21,7 @@ const TopNav = () => {
       className="topNav"
       fixed="top"
       style={{
-        height: "64px",
+        height: "40px",
         paddingTop: "8px",
       }}
     >
