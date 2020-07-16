@@ -11,7 +11,6 @@ const Tournaments = () => {
   const [tournaments, setTournaments] = useState([]);
 
   useEffect(() => {
-    console.log();
     let arr = [];
     let entries = Object.entries(state.joinedTournaments);
     for (let entry of entries) {
@@ -48,11 +47,11 @@ const Tournaments = () => {
           >
             <thead>
               <tr>
-                <th colSpan="1">
+                <th>
                   <b>Tournament Name</b>
                 </th>
                 <th>Manager</th>
-                <th>
+                <th colSpan={2}>
                   <b>Manage</b>
                 </th>
               </tr>
@@ -100,6 +99,28 @@ const Tournaments = () => {
                         variant="dark"
                       >
                         Leave
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        disabled={
+                          state.ownedTournaments.find(
+                            (el) => el.name === val.name
+                          ) !== undefined
+                            ? true
+                            : false
+                        }
+                        hidden={
+                          state.ownedTournaments.find(
+                            (el) => el.name === val.name
+                          ) !== undefined
+                            ? true
+                            : false
+                        }
+                        style={{ marginLeft: "8px" }}
+                        variant="danger"
+                      >
+                        Delete
                       </Button>
                     </td>
                   </tr>
