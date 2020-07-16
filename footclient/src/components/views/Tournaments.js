@@ -34,14 +34,14 @@ const Tournaments = () => {
       <Row className="d-flex justify-content-center">
         <h1>Tournaments</h1>
       </Row>
-      <Row className="pt-3">
-        <Col sm={0} md={3}></Col>
-        <Col sm={12} md={6}>
+      <Row className="pt-3 justify-content-center">
+        {state.allTournaments.length > 0 ? (
           <Table
             size="sm"
             bordered
             hover
             style={{
+              width: "50%",
               textAlign: "center",
               color: "black",
               backgroundColor: "#efefef",
@@ -165,8 +165,9 @@ const Tournaments = () => {
               </tr>
             </tfoot>
           </Table>
-        </Col>
-        <Col sm={0} md={3}></Col>
+        ) : (
+          <h1>No tournaments found</h1>
+        )}
       </Row>
       <Row className="justify-content-center">
         <CreateTournamentModal></CreateTournamentModal>

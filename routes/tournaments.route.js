@@ -35,9 +35,8 @@ router.patch("/join", verify, (req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) {
-        next(err);
-      } else {
+      if (err) next(err);
+      else {
         res.status(204).send();
       }
     }
@@ -56,10 +55,15 @@ router.patch("/leave", verify, (req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) {
-        next(err);
-      } else {
-        res.status(204).send();
+      if (err) next(err);
+      else {
+        guessModel.deleteMany({ userid: req.user._id }, (err2, doc2) => {
+          if (err2) next(err2);
+          else {
+            console.log(doc2);
+            res.status(204).send();
+          }
+        });
       }
     }
   );
