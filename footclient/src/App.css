@@ -34,7 +34,7 @@ body {
 }
 /* =========== Top Nav ============*/
 .topNav {
-  font-size: 0.9em;
+  font-size: 1.1em;
 }
 
 .linkStyle {
@@ -53,12 +53,6 @@ body {
 .linkStyleDrop:hover {
   color: gray;
   text-decoration: none;
-}
-
-.headline {
-  z-index: 1;
-  background-color: white;
-  position: relative;
 }
 
 /* =========== Tables ============*/
@@ -211,7 +205,6 @@ body {
   .guessTable td {
     padding: 0;
   }
-
   /* =========== Side Nav ============*/
   .sideNav {
     display: inline;
@@ -223,5 +216,9 @@ body {
     display: inline;
     color: white;
     padding: 8px;
+  }
+  .topNav {
+    font-size: 0.9em;
+    height: 6%;
   }
 }

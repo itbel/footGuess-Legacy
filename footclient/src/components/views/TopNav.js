@@ -19,10 +19,8 @@ const TopNav = () => {
       bg="dark"
       variant="dark"
       className="topNav"
-      fixed="top"
       style={{
-        height: "40px",
-        paddingTop: "8px",
+        paddingTop: "4px",
       }}
     >
       <Nav className="w-100 justify-content-center">

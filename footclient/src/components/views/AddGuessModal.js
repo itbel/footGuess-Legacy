@@ -16,10 +16,7 @@ const AddGuessModal = (props) => {
   const handleShow = () => setShow(true);
 
   const handleSubmit = (event) => {
-    console.log(typeof teamAguess);
-
     event.preventDefault();
-
     if (teamAguess !== undefined && teamBguess !== undefined) {
       AddGuess(teamAguess, teamBguess, selectedMatch._id, state.selectedTourId)
         .then((response) => {
@@ -37,7 +34,6 @@ const AddGuessModal = (props) => {
       setTeamBguess(undefined);
       setSelectedMatch(undefined);
       props.handler(); // update parent
-      handleClose();
     } else {
       props.notify("Guesses must be numbers");
     }
@@ -138,6 +134,26 @@ const AddGuessModal = (props) => {
                 teamBguess !== undefined
               ) {
                 handleSubmit(e);
+              } else {
+                props.notify("Fields cannot be empty.");
+              }
+            }}
+            variant="dark"
+          >
+            Add Another
+          </Button>
+          <Button
+            onClick={(e) => {
+              if (
+                teamAguess !== "" &&
+                teamBguess !== "" &&
+                teamAguess !== undefined &&
+                teamBguess !== undefined
+              ) {
+                handleSubmit(e);
+                handleClose();
+              } else {
+                props.notify("Fields cannot be empty.");
               }
             }}
             variant="dark"
