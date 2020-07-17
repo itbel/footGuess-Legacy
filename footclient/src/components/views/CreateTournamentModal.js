@@ -60,7 +60,18 @@ const CreateTournamentModal = (props) => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
-                        handleSubmit(e);
+                        let rege = new RegExp(/^[0-9A-Za-z\s-]+$/);
+                        if (name !== undefined && name !== "") {
+                          if (rege.test(name)) {
+                            handleSubmit(e);
+                          } else {
+                            props.notify(
+                              "Tournament name must be alphanumerical"
+                            );
+                          }
+                        } else {
+                          props.notify("Field cannot be empty");
+                        }
                       }
                     }}
                     type="text"
@@ -74,7 +85,16 @@ const CreateTournamentModal = (props) => {
         <Modal.Footer>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
+              let rege = new RegExp(/^[0-9A-Za-z\s-]+$/);
+              if (name !== undefined && name !== "") {
+                if (rege.test(name)) {
+                  handleSubmit(e);
+                } else {
+                  props.notify("Tournament name must be alphanumerical");
+                }
+              } else {
+                props.notify("Field cannot be empty");
+              }
             }}
             variant="dark"
           >

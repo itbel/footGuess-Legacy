@@ -33,7 +33,6 @@ router.delete("/manage/:id", verify, (req, res, next) => {
         (err2, doc2) => {
           if (err2) next(err2);
           else {
-            console.log(doc2);
             matchModel.deleteMany(
               {
                 tournamentid: doc.tournamentid,

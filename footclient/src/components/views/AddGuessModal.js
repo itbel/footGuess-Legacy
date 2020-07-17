@@ -46,9 +46,12 @@ const AddGuessModal = (props) => {
   };
 
   useEffect(() => {
-    FetchUnguessedMatches(state, props.round).then((response) => {
-      setMatches(response);
-    });
+    if (state.selectedTourId !== undefined)
+      FetchUnguessedMatches(state.selectedTourId, props.round).then(
+        (response) => {
+          setMatches(response);
+        }
+      );
   }, [show, state, props.round]);
 
   return (
@@ -112,12 +115,56 @@ const AddGuessModal = (props) => {
                   onChange={(e) => {
                     setTeamAguess(e.target.value);
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (
+                        teamAguess !== "" &&
+                        teamBguess !== "" &&
+                        teamAguess !== undefined &&
+                        teamBguess !== undefined
+                      ) {
+                        if (
+                          /^\d*$/.test(teamAguess) &&
+                          /^\d*$/.test(teamBguess)
+                        )
+                          handleSubmit(e);
+                        else {
+                          props.notify("Fields must be numbers");
+                        }
+                      } else {
+                        props.notify("Fields cannot be empty.");
+                      }
+                    }
+                  }}
                   style={{ width: "15%" }}
                 ></Form.Control>
                 <p className="mt-auto mb-auto font-weight-bold ml-3 mr-3">X</p>
                 <Form.Control
                   onChange={(e) => {
                     setTeamBguess(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (
+                        teamAguess !== "" &&
+                        teamBguess !== "" &&
+                        teamAguess !== undefined &&
+                        teamBguess !== undefined
+                      ) {
+                        if (
+                          /^\d*$/.test(teamAguess) &&
+                          /^\d*$/.test(teamBguess)
+                        )
+                          handleSubmit(e);
+                        else {
+                          props.notify("Fields must be numbers");
+                        }
+                      } else {
+                        props.notify("Fields cannot be empty.");
+                      }
+                    }
                   }}
                   style={{ width: "15%" }}
                 ></Form.Control>

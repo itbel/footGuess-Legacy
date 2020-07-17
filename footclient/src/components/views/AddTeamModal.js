@@ -56,7 +56,18 @@ const AddTeamModal = (props) => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
-                        handleSubmit(e);
+                        let rege = new RegExp(/^[A-Za-z\s-]+$/);
+                        if (teamName !== undefined && teamName !== "") {
+                          if (rege.test(teamName)) {
+                            handleSubmit(e);
+                          } else {
+                            props.notify(
+                              "Team name must contain letters dashes or spaces"
+                            );
+                          }
+                        } else {
+                          props.notify("Field cannot be empty");
+                        }
                       }
                     }}
                     onChange={(e) => {
@@ -73,7 +84,7 @@ const AddTeamModal = (props) => {
         <Modal.Footer>
           <Button
             onClick={(e) => {
-              let rege = new RegExp(/^[A-Za-z\s\-]+$/);
+              let rege = new RegExp(/^[A-Za-z\s-]+$/);
               if (teamName !== undefined && teamName !== "") {
                 if (rege.test(teamName)) {
                   handleSubmit(e);
@@ -92,7 +103,7 @@ const AddTeamModal = (props) => {
           </Button>
           <Button
             onClick={(e) => {
-              let rege = new RegExp(/^[A-Za-z\s\-]+$/);
+              let rege = new RegExp(/^[A-Za-z\s-]+$/);
               if (teamName !== undefined && teamName !== "") {
                 if (rege.test(teamName)) {
                   handleSubmit(e);

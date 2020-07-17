@@ -41,8 +41,8 @@ router.patch("/manage", verify, (req, res, next) => {
               select: "_id name",
             },
           })
-          .exec((err, matches) => {
-            if (err) next(err);
+          .exec((err2, matches) => {
+            if (err2) next(err2);
             else {
               let players = [];
               matches.map((match, index) => {
@@ -52,7 +52,10 @@ router.patch("/manage", verify, (req, res, next) => {
                 ) {
                   if (match.guesses.guessid !== undefined)
                     for (let i = 0; i < match.guesses.guessid.length; i++) {
-                      if (match.guesses.guessid[i] !== undefined) {
+                      if (
+                        match.guesses.guessid[i] !== undefined &&
+                        match.guesses.guessid[i] !== null
+                      ) {
                         let currentPlayer =
                           match.guesses.guessid[i].userid.name;
                         let points = verifyMatch(
@@ -95,8 +98,8 @@ router.patch("/manage", verify, (req, res, next) => {
                   {
                     $set: { "users.$.points": player.points },
                   },
-                  (err, doc) => {
-                    if (err) next(err);
+                  (err3, doc) => {
+                    if (err3) next(err3);
                     else {
                     }
                   }

@@ -9,10 +9,14 @@ const ResultModal = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [teamAResult, setTeamAResult] = useState(
-    props.selectedMatch.teamAResult
+    props.selectedMatch.teamAResult !== null
+      ? props.selectedMatch.teamAResult
+      : 0
   );
   const [teamBResult, setTeamBResult] = useState(
-    props.selectedMatch.teamBResult
+    props.selectedMatch.teamBResult !== null
+      ? props.selectedMatch.teamBResult
+      : 0
   );
   const handleSubmit = () => {
     AddResult(
@@ -35,8 +39,16 @@ const ResultModal = (props) => {
     props.handler(); // update parent
   };
   useEffect(() => {
-    setTeamAResult(props.selectedMatch.teamAResult);
-    setTeamBResult(props.selectedMatch.teamBResult);
+    setTeamAResult(
+      props.selectedMatch.teamAResult !== null
+        ? props.selectedMatch.teamAResult
+        : 0
+    );
+    setTeamBResult(
+      props.selectedMatch.teamBResult !== null
+        ? props.selectedMatch.teamBResult
+        : 0
+    );
   }, [show, props.selectedMatch.teamAResult, props.selectedMatch.teamBResult]);
 
   return (
@@ -80,7 +92,23 @@ const ResultModal = (props) => {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      handleSubmit(e);
+                      if (
+                        teamAResult !== "" &&
+                        teamBResult !== "" &&
+                        teamAResult !== undefined &&
+                        teamBResult !== undefined
+                      ) {
+                        if (
+                          /^\d*$/.test(teamAResult) &&
+                          /^\d*$/.test(teamAResult)
+                        )
+                          handleSubmit(e);
+                        else {
+                          props.notify("Fields must be numbers");
+                        }
+                      } else {
+                        props.notify("Fields cannot be empty.");
+                      }
                     }
                   }}
                   value={teamAResult}
@@ -101,7 +129,23 @@ const ResultModal = (props) => {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      handleSubmit(e);
+                      if (
+                        teamAResult !== "" &&
+                        teamBResult !== "" &&
+                        teamAResult !== undefined &&
+                        teamBResult !== undefined
+                      ) {
+                        if (
+                          /^\d*$/.test(teamAResult) &&
+                          /^\d*$/.test(teamAResult)
+                        )
+                          handleSubmit(e);
+                        else {
+                          props.notify("Fields must be numbers");
+                        }
+                      } else {
+                        props.notify("Fields cannot be empty.");
+                      }
                     }
                   }}
                   value={teamBResult}
@@ -117,8 +161,21 @@ const ResultModal = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            onClick={() => {
-              handleSubmit();
+            onClick={(e) => {
+              if (
+                teamAResult !== "" &&
+                teamBResult !== "" &&
+                teamAResult !== undefined &&
+                teamBResult !== undefined
+              ) {
+                if (/^\d*$/.test(teamAResult) && /^\d*$/.test(teamAResult))
+                  handleSubmit(e);
+                else {
+                  props.notify("Fields must be numbers");
+                }
+              } else {
+                props.notify("Fields cannot be empty.");
+              }
             }}
             variant="dark"
           >
