@@ -12,7 +12,13 @@ server.route("/login").post((req, res, next) => {
       if (doc !== null) {
         bcrypt.compare(req.body.password, doc.password, (err, isRight) => {
           if (isRight) {
-            const token = jwt.sign({ _id: doc._id, name: doc.name }, "secret");
+            const token = jwt.sign(
+              { _id: doc._id, name: doc.name },
+              process.env.SECRET,
+              {
+                expiresIn: 900,
+              }
+            );
             res.header("auth-token", token).send(token);
           } else res.status(401).json({ msg: "Invalid Password" });
         });
