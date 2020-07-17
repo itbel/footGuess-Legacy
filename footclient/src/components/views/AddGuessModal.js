@@ -23,7 +23,7 @@ const AddGuessModal = (props) => {
     if (teamAguess !== undefined && teamBguess !== undefined) {
       AddGuess(teamAguess, teamBguess, selectedMatch._id, state.selectedTourId)
         .then((response) => {
-          if (response.status === 201) {
+          if (response !== undefined && response.status === 201) {
             props.notify("Successfully Added Guess.");
           } else {
             props.notify("Something went wrong.");

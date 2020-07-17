@@ -47,34 +47,36 @@ const GuessTable = (props) => {
   return (
     <>
       <Row className="justify-content-center">
-        <Dropdown className="pl-2">
-          <Dropdown.Toggle
-            style={{
-              visibility: rounds.length === 0 ? "hidden" : "visible",
-            }}
-            disabled={rounds.length === 0}
-            size="sm"
-            variant="light"
-          >
-            <b>Round: {round}</b>
-          </Dropdown.Toggle>
-          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-            {rounds.map((val, key) => {
-              return (
-                <Dropdown.Item
-                  key={key}
-                  name={val}
-                  onClick={(e) => {
-                    setCurrentPage(0);
-                    setRound(parseInt(e.target.name));
-                  }}
-                >
-                  {val}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown.Menu>
-        </Dropdown>
+        {matches.length > 0 ? (
+          <Dropdown className="pl-2">
+            <Dropdown.Toggle
+              style={{
+                visibility: rounds.length === 0 ? "hidden" : "visible",
+              }}
+              disabled={rounds.length === 0}
+              size="sm"
+              variant="light"
+            >
+              <b>Round: {round}</b>
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+              {rounds.map((val, key) => {
+                return (
+                  <Dropdown.Item
+                    key={key}
+                    name={val}
+                    onClick={(e) => {
+                      setCurrentPage(0);
+                      setRound(parseInt(e.target.name));
+                    }}
+                  >
+                    {val}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : null}
       </Row>
       <Row className="justify-content-center">
         {matches.length > 0 ? (
