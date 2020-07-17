@@ -5,7 +5,7 @@ const AddMatch = (teamA, teamB, round, tourid, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  Axios.post(
+  return Axios.post(
     `${BASE_URL}/api/matches/manage`,
     {
       tournamentid: tourid,
@@ -21,9 +21,10 @@ const AddMatch = (teamA, teamB, round, tourid, dispatch) => {
         type: "FETCH_MATCHES",
         payload: response.data,
       });
+      return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 
