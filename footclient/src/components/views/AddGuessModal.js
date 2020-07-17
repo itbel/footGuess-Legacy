@@ -5,7 +5,7 @@ import FetchUnguessedMatches from "../functional/FetchUnguessedMatches";
 import AddGuess from "../functional/AddGuess";
 
 const AddGuessModal = (props) => {
-  const [state] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState();
   const [teamAguess, setTeamAguess] = useState();
@@ -18,7 +18,13 @@ const AddGuessModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (teamAguess !== undefined && teamBguess !== undefined) {
-      AddGuess(teamAguess, teamBguess, selectedMatch._id, state.selectedTourId)
+      AddGuess(
+        teamAguess,
+        teamBguess,
+        selectedMatch._id,
+        state.selectedTourId,
+        dispatch
+      )
         .then((response) => {
           if (response !== undefined && response.status === 201) {
             props.notify("Successfully Added Guess.");
@@ -35,7 +41,7 @@ const AddGuessModal = (props) => {
       setSelectedMatch(undefined);
       props.handler(); // update parent
     } else {
-      props.notify("Guesses must be numbers");
+      props.notify("Guesses must entered");
     }
   };
 
@@ -133,7 +139,11 @@ const AddGuessModal = (props) => {
                 teamAguess !== undefined &&
                 teamBguess !== undefined
               ) {
-                handleSubmit(e);
+                if (/^\d*$/.test(teamAguess) && /^\d*$/.test(teamBguess))
+                  handleSubmit(e);
+                else {
+                  props.notify("Fields must be numbers");
+                }
               } else {
                 props.notify("Fields cannot be empty.");
               }
@@ -150,8 +160,11 @@ const AddGuessModal = (props) => {
                 teamAguess !== undefined &&
                 teamBguess !== undefined
               ) {
-                handleSubmit(e);
-                handleClose();
+                if (/^\d*$/.test(teamAguess) && /^\d*$/.test(teamBguess))
+                  handleSubmit(e);
+                else {
+                  props.notify("Fields must be numbers");
+                }
               } else {
                 props.notify("Fields cannot be empty.");
               }
