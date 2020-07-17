@@ -5,7 +5,7 @@ import { Dropdown, Pagination, Row } from "react-bootstrap";
 import FetchRound from "../functional/FetchRound";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
-const ResultsTable = () => {
+const ResultsTable = (props) => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
@@ -124,6 +124,7 @@ const ResultsTable = () => {
                       <td className="text-left">{val.teamBName}</td>
                       <td>
                         <ResultsModal
+                          notify={props.notify}
                           handler={handler}
                           selectedMatch={val}
                         ></ResultsModal>

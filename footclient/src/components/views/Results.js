@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import ResultsTable from "./ResultsTable";
 
-const Results = () => {
+const Results = (props) => {
   return (
     <div
       style={{
@@ -20,7 +20,7 @@ const Results = () => {
         </Row>
         <Row>
           <Col sm={12}>
-            <ResultsTable></ResultsTable>
+            <ResultsTable notify={props.notify}></ResultsTable>
           </Col>
         </Row>
       </Container>

@@ -20,9 +20,17 @@ const ResultModal = (props) => {
       props.selectedMatch._id,
       teamAResult,
       teamBResult
-    ).then((response) => {
-      console.log(response);
-    });
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          props.notify("Sucessfully Added Result.");
+        } else {
+          props.notify("Something went wrong.");
+        }
+      })
+      .catch((error) => {
+        props.notify("Something went wrong.");
+      });
     handleClose();
     props.handler(); // update parent
   };
