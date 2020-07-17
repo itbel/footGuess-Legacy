@@ -17,7 +17,7 @@ router.post("/manage", verify, (req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.status(201).json({ msg: "Team Created" });
+      else res.status(201).send();
     }
   );
 });
@@ -45,7 +45,7 @@ router.delete("/manage/:id", verify, (req, res, next) => {
                   guessModel.deleteMany({ matchid: doc2._id }, (err4, doc4) => {
                     if (err4) next(err4);
                     else {
-                      res.status(200).json({ msg: "Team Deleted" });
+                      res.status(200).send();
                     }
                   });
                 }

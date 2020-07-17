@@ -16,7 +16,7 @@ router.post("/manage", verify, (req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.json(doc);
+      else res.status(200).send();
     }
   );
 });
@@ -60,7 +60,6 @@ router.patch("/leave", verify, (req, res, next) => {
         guessModel.deleteMany({ userid: req.user._id }, (err2, doc2) => {
           if (err2) next(err2);
           else {
-            console.log(doc2);
             res.status(204).send();
           }
         });

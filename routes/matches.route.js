@@ -4,7 +4,6 @@ const verifyMatch = require("./verifyMatch");
 
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
-let userModel = require("../models/user.model");
 let tournamentModel = require("../models/tournament.model");
 
 router.post("/manage", verify, (req, res, next) => {
@@ -18,7 +17,7 @@ router.post("/manage", verify, (req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.status(201).json({ msg: "Match Created" });
+      else res.status(201).send();
     }
   );
 });
@@ -99,12 +98,12 @@ router.patch("/manage", verify, (req, res, next) => {
                   (err, doc) => {
                     if (err) next(err);
                     else {
-                      //verify
                     }
                   }
                 );
               });
             }
+            res.status(200).send();
           });
       }
     });
@@ -254,7 +253,7 @@ router.delete("/manage/:id", verify, (req, res, next) => {
         if (err) {
           next(err);
         } else {
-          res.status(200).json({ msg: "Match Deleted" });
+          res.status(200).send();
         }
       });
     }
