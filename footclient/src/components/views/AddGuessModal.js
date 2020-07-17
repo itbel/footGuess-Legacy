@@ -18,12 +18,17 @@ const AddGuessModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (teamAguess !== undefined && teamBguess !== undefined) {
-      AddGuess(
-        teamAguess,
-        teamBguess,
-        selectedMatch._id,
-        state.selectedTourId
-      ).then((response) => {});
+      AddGuess(teamAguess, teamBguess, selectedMatch._id, state.selectedTourId)
+        .then((response) => {
+          if (response.status === 201) {
+            props.notify("Successfully Added Guess.");
+          } else {
+            props.notify("Something went wrong.");
+          }
+        })
+        .catch((error) => {
+          props.notify("Something went wrong.");
+        });
     }
     setTeamAguess(undefined);
     setTeamBguess(undefined);

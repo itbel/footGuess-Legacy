@@ -5,7 +5,7 @@ import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
 import AddGuessModal from "../views/AddGuessModal";
 
-const GuessTable = () => {
+const GuessTable = (props) => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
@@ -155,7 +155,11 @@ const GuessTable = () => {
         )}
       </Row>
       <Row className="justify-content-center pt-1">
-        <AddGuessModal handler={handler} round={round}></AddGuessModal>
+        <AddGuessModal
+          notify={props.notify}
+          handler={handler}
+          round={round}
+        ></AddGuessModal>
       </Row>
     </>
   );

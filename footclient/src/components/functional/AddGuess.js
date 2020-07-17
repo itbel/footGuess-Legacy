@@ -14,13 +14,7 @@ const AddGuess = (teamAguess, teamBguess, matchid, tourid) => {
     },
     config,
     { timeout: 2000 }
-  )
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  );
 };
 
 export default AddGuess;
