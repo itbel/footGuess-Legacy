@@ -6,7 +6,7 @@ const LeaveTournament = (tournamentid, state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  Axios.patch(
+  return Axios.patch(
     `${BASE_URL}/api/tournaments/leave`,
     {
       tournamentid: tournamentid,
@@ -16,9 +16,10 @@ const LeaveTournament = (tournamentid, state, dispatch) => {
   )
     .then((response) => {
       FetchJoinedTournaments(state, dispatch);
+      return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 

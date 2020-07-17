@@ -7,7 +7,7 @@ import LeaveTournament from "../functional/LeaveTournament";
 import CreateTournamentModal from "../views/CreateTournamentModal";
 import RemoveTournament from "../functional/RemoveTournament";
 
-const Tournaments = () => {
+const Tournaments = (props) => {
   const [state, dispatch] = useContext(Context);
   const [tournaments, setTournaments] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -72,7 +72,17 @@ const Tournaments = () => {
                           tournaments.find((element) => element === val.name)
                         }
                         onClick={() => {
-                          JoinTournament(val.tournamentid, state, dispatch);
+                          JoinTournament(
+                            val.tournamentid,
+                            state,
+                            dispatch
+                          ).then((response) => {
+                            if (response.status === 204) {
+                              props.notify("Sucessfully Joined Tournament.");
+                            } else {
+                              props.notify("Something went wrong.");
+                            }
+                          });
                         }}
                         variant="dark"
                       >
@@ -87,7 +97,17 @@ const Tournaments = () => {
                           )
                         }
                         onClick={() => {
-                          LeaveTournament(val.tournamentid, state, dispatch);
+                          LeaveTournament(
+                            val.tournamentid,
+                            state,
+                            dispatch
+                          ).then((response) => {
+                            if (response.status === 204) {
+                              props.notify("Sucessfully Left Tournament.");
+                            } else {
+                              props.notify("Something went wrong.");
+                            }
+                          });
                           if (val.name === state.selectedTourName) {
                             let tour = {};
                             tour.name = undefined;
@@ -120,7 +140,17 @@ const Tournaments = () => {
                         style={{ marginLeft: "8px" }}
                         variant="danger"
                         onClick={() => {
-                          RemoveTournament(val.tournamentid, state, dispatch);
+                          RemoveTournament(
+                            val.tournamentid,
+                            state,
+                            dispatch
+                          ).then((response) => {
+                            if (response.status === 200) {
+                              props.notify("Sucessfully Removed Tournament.");
+                            } else {
+                              props.notify("Something went wrong.");
+                            }
+                          });
                           if (val.name === state.selectedTourName) {
                             let tour = {};
                             tour.name = undefined;
@@ -143,9 +173,9 @@ const Tournaments = () => {
               <tr>
                 <td colSpan={4}>
                   <Row className="justify-content-center m-0 pt-2">
-                    {tournaments.length > 1 ? (
+                    {state.allTournaments.length > 1 ? (
                       <Pagination variant="dark">
-                        {tournaments.map((val, key) => {
+                        {state.allTournaments.map((val, key) => {
                           return (
                             <Pagination.Item
                               onClick={() => {
@@ -170,7 +200,7 @@ const Tournaments = () => {
         )}
       </Row>
       <Row className="justify-content-center">
-        <CreateTournamentModal></CreateTournamentModal>
+        <CreateTournamentModal notify={props.notify}></CreateTournamentModal>
       </Row>
     </div>
   );

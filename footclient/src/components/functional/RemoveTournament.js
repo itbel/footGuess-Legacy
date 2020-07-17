@@ -8,16 +8,17 @@ const RemoveTournament = (tourid, state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  Axios.delete(`${BASE_URL}/api/tournaments/manage/${tourid}`, config, {
+  return Axios.delete(`${BASE_URL}/api/tournaments/manage/${tourid}`, config, {
     timeout: 2000,
   })
     .then((response) => {
       FetchJoinedTournaments(state, dispatch);
       FetchAll(dispatch);
       FetchOwned(state, dispatch);
+      return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 

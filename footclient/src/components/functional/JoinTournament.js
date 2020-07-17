@@ -6,7 +6,7 @@ const JoinTournament = (tournamentid, state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  Axios.patch(
+  return Axios.patch(
     `${BASE_URL}/api/tournaments/join`,
     {
       tournamentid: tournamentid,
@@ -16,9 +16,10 @@ const JoinTournament = (tournamentid, state, dispatch) => {
   )
     .then((response) => {
       FetchJoinedTournaments(state, dispatch);
+      return response;
     })
     .catch((error) => {
-      alert(`failed to join tournament`);
+      return error;
     });
 };
 
