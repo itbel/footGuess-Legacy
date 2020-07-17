@@ -63,7 +63,13 @@ const CreateTournamentModal = (props) => {
                         let rege = new RegExp(/^[0-9A-Za-z\s-]+$/);
                         if (name !== undefined && name !== "") {
                           if (rege.test(name)) {
-                            handleSubmit(e);
+                            if (name.length > 4) {
+                              handleSubmit(e);
+                            } else {
+                              props.notify(
+                                "Tournament name must be at least 5 characters"
+                              );
+                            }
                           } else {
                             props.notify(
                               "Tournament name must be alphanumerical"
@@ -88,7 +94,13 @@ const CreateTournamentModal = (props) => {
               let rege = new RegExp(/^[0-9A-Za-z\s-]+$/);
               if (name !== undefined && name !== "") {
                 if (rege.test(name)) {
-                  handleSubmit(e);
+                  if (name.length > 4) {
+                    handleSubmit(e);
+                  } else {
+                    props.notify(
+                      "Tournament name must be at least 5 characters"
+                    );
+                  }
                 } else {
                   props.notify("Tournament name must be alphanumerical");
                 }
