@@ -16,7 +16,10 @@ const AddGuessModal = (props) => {
   const handleShow = () => setShow(true);
 
   const handleSubmit = (event) => {
+    console.log(typeof teamAguess);
+
     event.preventDefault();
+
     if (teamAguess !== undefined && teamBguess !== undefined) {
       AddGuess(teamAguess, teamBguess, selectedMatch._id, state.selectedTourId)
         .then((response) => {
@@ -29,11 +32,15 @@ const AddGuessModal = (props) => {
         .catch((error) => {
           props.notify("Something went wrong.");
         });
+
+      setTeamAguess(undefined);
+      setTeamBguess(undefined);
+      setSelectedMatch(undefined);
+      props.handler(); // update parent
+      handleClose();
+    } else {
+      props.notify("Guesses must be numbers");
     }
-    setTeamAguess(undefined);
-    setTeamBguess(undefined);
-    setSelectedMatch(undefined);
-    props.handler(); // update parent
   };
 
   useEffect(() => {
@@ -131,7 +138,6 @@ const AddGuessModal = (props) => {
                 teamBguess !== undefined
               ) {
                 handleSubmit(e);
-                handleClose();
               }
             }}
             variant="dark"

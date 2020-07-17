@@ -13,7 +13,7 @@ const CreateTournamentModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     CreateTournament(name, state, dispatch).then((response) => {
-      if (response.status === 200) {
+      if (response !== undefined && response.status === 200) {
         props.notify("Sucessfully Created Tournament");
       } else {
         props.notify("Something went wrong");

@@ -135,7 +135,10 @@ const MatchesTable = (props) => {
                             }
                             RemoveMatch(val._id, state, dispatch, round).then(
                               (response) => {
-                                if (response.status === 200) {
+                                if (
+                                  response !== undefined &&
+                                  response.status === 200
+                                ) {
                                   props.notify("Sucessfully Removed Match.");
                                 } else {
                                   props.notify("Something went wrong.");

@@ -18,7 +18,7 @@ const AddMatchModal = (props) => {
     event.preventDefault();
     AddMatch(teamA, teamB, round, state.selectedTourId, dispatch).then(
       (response) => {
-        if (response.status === 201) {
+        if (response !== undefined && response.status === 201) {
           props.notify("Successfully Created Match.");
         } else {
           props.notify("Something went wrong.");

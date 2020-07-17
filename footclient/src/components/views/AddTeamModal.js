@@ -14,7 +14,7 @@ const AddTeamModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     AddTeam(state.selectedTourId, teamName, dispatch).then((response) => {
-      if (response.status === 201) {
+      if (response !== undefined && response.status === 201) {
         props.notify("Successfully Added Team.");
       } else {
         props.notify("Something went wrong.");

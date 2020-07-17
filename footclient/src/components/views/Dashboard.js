@@ -3,7 +3,7 @@ import { Row, Col, Dropdown, Toast } from "react-bootstrap";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Context } from "../Store";
 import { useSpring, animated } from "react-spring";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import TopNav from "./TopNav";
@@ -25,7 +25,7 @@ import FetchOwned from "../functional/FetchOwnedTournaments";
 import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 toast.configure();
 const notify = (msg) => {
-  toast(msg, { position: toast.POSITION.TOP_RIGHT });
+  toast(msg, { position: toast.POSITION.BOTTOM_CENTER });
 };
 const Dashboard = (props) => {
   const fade = useSpring({

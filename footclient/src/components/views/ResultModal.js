@@ -22,7 +22,7 @@ const ResultModal = (props) => {
       teamBResult
     )
       .then((response) => {
-        if (response.status === 200) {
+        if (response !== undefined && response.status === 200) {
           props.notify("Sucessfully Added Result.");
         } else {
           props.notify("Something went wrong.");
