@@ -124,7 +124,15 @@ const AddMatchModal = (props) => {
         <Modal.Footer>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
+              if (/^\d*$/.test(round)) {
+                if (teamA === "" || teamB === "") {
+                  props.notify("Teams must be selected");
+                } else {
+                  handleSubmit(e);
+                }
+              } else {
+                props.notify("Round must be a number");
+              }
             }}
             variant="dark"
           >
@@ -132,8 +140,12 @@ const AddMatchModal = (props) => {
           </Button>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
-              handleClose();
+              if (/^\d*$/.test(round)) {
+                handleSubmit(e);
+                handleClose();
+              } else {
+                props.notify("Round must be a number");
+              }
             }}
             variant="dark"
           >
