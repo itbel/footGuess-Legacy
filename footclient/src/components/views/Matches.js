@@ -3,7 +3,7 @@ import { Col, Row, Container } from "react-bootstrap";
 import AddMatchModal from "../views/AddMatchModal";
 import MatchesTable from "./MatchesTable";
 
-const Matches = () => {
+const Matches = (props) => {
   return (
     <div
       style={{
@@ -21,11 +21,11 @@ const Matches = () => {
         </Row>
         <Row>
           <Col sm={12}>
-            <MatchesTable></MatchesTable>
+            <MatchesTable notify={props.notify}></MatchesTable>
           </Col>
         </Row>
         <Row className="justify-content-center mt-1">
-          <AddMatchModal />
+          <AddMatchModal notify={props.notify} />
         </Row>
       </Container>
     </div>

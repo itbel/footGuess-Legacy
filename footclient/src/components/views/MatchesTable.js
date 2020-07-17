@@ -6,7 +6,7 @@ import RemoveMatch from "../functional/RemoveMatch";
 import FetchTeams from "../functional/FetchTeams";
 import FetchHighestRound from "../functional/FetchHighestRound";
 
-const MatchesTable = () => {
+const MatchesTable = (props) => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
@@ -133,7 +133,18 @@ const MatchesTable = () => {
                               if (currentPage !== 0)
                                 setCurrentPage(currentPage - 1);
                             }
-                            RemoveMatch(val._id, state, dispatch, round);
+                            RemoveMatch(val._id, state, dispatch, round).then(
+                              (response) => {
+                                if (
+                                  response !== undefined &&
+                                  response.status === 200
+                                ) {
+                                  props.notify("Sucessfully Removed Match.");
+                                } else {
+                                  props.notify("Something went wrong.");
+                                }
+                              }
+                            );
                           }}
                         >
                           Remove

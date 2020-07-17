@@ -5,7 +5,7 @@ import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
 import AddGuessModal from "../views/AddGuessModal";
 
-const GuessTable = () => {
+const GuessTable = (props) => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [matches, setMatches] = useState([]);
@@ -47,34 +47,36 @@ const GuessTable = () => {
   return (
     <>
       <Row className="justify-content-center">
-        <Dropdown className="pl-2">
-          <Dropdown.Toggle
-            style={{
-              visibility: rounds.length === 0 ? "hidden" : "visible",
-            }}
-            disabled={rounds.length === 0}
-            size="sm"
-            variant="light"
-          >
-            <b>Round: {round}</b>
-          </Dropdown.Toggle>
-          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-            {rounds.map((val, key) => {
-              return (
-                <Dropdown.Item
-                  key={key}
-                  name={val}
-                  onClick={(e) => {
-                    setCurrentPage(0);
-                    setRound(parseInt(e.target.name));
-                  }}
-                >
-                  {val}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown.Menu>
-        </Dropdown>
+        {matches.length > 0 ? (
+          <Dropdown className="pl-2">
+            <Dropdown.Toggle
+              style={{
+                visibility: rounds.length === 0 ? "hidden" : "visible",
+              }}
+              disabled={rounds.length === 0}
+              size="sm"
+              variant="light"
+            >
+              <b>Round: {round}</b>
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+              {rounds.map((val, key) => {
+                return (
+                  <Dropdown.Item
+                    key={key}
+                    name={val}
+                    onClick={(e) => {
+                      setCurrentPage(0);
+                      setRound(parseInt(e.target.name));
+                    }}
+                  >
+                    {val}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : null}
       </Row>
       <Row className="justify-content-center">
         {matches.length > 0 ? (
@@ -155,7 +157,11 @@ const GuessTable = () => {
         )}
       </Row>
       <Row className="justify-content-center pt-1">
-        <AddGuessModal handler={handler} round={round}></AddGuessModal>
+        <AddGuessModal
+          notify={props.notify}
+          handler={handler}
+          round={round}
+        ></AddGuessModal>
       </Row>
     </>
   );

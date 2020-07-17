@@ -1,6 +1,6 @@
 import React from "react";
 import RankingTable from "../views/RankingTable";
-import { Row } from "react-bootstrap";
+import { Row, Container, Col } from "react-bootstrap";
 
 const OverallRanking = () => {
   return (
@@ -14,10 +14,16 @@ const OverallRanking = () => {
         color: "#efefef",
       }}
     >
-      <Row className="justify-content-center">
-        <h1>Tournament Ranking</h1>
-      </Row>
-      <RankingTable></RankingTable>
+      <Container>
+        <Row className="justify-content-center">
+          <h1>Tournament Ranking</h1>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <RankingTable></RankingTable>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import React, { useRef, useState, useContext } from "react";
 import AddTeam from "../functional/AddTeam";
 import { Context } from "../Store";
 
-const AddTeamModal = () => {
+const AddTeamModal = (props) => {
   const teamNameRef = useRef(null);
   const [state, dispatch] = useContext(Context);
   const [show, setShow] = useState(false);
@@ -13,7 +13,13 @@ const AddTeamModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    AddTeam(state.selectedTourId, teamName, dispatch);
+    AddTeam(state.selectedTourId, teamName, dispatch).then((response) => {
+      if (response !== undefined && response.status === 201) {
+        props.notify("Successfully Added Team.");
+      } else {
+        props.notify("Something went wrong.");
+      }
+    });
     setTeamName("");
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import PointsTable from "../views/PointsTable";
-import { Row } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 
 const Ranking = () => {
   return (
@@ -14,10 +14,16 @@ const Ranking = () => {
         color: "#efefef",
       }}
     >
-      <Row className="justify-content-center">
-        <h1>Ranking</h1>
-      </Row>
-      <PointsTable />
+      <Container>
+        <Row className="justify-content-center">
+          <h1>Ranking</h1>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <PointsTable />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

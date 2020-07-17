@@ -2,7 +2,8 @@ const router = require("express").Router();
 const verify = require("./verifyToken");
 
 let teamModel = require("../models/team.model");
-
+let matchModel = require("../models/match.model");
+let guessModel = require("../models/guess.model");
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
   teamModel.create(
@@ -16,7 +17,7 @@ router.post("/manage", verify, (req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.status(201).json({ msg: "Team Created" });
+      else res.status(201).send();
     }
   );
 });
@@ -25,7 +26,35 @@ router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
   teamModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
     if (err) next(err);
-    else res.status(200).json({ msg: "Team Deleted" });
+    else {
+      matchModel.find(
+        { tournamentid: doc.tournamentid },
+        { $or: [{ teamAName: doc.teamName }, { teamBName: doc.teamName }] },
+        (err2, doc2) => {
+          if (err2) next(err2);
+          else {
+            console.log(doc2);
+            matchModel.deleteMany(
+              {
+                tournamentid: doc.tournamentid,
+                $or: [{ teamAName: doc.teamName }, { teamBName: doc.teamName }],
+              },
+              (err3, doc3) => {
+                if (err3) next(err3);
+                else {
+                  guessModel.deleteMany({ matchid: doc2._id }, (err4, doc4) => {
+                    if (err4) next(err4);
+                    else {
+                      res.status(200).send();
+                    }
+                  });
+                }
+              }
+            );
+          }
+        }
+      );
+    }
   });
 });
 

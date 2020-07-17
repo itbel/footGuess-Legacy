@@ -6,14 +6,15 @@ const RemoveTeam = (teamid, state, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  Axios.delete(`${BASE_URL}/api/teams/manage/${teamid}`, config, {
+  return Axios.delete(`${BASE_URL}/api/teams/manage/${teamid}`, config, {
     timeout: 2000,
   })
     .then((response) => {
       FetchTeams(state, dispatch);
+      return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 

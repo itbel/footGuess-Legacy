@@ -20,7 +20,7 @@ const CreateTournament = (tourname, state, dispatch) => {
       JoinTournament(response.data._id, state, dispatch);
       FetchAll(dispatch);
       FetchOwned(state, dispatch);
-      return response.data;
+      return response;
     })
     .catch((error) => {
       console.log(error);

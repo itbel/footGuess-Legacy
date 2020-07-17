@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Row, Col, Dropdown } from "react-bootstrap";
+import { Row, Col, Dropdown, Toast } from "react-bootstrap";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Context } from "../Store";
 import { useSpring, animated } from "react-spring";
-// Views
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
 import Home from "./Home";
@@ -21,7 +23,10 @@ import ReactLoading from "react-loading";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
 import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
-
+toast.configure();
+const notify = (msg) => {
+  toast(msg, { position: toast.POSITION.BOTTOM_CENTER });
+};
 const Dashboard = (props) => {
   const fade = useSpring({
     from: {
@@ -55,6 +60,7 @@ const Dashboard = (props) => {
           width={"10%"}
         ></ReactLoading>
       ) : null}
+
       <div
         className="landing p-0"
         style={{
@@ -136,13 +142,30 @@ const Dashboard = (props) => {
               >
                 <Switch>
                   <Route path={"/home"} component={Home} />
-                  <Route path={"/guess"} component={Guess} />
+                  <Route
+                    path={"/guess"}
+                    render={(props) => <Guess notify={notify}></Guess>}
+                  />
                   <Route path={"/rules"} component={Rules} />
                   <Route path={"/ranking"} component={Ranking} />
-                  <Route path={"/tournaments"} component={Tournaments} />
-                  <Route path={"/matches"} component={Matches} />
-                  <Route path={"/teams"} component={Teams} />
-                  <Route path={"/results"} component={Results} />
+                  <Route
+                    path={"/tournaments"}
+                    render={(props) => (
+                      <Tournaments notify={notify}></Tournaments>
+                    )}
+                  />
+                  <Route
+                    path={"/matches"}
+                    render={(props) => <Matches notify={notify}></Matches>}
+                  />
+                  <Route
+                    path={"/teams"}
+                    render={(props) => <Teams notify={notify}></Teams>}
+                  />
+                  <Route
+                    path={"/results"}
+                    render={(props) => <Results notify={notify}></Results>}
+                  />
                   <Route path={"/allranking"} component={OverallRanking} />
                 </Switch>
               </Col>

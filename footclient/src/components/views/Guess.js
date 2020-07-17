@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import GuessTable from "./GuessTable";
 
-const Guess = () => {
+const Guess = (props) => {
   return (
     <div
       style={{
@@ -20,7 +20,7 @@ const Guess = () => {
         </Row>
         <Row className="justify-content-center">
           <Col sm={12}>
-            <GuessTable />
+            <GuessTable notify={props.notify} />
           </Col>
         </Row>
       </Container>

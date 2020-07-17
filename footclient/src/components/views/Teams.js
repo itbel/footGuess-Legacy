@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import AddTeamModal from "./AddTeamModal";
 import TeamsTable from "../views/TeamsTable";
-const Teams = () => {
+const Teams = (props) => {
   return (
     <div
       style={{
@@ -20,11 +20,11 @@ const Teams = () => {
         </Row>
         <Row>
           <Col sm={12}>
-            <TeamsTable></TeamsTable>
+            <TeamsTable notify={props.notify}></TeamsTable>
           </Col>
         </Row>
         <Row className="justify-content-center mt-1">
-          <AddTeamModal />
+          <AddTeamModal notify={props.notify} />
         </Row>
       </Container>
     </div>

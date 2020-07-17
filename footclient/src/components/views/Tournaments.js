@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Pagination } from "react-bootstrap";
 import { Context } from "../Store";
 import { Row, Col } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
@@ -7,18 +7,25 @@ import LeaveTournament from "../functional/LeaveTournament";
 import CreateTournamentModal from "../views/CreateTournamentModal";
 import RemoveTournament from "../functional/RemoveTournament";
 
-const Tournaments = () => {
+const Tournaments = (props) => {
   const [state, dispatch] = useContext(Context);
   const [tournaments, setTournaments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    let arr = [];
-    let entries = Object.entries(state.joinedTournaments);
-    for (let entry of entries) {
-      arr.push(entry[1].name);
+    let tempArr = [];
+    if (state.allTournaments.length > 0) {
+      state.allTournaments.map((value, key) => {
+        if (key % 5 === 0) {
+          tempArr.push(state.allTournaments.slice(key, key + 5));
+        }
+        return null;
+      });
+      setTournaments(tempArr);
+    } else {
+      setTournaments([]);
     }
-    setTournaments(arr);
-  }, [state.joinedTournaments]);
+  }, [state.joinedTournaments, state.allTournaments, state.ownedTournaments]);
   return (
     <div
       style={{
@@ -33,14 +40,14 @@ const Tournaments = () => {
       <Row className="d-flex justify-content-center">
         <h1>Tournaments</h1>
       </Row>
-      <Row className="pt-3">
-        <Col sm={0} md={3}></Col>
-        <Col sm={12} md={6}>
+      <Row className="pt-3 justify-content-center">
+        {tournaments.length > 0 ? (
           <Table
             size="sm"
             bordered
             hover
             style={{
+              width: "50%",
               textAlign: "center",
               color: "black",
               backgroundColor: "#efefef",
@@ -59,93 +66,168 @@ const Tournaments = () => {
             </thead>
 
             <tbody>
-              {state.allTournaments.map((val, key) => {
-                return (
-                  <tr key={key}>
-                    <td className="d-table-cell">{val.name}</td>
-                    <td>{val.owner}</td>
-                    <td className="d-table-cell">
-                      <Button
-                        disabled={
-                          val.name ===
-                          tournaments.find((element) => element === val.name)
-                        }
-                        onClick={() => {
-                          JoinTournament(val.tournamentid, state, dispatch);
-                        }}
-                        variant="dark"
-                      >
-                        Join
-                      </Button>
-                      <Button
-                        style={{ marginLeft: "8px" }}
-                        disabled={
-                          !(
-                            val.name ===
-                            tournaments.find((element) => element === val.name)
-                          )
-                        }
-                        onClick={() => {
-                          LeaveTournament(val.tournamentid, state, dispatch);
-                          if (val.name === state.selectedTourName) {
-                            let tour = {};
-                            tour.name = undefined;
-                            tour.tournamentid = undefined;
-                            dispatch({
-                              type: "SELECT_TOURNAMENT",
-                              payload: tour,
-                            });
-                          }
-                        }}
-                        variant="dark"
-                      >
-                        Leave
-                      </Button>
-                    </td>
-                    <td>
-                      <Button
-                        disabled={
-                          state.ownedTournaments.find(
-                            (el) => el.name === val.name
-                          ) === undefined
-                            ? true
-                            : false
-                        }
-                        hidden={
-                          state.ownedTournaments.find(
-                            (el) => el.name === val.name
-                          ) === undefined
-                            ? true
-                            : false
-                        }
-                        style={{ marginLeft: "8px" }}
-                        variant="danger"
-                        onClick={() => {
-                          RemoveTournament(val.tournamentid, state, dispatch);
-                          if (val.name === state.selectedTourName) {
-                            let tour = {};
-                            tour.name = undefined;
-                            tour.tournamentid = undefined;
-                            dispatch({
-                              type: "SELECT_TOURNAMENT",
-                              payload: tour,
-                            });
-                          }
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {tournaments !== undefined &&
+              tournaments.length > 0 &&
+              tournaments[currentPage] !== undefined
+                ? tournaments[currentPage].map((val, key) => {
+                    return (
+                      <tr key={key}>
+                        <td className="d-table-cell">{val.name}</td>
+                        <td>{val.owner}</td>
+                        <td className="d-table-cell">
+                          <Button
+                            disabled={
+                              state.joinedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? false
+                                : true
+                            }
+                            onClick={() => {
+                              JoinTournament(
+                                val.tournamentid,
+                                state,
+                                dispatch
+                              ).then((response) => {
+                                if (
+                                  response !== undefined &&
+                                  response.status === 204
+                                ) {
+                                  props.notify(
+                                    "Sucessfully Joined Tournament."
+                                  );
+                                } else {
+                                  props.notify("Something went wrong.");
+                                }
+                              });
+                            }}
+                            variant="dark"
+                          >
+                            Join
+                          </Button>
+                          <Button
+                            style={{ marginLeft: "8px" }}
+                            disabled={
+                              state.joinedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? true
+                                : false
+                            }
+                            onClick={() => {
+                              LeaveTournament(
+                                val.tournamentid,
+                                state,
+                                dispatch
+                              ).then((response) => {
+                                if (
+                                  response !== undefined &&
+                                  response.status === 204
+                                ) {
+                                  props.notify("Sucessfully Left Tournament.");
+                                } else {
+                                  props.notify("Something went wrong.");
+                                }
+                              });
+                              if (val.name === state.selectedTourName) {
+                                let tour = {};
+                                tour.name = undefined;
+                                tour.tournamentid = undefined;
+                                dispatch({
+                                  type: "SELECT_TOURNAMENT",
+                                  payload: tour,
+                                });
+                              }
+                            }}
+                            variant="dark"
+                          >
+                            Leave
+                          </Button>
+                          <Button
+                            disabled={
+                              state.ownedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? true
+                                : false
+                            }
+                            hidden={
+                              state.ownedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? true
+                                : false
+                            }
+                            style={{ marginLeft: "8px" }}
+                            variant="danger"
+                            onClick={() => {
+                              RemoveTournament(
+                                val.tournamentid,
+                                state,
+                                dispatch
+                              ).then((response) => {
+                                if (
+                                  response !== undefined &&
+                                  response.status === 200
+                                ) {
+                                  props.notify(
+                                    "Sucessfully Removed Tournament."
+                                  );
+                                } else {
+                                  props.notify("Something went wrong.");
+                                }
+                              });
+                              if (val.name === state.selectedTourName) {
+                                let tour = {};
+                                tour.name = undefined;
+                                tour.tournamentid = undefined;
+                                dispatch({
+                                  type: "SELECT_TOURNAMENT",
+                                  payload: tour,
+                                });
+                              }
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={4}>
+                  <Row className="justify-content-center m-0 pt-2">
+                    {tournaments.length > 1 ? (
+                      <Pagination variant="dark">
+                        {tournaments.map((val, key) => {
+                          return (
+                            <Pagination.Item
+                              onClick={() => {
+                                setCurrentPage(key);
+                              }}
+                              active={key === currentPage}
+                              key={key}
+                            >
+                              {key + 1}
+                            </Pagination.Item>
+                          );
+                        })}
+                      </Pagination>
+                    ) : null}
+                  </Row>
+                </td>
+              </tr>
+            </tfoot>
           </Table>
-        </Col>
-        <Col sm={0} md={3}></Col>
+        ) : (
+          <h1>No tournaments found</h1>
+        )}
       </Row>
       <Row className="justify-content-center">
-        <CreateTournamentModal></CreateTournamentModal>
+        <CreateTournamentModal notify={props.notify}></CreateTournamentModal>
       </Row>
     </div>
   );

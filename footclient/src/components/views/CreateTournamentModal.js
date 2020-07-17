@@ -3,7 +3,7 @@ import React, { useRef, useState, useContext } from "react";
 import CreateTournament from "../functional/CreateTournament";
 import { Context } from "../Store";
 
-const CreateTournamentModal = () => {
+const CreateTournamentModal = (props) => {
   const tourNameRef = useRef(null);
   const [state, dispatch] = useContext(Context);
   const [show, setShow] = useState(false);
@@ -13,8 +13,13 @@ const CreateTournamentModal = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     CreateTournament(name, state, dispatch).then((response) => {
-      console.log(response);
+      if (response !== undefined && response.status === 200) {
+        props.notify("Sucessfully Created Tournament");
+      } else {
+        props.notify("Something went wrong");
+      }
     });
+
     setName("");
     handleClose();
   };

@@ -3,6 +3,9 @@ const verify = require("./verifyToken");
 
 let tournamentModel = require("../models/tournament.model");
 let userModel = require("../models/user.model");
+let matchModel = require("../models/match.model");
+let guessModel = require("../models/guess.model");
+let teamModel = require("../models/team.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== CREATING A TOURNAMENT ==========`);
@@ -13,7 +16,7 @@ router.post("/manage", verify, (req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.json(doc);
+      else res.status(200).send();
     }
   );
 });
@@ -32,9 +35,8 @@ router.patch("/join", verify, (req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) {
-        next(err);
-      } else {
+      if (err) next(err);
+      else {
         res.status(204).send();
       }
     }
@@ -53,10 +55,14 @@ router.patch("/leave", verify, (req, res, next) => {
       },
     },
     (err, doc) => {
-      if (err) {
-        next(err);
-      } else {
-        res.status(204).send();
+      if (err) next(err);
+      else {
+        guessModel.deleteMany({ userid: req.user._id }, (err2, doc2) => {
+          if (err2) next(err2);
+          else {
+            res.status(204).send();
+          }
+        });
       }
     }
   );
@@ -151,9 +157,35 @@ router.delete("/manage/:id", verify, (req, res, next) => {
         tournamentModel.deleteOne({ _id: req.params.id }, (err2, doc2) => {
           if (err2) next(err2);
           else {
-            res.status(200).send();
+            matchModel.deleteMany(
+              { tournamentid: req.params.id },
+              (err3, doc3) => {
+                if (err3) next(err3);
+                else {
+                  guessModel.deleteMany(
+                    { tournamentid: req.params.id },
+                    (err4, doc4) => {
+                      if (err4) next(err4);
+                      else {
+                        teamModel.deleteMany(
+                          { tournamentid: req.params.id },
+                          (err5, doc5) => {
+                            if (err5) next(err5);
+                            else {
+                              res.status(200).send();
+                            }
+                          }
+                        );
+                      }
+                    }
+                  );
+                }
+              }
+            );
           }
         });
+      } else {
+        res.status(403).send();
       }
     }
   });

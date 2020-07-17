@@ -6,14 +6,15 @@ const RemoveMatch = (matchid, state, dispatch, round) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  Axios.delete(`${BASE_URL}/api/matches/manage/${matchid}`, config, {
+  return Axios.delete(`${BASE_URL}/api/matches/manage/${matchid}`, config, {
     timeout: 2000,
   })
     .then((response) => {
       FetchMatches(state, dispatch, round);
+      return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 
