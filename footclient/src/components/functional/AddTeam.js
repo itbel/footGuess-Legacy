@@ -5,7 +5,7 @@ const AddTeam = (tourid, team, dispatch) => {
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
   };
-  Axios.post(
+  return Axios.post(
     `${BASE_URL}/api/teams/manage`,
     {
       teamName: team,
@@ -19,9 +19,10 @@ const AddTeam = (tourid, team, dispatch) => {
         type: "FETCH_TEAMS",
         payload: response.data,
       });
+      return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 

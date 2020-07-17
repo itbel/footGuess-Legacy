@@ -4,7 +4,7 @@ import { Context } from "../Store";
 import FetchTeams from "../functional/FetchTeams";
 import RemoveTeam from "../functional/RemoveTeam";
 
-const TeamsTable = () => {
+const TeamsTable = (props) => {
   const [state, dispatch] = useContext(Context);
   const [currentPage, setCurrentPage] = useState(0);
   const [teams, setTeams] = useState([]);
@@ -71,7 +71,15 @@ const TeamsTable = () => {
                             if (currentPage !== 0)
                               setCurrentPage(currentPage - 1);
                           }
-                          RemoveTeam(val._id, state, dispatch);
+                          RemoveTeam(val._id, state, dispatch).then(
+                            (response) => {
+                              if (response.status === 200) {
+                                props.notify("Sucessfully Removed Team.");
+                              } else {
+                                props.notify("Something went wrong.");
+                              }
+                            }
+                          );
                         }}
                       >
                         Remove
