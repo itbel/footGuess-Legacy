@@ -23,7 +23,7 @@ const CreateTournament = (tourname, state, dispatch) => {
       return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 

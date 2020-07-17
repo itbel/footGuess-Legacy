@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 let userModel = require("../models/user.model");
 
 server.route("/login").post((req, res, next) => {
-  if (req.body.username !== undefined && req.body.password !== undefined) {
+  if (req.body.username !== "" && req.body.password !== "") {
     userModel.findOne({ username: req.body.username }, (err, doc) => {
       if (err) next(err);
       else {

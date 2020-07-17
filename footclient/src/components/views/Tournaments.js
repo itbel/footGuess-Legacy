@@ -40,19 +40,9 @@ const Tournaments = (props) => {
       <Row className="d-flex justify-content-center">
         <h1>Tournaments</h1>
       </Row>
-      <Row className="pt-3 justify-content-center">
+      <Row className="pt-3 justify-content-center mb-1">
         {tournaments.length > 0 ? (
-          <Table
-            size="sm"
-            bordered
-            hover
-            style={{
-              width: "50%",
-              textAlign: "center",
-              color: "black",
-              backgroundColor: "#efefef",
-            }}
-          >
+          <table className="tournamentsTable">
             <thead>
               <tr>
                 <th>
@@ -71,7 +61,12 @@ const Tournaments = (props) => {
               tournaments[currentPage] !== undefined
                 ? tournaments[currentPage].map((val, key) => {
                     return (
-                      <tr key={key}>
+                      <tr
+                        key={key}
+                        style={{
+                          backgroundColor: key % 2 ? "white" : "lightgrey",
+                        }}
+                      >
                         <td className="d-table-cell">{val.name}</td>
                         <td>{val.owner}</td>
                         <td className="d-table-cell">
@@ -221,7 +216,7 @@ const Tournaments = (props) => {
                 </td>
               </tr>
             </tfoot>
-          </Table>
+          </table>
         ) : (
           <h1>No tournaments found</h1>
         )}
