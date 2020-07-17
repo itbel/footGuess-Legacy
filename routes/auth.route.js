@@ -6,21 +6,31 @@ const jwt = require("jsonwebtoken");
 let userModel = require("../models/user.model");
 
 server.route("/login").post((req, res, next) => {
-  userModel.findOne({ username: req.body.username }, (err, doc) => {
-    if (err) next(err);
-    else {
-      if (doc !== null) {
-        bcrypt.compare(req.body.password, doc.password, (err, isRight) => {
-          if (isRight) {
-            const token = jwt.sign({ _id: doc._id, name: doc.name }, "secret");
-            res.header("auth-token", token).send(token);
-          } else res.status(401).json({ msg: "Invalid Password" });
-        });
-      } else {
-        res.status(401).json({ msg: "User not found" });
+  if (req.body.username !== undefined && req.body.password !== undefined) {
+    userModel.findOne({ username: req.body.username }, (err, doc) => {
+      if (err) next(err);
+      else {
+        if (doc !== null) {
+          bcrypt.compare(req.body.password, doc.password, (err, isRight) => {
+            if (isRight) {
+              const token = jwt.sign(
+                { _id: doc._id, name: doc.name },
+                process.env.SECRET,
+                {
+                  expiresIn: 900,
+                }
+              );
+              res.header("auth-token", token).send(token);
+            } else res.status(401).json({ msg: "Invalid Password" });
+          });
+        } else {
+          res.status(401).json({ msg: "User not found" });
+        }
       }
-    }
-  });
+    });
+  } else {
+    res.status(401).json({ msg: "Fields cannot be empty" });
+  }
 });
 
 server.route("/register").post((req, res, next) => {

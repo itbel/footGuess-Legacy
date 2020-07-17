@@ -70,8 +70,7 @@ const Dashboard = (props) => {
         }}
       >
         <TopNav></TopNav>
-        <div style={{ height: "50px" }}></div>
-        <Row className="m-0">
+        <Row className="m-0 mt-2">
           <Col>
             <Row className="d-flex justify-content-end m-auto">
               <Col xs={6}>
@@ -138,7 +137,7 @@ const Dashboard = (props) => {
                 sm={12}
                 md={12}
                 lg={state.selectedTourId !== undefined ? 10 : 12}
-                className="mt-1"
+                className="mt-2"
               >
                 <Switch>
                   <Route path={"/home"} component={Home} />

@@ -16,7 +16,7 @@ router.post("/manage", verify, (req, res, next) => {
     },
     (err, doc) => {
       if (err) next(err);
-      else res.status(200).send();
+      else res.status(200).send(doc);
     }
   );
 });
@@ -94,14 +94,18 @@ router.get("/players/:id", verify, (req, res, next) => {
     .exec((err, doc) => {
       if (err) next(err);
       else {
-        let users = [];
-        doc.users.map((user, key) => {
-          users.push({ name: user.userid.name, points: user.points });
-        });
-        users.sort((a, b) => {
-          return b.points - a.points;
-        });
-        res.json(users);
+        if (doc !== null) {
+          let users = [];
+          doc.users.map((user, key) => {
+            users.push({ name: user.userid.name, points: user.points });
+          });
+          users.sort((a, b) => {
+            return b.points - a.points;
+          });
+          res.json(users);
+        } else {
+          res.json({ msg: "No users found" });
+        }
       }
     });
 });
