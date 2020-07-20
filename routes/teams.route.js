@@ -22,8 +22,8 @@ router.post("/manage", verify, (req, res, next) => {
               teamLosses: 0,
               teamTies: 0,
             },
-            (err, doc) => {
-              if (err) next(err);
+            (err2, doc2) => {
+              if (err2) next(err2);
               else res.status(201).json({ msg: "Team created." });
             }
           );

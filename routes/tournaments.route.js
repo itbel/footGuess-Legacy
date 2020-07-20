@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const verify = require("./verifyToken");
+const validateTournament = require("./validateTournament");
 
 let tournamentModel = require("../models/tournament.model");
 let userModel = require("../models/user.model");
@@ -9,16 +10,33 @@ let teamModel = require("../models/team.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== CREATING A TOURNAMENT ==========`);
-  tournamentModel.create(
-    {
-      name: req.body.name,
-      owner: req.user._id,
-    },
-    (err, doc) => {
+  let validate = validateTournament(req.body.name);
+  if (validate.accepted) {
+    tournamentModel.findOne({ name: req.body.name }, (err, doc) => {
       if (err) next(err);
-      else res.status(200).send(doc);
-    }
-  );
+      else {
+        if (doc === null) {
+          tournamentModel.create(
+            {
+              name: req.body.name,
+              owner: req.user._id,
+            },
+            (err2, doc2) => {
+              if (err2) next(err2);
+              else
+                res
+                  .status(200)
+                  .json({ msg: "Tournament created successfully" });
+            }
+          );
+        } else {
+          res.status(409).json({ msg: "Tournament already exists" });
+        }
+      }
+    });
+  } else {
+    res.status(422).json({ msg: validate.msg });
+  }
 });
 
 router.patch("/join", verify, (req, res, next) => {
