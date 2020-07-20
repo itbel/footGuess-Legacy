@@ -13,14 +13,41 @@ const AddTeamModal = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    AddTeam(state.selectedTourId, teamName, dispatch).then((response) => {
-      if (response !== undefined && response.status === 201) {
-        props.notify("Successfully Added Team.");
-      } else {
-        props.notify("Something went wrong.");
-      }
-    });
+    let errorMsg = "";
+    let teamisCharactersOrDash = /^[A-Za-z\s-]+$/.test(teamName);
+    let teamisRequiredLength = teamName.length > 0 && teamName.length <= 30;
+    let lessThanTwoWhitespace = !/\s{2,}/.test(teamName);
+    let teamIsJustSpace = teamName === " ";
+    if (!teamisCharactersOrDash)
+      errorMsg +=
+        "Team name must only be comprised of characters spaces and dashes\n";
+    if (!teamisRequiredLength)
+      errorMsg += "Team name must be between 1 and 30 characters\n";
+    if (!lessThanTwoWhitespace)
+      errorMsg += "Team name must not have consecutive spaces\n";
+    if (teamIsJustSpace) errorMsg += "Team name must be more just one space\n";
+    if (
+      teamisCharactersOrDash &&
+      teamisRequiredLength &&
+      lessThanTwoWhitespace &&
+      !teamIsJustSpace
+    ) {
+      AddTeam(state.selectedTourId, teamName, dispatch).then((response) => {
+        if (response !== undefined) {
+          if (response.status === 201) {
+            props.notify("Successfully Added Team.");
+          } else {
+            props.notify(response.response.data.msg || "Something went wrong.");
+          }
+        } else {
+          props.notify("Something went wrong.");
+        }
+      });
+    } else {
+      props.notify(errorMsg);
+    }
     setTeamName("");
+    errorMsg = "";
   };
 
   return (

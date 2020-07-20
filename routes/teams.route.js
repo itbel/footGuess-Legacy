@@ -1,25 +1,40 @@
 const router = require("express").Router();
 const verify = require("./verifyToken");
+const validateTeam = require("./validateTeam");
 
 let teamModel = require("../models/team.model");
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
-  teamModel.create(
-    {
-      tournamentid: req.body.tournamentid,
-      teamName: req.body.teamName,
-      teamPoints: 0,
-      teamWins: 0,
-      teamLosses: 0,
-      teamTies: 0,
-    },
-    (err, doc) => {
+  let validate = validateTeam(req.body.teamName);
+  if (validate.accepted) {
+    teamModel.findOne({ teamName: req.body.teamName }, (err, doc) => {
       if (err) next(err);
-      else res.status(201).send();
-    }
-  );
+      else {
+        if (doc === null) {
+          teamModel.create(
+            {
+              tournamentid: req.body.tournamentid,
+              teamName: req.body.teamName,
+              teamPoints: 0,
+              teamWins: 0,
+              teamLosses: 0,
+              teamTies: 0,
+            },
+            (err, doc) => {
+              if (err) next(err);
+              else res.status(201).json({ msg: "Team created." });
+            }
+          );
+        } else {
+          res.status(409).json({ msg: "Team already exists" });
+        }
+      }
+    });
+  } else {
+    res.status(422).json({ msg: validate.msg });
+  }
 });
 
 router.delete("/manage/:id", verify, (req, res, next) => {

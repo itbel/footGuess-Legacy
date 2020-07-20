@@ -68,6 +68,7 @@ router.patch("/manage", verify, (req, res, next) => {
                           match.guesses.guessid[i].teamAguess !== undefined &&
                           match.guesses.guessid[i].teamBguess !== undefined
                         ) {
+                          // this might be better if done with IDs
                           let found = players.find(
                             (el) => el.name === currentPlayer
                           );

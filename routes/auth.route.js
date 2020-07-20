@@ -39,6 +39,7 @@ server.route("/register").post((req, res, next) => {
     if (err) next(err);
     else {
       let validate = validateLogin(req.body.username, req.body.password);
+      console.log(validate);
       if (validate.accepted) {
         userModel.findOne({ username: req.body.username }, (err2, doc2) => {
           if (err2) next(err2);
