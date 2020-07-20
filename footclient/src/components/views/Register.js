@@ -68,7 +68,8 @@ const Register = (props) => {
             setData({
               ...data,
               isSubmitting: false,
-              errorMessage: error.message || error.statusText,
+              errorMessage:
+                error.response.data.msg || error.message || error.statusText,
             });
           });
       } else {
