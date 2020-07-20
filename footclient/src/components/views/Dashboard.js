@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Row, Col, Dropdown, Toast } from "react-bootstrap";
+import { Row, Col, Dropdown } from "react-bootstrap";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Context } from "../Store";
 import { useSpring, animated } from "react-spring";

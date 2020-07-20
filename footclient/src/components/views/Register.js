@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, Row, Col, Container, Button } from "react-bootstrap";
 import Axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
+const notify = (msg) => {
+  toast(msg, { position: toast.POSITION.BOTTOM_CENTER });
+};
 const Register = (props) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const initialState = {
@@ -16,40 +22,69 @@ const Register = (props) => {
 
   const history = useHistory(props.history);
   const [data, setData] = useState(initialState);
+  const isValidUser = (user) => {
+    let isRequiredLength = user.length >= 4;
+    let hasNoWhitespace = !/\s/.test(user);
+    let hasNoSymbols = !/[!@#~$%^&*()_+=[{\]};:<>\\|.`/?,-]/.test(user);
+    let isAlphanumeric = /^[a-zA-Z0-9]+$/.test(user);
+    return (
+      isRequiredLength && hasNoWhitespace && hasNoSymbols && isAlphanumeric
+    );
+  };
+  const isValidPass = (pass) => {
+    let isRequiredLength = pass.length >= 4;
+    let hasNoWhitespace = !/\s/.test(pass);
+    return isRequiredLength && hasNoWhitespace;
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     setData({
       ...data,
       isSubmitting: true,
       errorMessage: "",
     });
-    if (data.user !== undefined && data.pass !== undefined) {
-      Axios.post(
-        `${BASE_URL}/api/users/register`,
-        {
-          username: data.user,
-          password: data.pass,
-          name: data.name,
-          email: data.email,
-        },
-        { timeout: 2000 }
-      )
-        .then((response) => {
-          console.log("Successfully Registered");
-          setData({
-            ...data,
-            isSubmitting: false,
+    if (isValidUser(data.user)) {
+      if (isValidPass(data.pass)) {
+        Axios.post(
+          `${BASE_URL}/api/users/register`,
+          {
+            username: data.user,
+            password: data.pass,
+            name: data.name,
+            email: data.email,
+          },
+          { timeout: 2000 }
+        )
+          .then((response) => {
+            setData({
+              ...data,
+              isSubmitting: false,
+            });
+            history.push("/");
+            notify("Successfully registered.");
+          })
+          .catch((error) => {
+            setData({
+              ...data,
+              isSubmitting: false,
+              errorMessage: error.message || error.statusText,
+            });
           });
-          history.push("/");
-        })
-        .catch((error) => {
-          setData({
-            ...data,
-            isSubmitting: false,
-            errorMessage: error.message || error.statusText,
-          });
+      } else {
+        setData({
+          ...data,
+          errorMessage: "Invalid password.",
+          isSubmitting: false,
         });
+      }
+    } else {
+      setData({
+        ...data,
+        errorMessage: "Invalid username.",
+        isSubmitting: false,
+      });
     }
   };
 

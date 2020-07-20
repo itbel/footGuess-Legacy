@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Button, Pagination } from "react-bootstrap";
+import { Button, Pagination } from "react-bootstrap";
 import { Context } from "../Store";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
 import CreateTournamentModal from "../views/CreateTournamentModal";
