@@ -39,14 +39,13 @@ const Register = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    setData({
-      ...data,
-      isSubmitting: true,
-      errorMessage: "",
-    });
     if (isValidUser(data.user)) {
       if (isValidPass(data.pass)) {
+        setData({
+          ...data,
+          isSubmitting: true,
+          errorMessage: "",
+        });
         Axios.post(
           `${BASE_URL}/api/users/register`,
           {
@@ -76,14 +75,12 @@ const Register = (props) => {
         setData({
           ...data,
           errorMessage: "Invalid password.",
-          isSubmitting: false,
         });
       }
     } else {
       setData({
         ...data,
         errorMessage: "Invalid username.",
-        isSubmitting: false,
       });
     }
   };

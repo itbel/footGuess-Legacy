@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const server = express.Router();
 const jwt = require("jsonwebtoken");
+const validateLogin = require("./validateLogin");
 
 let userModel = require("../models/user.model");
 
@@ -36,25 +37,31 @@ server.route("/login").post((req, res, next) => {
 server.route("/register").post((req, res, next) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) next(err);
-    else
-      bcrypt.hash(req.body.password, salt, (err, hash) => {
-        if (err) next(err);
-        else
-          userModel.create(
-            {
-              username: req.body.username,
-              password: hash,
-              name: req.body.name,
-              email: req.body.email,
-            },
-            (err, doc) => {
-              if (err) next(err);
-              else {
-                res.status(201).json({ msg: "User Registered" });
+    else {
+      let validate = validateLogin(req.body.username, req.body.password);
+      if (validate.accepted) {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+          if (err) next(err);
+          else
+            userModel.create(
+              {
+                username: req.body.username,
+                password: hash,
+                name: req.body.name,
+                email: req.body.email,
+              },
+              (err, doc) => {
+                if (err) next(err);
+                else {
+                  res.status(201).json({ msg: "User Registered" });
+                }
               }
-            }
-          );
-      });
+            );
+        });
+      } else {
+        res.status(422).json({ msg: validate.msg });
+      }
+    }
   });
 });
 module.exports = server;
