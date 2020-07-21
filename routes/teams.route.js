@@ -5,30 +5,45 @@ const validateTeam = require("./validateTeam");
 let teamModel = require("../models/team.model");
 let matchModel = require("../models/match.model");
 let guessModel = require("../models/guess.model");
+const tournamentModel = require("../models/tournament.model");
+
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW TEAM ==========`);
   let validate = validateTeam(req.body.teamName);
   if (validate.accepted) {
-    teamModel.findOne({ teamName: req.body.teamName }, (err, doc) => {
+    tournamentModel.findOne({ _id: req.body.tournamentid }, (err, doc) => {
       if (err) next(err);
       else {
-        if (doc === null) {
-          teamModel.create(
-            {
-              tournamentid: req.body.tournamentid,
-              teamName: req.body.teamName,
-              teamPoints: 0,
-              teamWins: 0,
-              teamLosses: 0,
-              teamTies: 0,
-            },
-            (err2, doc2) => {
+        if (doc !== null) {
+          if (doc.owner.toString() === req.user._id.toString()) {
+            teamModel.findOne({ teamName: req.body.teamName }, (err2, doc2) => {
               if (err2) next(err2);
-              else res.status(201).json({ msg: "Team created." });
-            }
-          );
+              else {
+                if (doc2 === null) {
+                  teamModel.create(
+                    {
+                      tournamentid: req.body.tournamentid,
+                      teamName: req.body.teamName,
+                      teamPoints: 0,
+                      teamWins: 0,
+                      teamLosses: 0,
+                      teamTies: 0,
+                    },
+                    (err3, doc3) => {
+                      if (err3) next(err3);
+                      else res.status(201).json({ msg: "Team created." });
+                    }
+                  );
+                } else {
+                  res.status(409).json({ msg: "Team already exists" });
+                }
+              }
+            });
+          } else {
+            res.status(403).json({ msg: "Invalid user" });
+          }
         } else {
-          res.status(409).json({ msg: "Team already exists" });
+          res.status(404).json({ msg: "Tournament not found" });
         }
       }
     });
@@ -37,37 +52,61 @@ router.post("/manage", verify, (req, res, next) => {
   }
 });
 
-router.delete("/manage/:id", verify, (req, res, next) => {
+router.delete("/manage/:tourid&:id", verify, (req, res, next) => {
   console.log(`========== REMOVING TEAM ==========`);
-  teamModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
+  tournamentModel.findOne({ _id: req.params.tourid }, (err, tourdoc) => {
     if (err) next(err);
     else {
-      matchModel.find(
-        { tournamentid: doc.tournamentid },
-        { $or: [{ teamAName: doc.teamName }, { teamBName: doc.teamName }] },
-        (err2, doc2) => {
-          if (err2) next(err2);
-          else {
-            matchModel.deleteMany(
-              {
-                tournamentid: doc.tournamentid,
-                $or: [{ teamAName: doc.teamName }, { teamBName: doc.teamName }],
-              },
-              (err3, doc3) => {
-                if (err3) next(err3);
-                else {
-                  guessModel.deleteMany({ matchid: doc2._id }, (err4, doc4) => {
-                    if (err4) next(err4);
-                    else {
-                      res.status(200).send();
-                    }
-                  });
+      if (tourdoc !== null) {
+        if (tourdoc.owner.toString() === req.user._id.toString()) {
+          teamModel.findByIdAndDelete({ _id: req.params.id }, (err, doc) => {
+            if (err) next(err);
+            else {
+              matchModel.find(
+                { tournamentid: doc.tournamentid },
+                {
+                  $or: [
+                    { teamAName: doc.teamName },
+                    { teamBName: doc.teamName },
+                  ],
+                },
+                (err2, doc2) => {
+                  if (err2) next(err2);
+                  else {
+                    matchModel.deleteMany(
+                      {
+                        tournamentid: doc.tournamentid,
+                        $or: [
+                          { teamAName: doc.teamName },
+                          { teamBName: doc.teamName },
+                        ],
+                      },
+                      (err3, doc3) => {
+                        if (err3) next(err3);
+                        else {
+                          guessModel.deleteMany(
+                            { matchid: doc2._id },
+                            (err4, doc4) => {
+                              if (err4) next(err4);
+                              else {
+                                res.status(200).send();
+                              }
+                            }
+                          );
+                        }
+                      }
+                    );
+                  }
                 }
-              }
-            );
-          }
+              );
+            }
+          });
+        } else {
+          res.status(403).json({ msg: "Invalid user" });
         }
-      );
+      } else {
+        res.status(404).json({ msg: "Tournament not found" });
+      }
     }
   });
 });
