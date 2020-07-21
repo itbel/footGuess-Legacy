@@ -15,7 +15,13 @@ const AddResult = (tourid, matchid, teamAResult, teamBResult) => {
     },
     config,
     { timeout: 2000 }
-  );
+  )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 export default AddResult;

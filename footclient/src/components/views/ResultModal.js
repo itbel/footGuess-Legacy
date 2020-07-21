@@ -24,17 +24,13 @@ const ResultModal = (props) => {
       props.selectedMatch._id,
       teamAResult,
       teamBResult
-    )
-      .then((response) => {
-        if (response !== undefined && response.status === 200) {
-          props.notify("Sucessfully Added Result.");
-        } else {
-          props.notify("Something went wrong.");
-        }
-      })
-      .catch((error) => {
-        props.notify("Something went wrong.");
-      });
+    ).then((response) => {
+      if (response !== undefined && response.status === 200) {
+        props.notify("Sucessfully Added Result.");
+      } else {
+        props.notify(response.response.data.msg || "Something went wrong.");
+      }
+    });
     handleClose();
     props.handler(); // update parent
   };
