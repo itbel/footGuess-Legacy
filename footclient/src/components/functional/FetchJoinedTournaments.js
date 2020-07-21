@@ -3,7 +3,7 @@ import Axios from "axios";
 const FetchJoinedTournaments = (state, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   if (state.isAuthenticated !== false) {
     dispatch({ type: "UPDATING", payload: true });
@@ -19,6 +19,7 @@ const FetchJoinedTournaments = (state, dispatch) => {
       })
       .catch((error) => {
         console.log(error);
+        dispatch({ type: "UPDATING", payload: false });
       });
   }
 };

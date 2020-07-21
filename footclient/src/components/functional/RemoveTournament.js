@@ -6,8 +6,9 @@ import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 const RemoveTournament = (tourid, state, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
+
   return Axios.delete(`${BASE_URL}/api/tournaments/manage/${tourid}`, config, {
     timeout: 2000,
   })

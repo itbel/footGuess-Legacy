@@ -44,7 +44,7 @@ const AddGuessModal = (props) => {
 
   useEffect(() => {
     if (state.selectedTourId !== undefined)
-      FetchUnguessedMatches(state.selectedTourId, props.round).then(
+      FetchUnguessedMatches(state, state.selectedTourId, props.round).then(
         (response) => {
           setMatches(response);
         }
@@ -55,9 +55,12 @@ const AddGuessModal = (props) => {
     <>
       <Button
         variant="light"
-        disabled={matches.length === 0}
+        disabled={matches !== undefined && matches.length === 0}
         style={{
-          visibility: matches.length === 0 ? "hidden" : "visible",
+          visibility:
+            matches !== undefined && matches.length === 0
+              ? "hidden"
+              : "visible",
         }}
         onClick={handleShow}
       >

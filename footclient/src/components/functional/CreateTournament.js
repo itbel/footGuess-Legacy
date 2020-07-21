@@ -6,7 +6,7 @@ import FetchOwned from "../functional/FetchOwnedTournaments";
 const CreateTournament = (tourname, state, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   return Axios.post(
     `${BASE_URL}/api/tournaments/manage`,

@@ -3,7 +3,7 @@ import Axios from "axios";
 const FetchRound = (state, selectedRound, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   dispatch({ type: "UPDATING", payload: true });
   return Axios.get(
@@ -15,10 +15,12 @@ const FetchRound = (state, selectedRound, dispatch) => {
       if (JSON.stringify(state.results) !== JSON.stringify(response.data)) {
         dispatch({ type: "FETCH_RESULTS", payload: response.data });
       }
+      dispatch({ type: "UPDATING", payload: false });
       return response.data;
     })
     .catch((error) => {
       console.log(error);
+      dispatch({ type: "UPDATING", payload: false });
     });
 };
 

@@ -4,8 +4,9 @@ import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
 const JoinTournament = (tournamentid, state, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
+
   return Axios.patch(
     `${BASE_URL}/api/tournaments/join`,
     {

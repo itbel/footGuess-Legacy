@@ -12,16 +12,18 @@ const PointsTable = () => {
   const [rounds, setRounds] = useState([]);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchHighestRound(state.selectedTourId, dispatch).then((response) => {
-        if (response !== undefined && response.length > 0) {
-          let tempArr = [];
-          for (let i = 1; i <= response[0].round; i++) {
-            tempArr.push(i);
+      FetchHighestRound(state, state.selectedTourId, dispatch).then(
+        (response) => {
+          if (response !== undefined && response.length > 0) {
+            let tempArr = [];
+            for (let i = 1; i <= response[0].round; i++) {
+              tempArr.push(i);
+            }
+            setRounds(tempArr);
           }
-          setRounds(tempArr);
         }
-      });
-      FetchRoundResult(round, state.selectedTourId).then((response) => {
+      );
+      FetchRoundResult(state, round, state.selectedTourId).then((response) => {
         if (response !== undefined) {
           setMatches(response);
           let playerArr = [];

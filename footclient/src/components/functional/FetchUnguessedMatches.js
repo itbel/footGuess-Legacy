@@ -1,9 +1,9 @@
 import Axios from "axios";
 
-const FetchUnguessedMatches = (tourid, round) => {
+const FetchUnguessedMatches = (state, tourid, round) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   return Axios.get(
     `${BASE_URL}/api/matches/unguessed/${tourid}&${round}`,

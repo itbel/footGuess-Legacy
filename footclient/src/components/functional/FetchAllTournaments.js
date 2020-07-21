@@ -13,6 +13,7 @@ const FetchAllTournaments = (dispatch) => {
     })
     .catch((error) => {
       console.log(error);
+      dispatch({ type: "UPDATING", payload: false });
     });
 };
 
