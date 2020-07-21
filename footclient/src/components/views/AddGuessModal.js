@@ -30,7 +30,7 @@ const AddGuessModal = (props) => {
         if (response !== undefined && response.status === 201) {
           props.notify("Successfully Added Guess.");
         } else {
-          props.notify("Something went wrong.");
+          props.notify(response.response.data.msg || "Something went wrong.");
         }
       });
 
@@ -44,11 +44,23 @@ const AddGuessModal = (props) => {
 
   useEffect(() => {
     if (state.selectedTourId !== undefined)
-      FetchUnguessedMatches(state, state.selectedTourId, props.round).then(
-        (response) => {
-          setMatches(response);
+      FetchUnguessedMatches(
+        state,
+        dispatch,
+        state.selectedTourId,
+        props.round
+      ).then((response) => {
+        if (response !== undefined) {
+          if (response.data !== undefined) setMatches(response.data);
+          else {
+            if (response.response.status === 401) {
+              props.notify(
+                response.response.data.msg || "Something went wrong."
+              );
+            }
+          }
         }
-      );
+      });
   }, [show, state.guesses, props.round]);
 
   return (
@@ -80,7 +92,7 @@ const AddGuessModal = (props) => {
           <Row className="justify-content-center">
             <Dropdown>
               <Dropdown.Toggle
-                disabled={matches.length === 0}
+                disabled={matches !== undefined && matches.length === 0}
                 variant="secondary"
                 id="dropdown-basic"
               >

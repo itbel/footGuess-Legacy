@@ -19,7 +19,9 @@ const FetchRound = (state, selectedRound, dispatch) => {
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
       dispatch({ type: "UPDATING", payload: false });
     });
 };

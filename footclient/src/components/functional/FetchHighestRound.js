@@ -14,8 +14,10 @@ const FetchHighestRound = (state, tournamentid, dispatch) => {
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
       dispatch({ type: "UPDATING", payload: false });
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
     });
 };
 

@@ -19,6 +19,9 @@ const RemoveTeam = (teamid, state, dispatch) => {
       return response;
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
       return error;
     });
 };

@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const FetchRoundResult = (state, round, tourid) => {
+const FetchRoundResult = (dispatch, state, round, tourid) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${state.jwtToken}` },
@@ -16,7 +16,10 @@ const FetchRoundResult = (state, round, tourid) => {
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
+      return error;
     });
 };
 

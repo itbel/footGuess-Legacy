@@ -22,6 +22,9 @@ const AddTeam = (state, tourid, team, dispatch) => {
       return response;
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
       return error;
     });
 };

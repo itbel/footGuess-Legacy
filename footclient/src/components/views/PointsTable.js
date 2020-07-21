@@ -23,23 +23,25 @@ const PointsTable = () => {
           }
         }
       );
-      FetchRoundResult(state, round, state.selectedTourId).then((response) => {
-        if (response !== undefined) {
-          setMatches(response);
-          let playerArr = [];
-          for (let i = 0; i < response.length; i++) {
-            //looping matches
-            for (let x = 0; x < response[i].guesses.length; x++) {
-              //looping match guesses
-              if (response[i].guesses[x].player.name !== undefined) {
-                if (!playerArr.includes(response[i].guesses[x].player.name))
-                  playerArr.push(response[i].guesses[x].player.name);
+      FetchRoundResult(dispatch, state, round, state.selectedTourId).then(
+        (response) => {
+          if (response !== undefined) {
+            setMatches(response);
+            let playerArr = [];
+            for (let i = 0; i < response.length; i++) {
+              //looping matches
+              for (let x = 0; x < response[i].guesses.length; x++) {
+                //looping match guesses
+                if (response[i].guesses[x].player.name !== undefined) {
+                  if (!playerArr.includes(response[i].guesses[x].player.name))
+                    playerArr.push(response[i].guesses[x].player.name);
+                }
               }
             }
+            setPlayers(playerArr);
           }
-          setPlayers(playerArr);
         }
-      });
+      );
     }
   }, [round]);
   return (

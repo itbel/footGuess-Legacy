@@ -18,7 +18,9 @@ const FetchJoinedTournaments = (state, dispatch) => {
         dispatch({ type: "UPDATING", payload: false });
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+          dispatch({ type: "LOGOUT" });
+        }
         dispatch({ type: "UPDATING", payload: false });
       });
   }
