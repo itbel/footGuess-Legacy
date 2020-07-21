@@ -12,6 +12,7 @@ const initialState = {
   ownedTournaments: [],
   teams: [],
   matches: [],
+  results: [],
   isUpdating: false,
   players: [],
 };

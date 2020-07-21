@@ -4,7 +4,7 @@ import AddResult from "../functional/AddResult";
 import { Context } from "../Store";
 
 const ResultModal = (props) => {
-  const [state] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -20,6 +20,9 @@ const ResultModal = (props) => {
   );
   const handleSubmit = () => {
     AddResult(
+      state,
+      dispatch,
+      props.selectedRound,
       state.selectedTourId,
       props.selectedMatch._id,
       teamAResult,
@@ -32,7 +35,6 @@ const ResultModal = (props) => {
       }
     });
     handleClose();
-    props.handler(); // update parent
   };
   useEffect(() => {
     setTeamAResult(
