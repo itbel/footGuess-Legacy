@@ -23,10 +23,7 @@ router.post("/manage", verify, (req, res, next) => {
             },
             (err2, doc2) => {
               if (err2) next(err2);
-              else
-                res
-                  .status(200)
-                  .json({ msg: "Tournament created successfully" });
+              else res.status(200).json({ id: doc2._id });
             }
           );
         } else {
@@ -55,6 +52,7 @@ router.patch("/join", verify, (req, res, next) => {
     (err, doc) => {
       if (err) next(err);
       else {
+        console.log(doc);
         res.status(204).send();
       }
     }

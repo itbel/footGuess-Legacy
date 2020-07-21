@@ -8,109 +8,152 @@ let tournamentModel = require("../models/tournament.model");
 
 router.post("/manage", verify, (req, res, next) => {
   console.log(`========== ADDING NEW MATCH ==========`);
-  matchModel.create(
-    {
-      tournamentid: req.body.tournamentid,
-      round: req.body.round,
-      teamAName: req.body.teamA,
-      teamBName: req.body.teamB,
-    },
-    (err, doc) => {
-      if (err) next(err);
-      else res.status(201).send();
+  tournamentModel.findOne({ _id: req.body.tournamentid }, (err, doc) => {
+    if (err) next(err);
+    else {
+      if (doc !== null) {
+        if (doc.owner.toString() === req.user._id.toString()) {
+          matchModel.create(
+            {
+              tournamentid: req.body.tournamentid,
+              round: req.body.round,
+              teamAName: req.body.teamA,
+              teamBName: req.body.teamB,
+            },
+            (err, doc) => {
+              if (err) next(err);
+              else res.status(201).send();
+            }
+          );
+        } else {
+          res.status(403).json({ msg: "Invalid user" });
+        }
+      } else {
+        res.status(404).json({ msg: "Tournament not found" });
+      }
     }
-  );
+  });
 });
 
 router.patch("/manage", verify, (req, res, next) => {
   console.log(`========== UPDATING MATCH RESULT==========`);
-  matchModel
-    .findByIdAndUpdate(
-      { _id: req.body.matchid },
-      { teamAResult: req.body.teamAResult, teamBResult: req.body.teamBResult }
-    )
-    .exec((err, updatedMatch) => {
-      if (err) next(err);
-      else {
-        matchModel
-          .find({ tournamentid: req.body.tourid })
-          .populate({
-            path: "guesses.guessid",
-            populate: {
-              path: "userid",
-              select: "_id name",
-            },
-          })
-          .exec((err2, matches) => {
-            if (err2) next(err2);
-            else {
-              let players = [];
-              matches.map((match, index) => {
+  tournamentModel.findOne({ _id: req.body.tourid }, (err, doc) => {
+    if (err) next(err);
+    else {
+      if (doc !== null) {
+        if (doc.owner.toString() === req.user._id.toString()) {
+          matchModel
+            .findByIdAndUpdate(
+              { _id: req.body.matchid },
+              {
+                teamAResult: req.body.teamAResult,
+                teamBResult: req.body.teamBResult,
+              }
+            )
+            .exec((err, updatedMatch) => {
+              if (err) next(err);
+              else {
                 if (
-                  match.teamAResult !== undefined ||
-                  match.teamBResult !== undefined
+                  updatedMatch.tournamentid.toString() ===
+                    req.body.tourid.toString() &&
+                  req.user._id.toString() === doc.owner.toString()
                 ) {
-                  if (match.guesses.guessid !== undefined)
-                    for (let i = 0; i < match.guesses.guessid.length; i++) {
-                      if (
-                        match.guesses.guessid[i] !== undefined &&
-                        match.guesses.guessid[i] !== null
-                      ) {
-                        let currentPlayer =
-                          match.guesses.guessid[i].userid.name;
-                        let points = verifyMatch(
-                          match.guesses.guessid[i].teamAguess,
-                          match.guesses.guessid[i].teamBguess,
-                          match.teamAResult,
-                          match.teamBResult
-                        );
-                        if (
-                          match.guesses.guessid[i].teamAguess !== undefined &&
-                          match.guesses.guessid[i].teamBguess !== undefined
-                        ) {
-                          // this might be better if done with IDs
-                          let found = players.find(
-                            (el) => el.name === currentPlayer
-                          );
-                          if (!found) {
-                            players.push({
-                              id: match.guesses.guessid[i].userid._id,
-                              name: currentPlayer,
-                              points: points,
-                            });
-                          } else {
-                            players.map((val, key) => {
-                              if (val.name === currentPlayer) {
-                                players[key].points += points;
+                  matchModel
+                    .find({ tournamentid: req.body.tourid })
+                    .populate({
+                      path: "guesses.guessid",
+                      populate: {
+                        path: "userid",
+                        select: "_id name",
+                      },
+                    })
+                    .exec((err2, matches) => {
+                      if (err2) next(err2);
+                      else {
+                        let players = [];
+                        matches.map((match, index) => {
+                          if (
+                            match.teamAResult !== undefined ||
+                            match.teamBResult !== undefined
+                          ) {
+                            if (match.guesses.guessid !== undefined)
+                              for (
+                                let i = 0;
+                                i < match.guesses.guessid.length;
+                                i++
+                              ) {
+                                if (
+                                  match.guesses.guessid[i] !== undefined &&
+                                  match.guesses.guessid[i] !== null
+                                ) {
+                                  let currentPlayer =
+                                    match.guesses.guessid[i].userid.name;
+                                  let points = verifyMatch(
+                                    match.guesses.guessid[i].teamAguess,
+                                    match.guesses.guessid[i].teamBguess,
+                                    match.teamAResult,
+                                    match.teamBResult
+                                  );
+                                  if (
+                                    match.guesses.guessid[i].teamAguess !==
+                                      undefined &&
+                                    match.guesses.guessid[i].teamBguess !==
+                                      undefined
+                                  ) {
+                                    // this might be better if done with IDs
+                                    let found = players.find(
+                                      (el) => el.name === currentPlayer
+                                    );
+                                    if (!found) {
+                                      players.push({
+                                        id: match.guesses.guessid[i].userid._id,
+                                        name: currentPlayer,
+                                        points: points,
+                                      });
+                                    } else {
+                                      players.map((val, key) => {
+                                        if (val.name === currentPlayer) {
+                                          players[key].points += points;
+                                        }
+                                      });
+                                    }
+                                  }
+                                }
                               }
-                            });
                           }
-                        }
+                        });
+                        players.map((player, key) => {
+                          tournamentModel.findOneAndUpdate(
+                            {
+                              _id: req.body.tourid,
+                              "users.userid": player.id,
+                            },
+                            {
+                              $set: { "users.$.points": player.points },
+                            },
+                            (err3, doc) => {
+                              if (err3) next(err3);
+                              else {
+                              }
+                            }
+                          );
+                        });
                       }
-                    }
+                      res.status(200).send();
+                    });
+                } else {
+                  res.status(403).json({ msg: "Invalid user" });
                 }
-              });
-              players.map((player, key) => {
-                tournamentModel.findOneAndUpdate(
-                  {
-                    _id: req.body.tourid,
-                    "users.userid": player.id,
-                  },
-                  {
-                    $set: { "users.$.points": player.points },
-                  },
-                  (err3, doc) => {
-                    if (err3) next(err3);
-                    else {
-                    }
-                  }
-                );
-              });
-            }
-            res.status(200).send();
-          });
+              }
+            });
+        } else {
+          res.status(403).json({ msg: "Invalid user" });
+        }
+      } else {
+        res.status(404).json({ msg: "Tournament not found" });
       }
-    });
+    }
+  });
 });
 
 // deep population
@@ -250,16 +293,49 @@ router.get("/maxround/:id", verify, (req, res, next) => {
 
 router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING MATCH ==========`);
-  matchModel.findByIdAndDelete({ _id: req.params.id }, (err, matchdoc) => {
+  matchModel.findOne({ _id: req.params.id }, (err, matchdoc) => {
     if (err) next(err);
     else {
-      guessModel.deleteMany({ matchid: req.params.id }, (err, guessdoc) => {
-        if (err) {
-          next(err);
-        } else {
-          res.status(200).send();
-        }
-      });
+      if (matchdoc !== null) {
+        tournamentModel.findOne(
+          { _id: matchdoc.tournamentid },
+          (err2, doc2) => {
+            if (err2) next(err2);
+            else {
+              if (doc2 !== null) {
+                if (doc2.owner.toString() === req.user._id.toString()) {
+                  matchModel.findByIdAndDelete(
+                    { _id: req.params.id },
+                    (err3, doc3) => {
+                      if (err3) next(err3);
+                      else {
+                        if (doc3 !== null) {
+                          guessModel.deleteMany(
+                            { matchid: req.params.id },
+                            (err, guessdoc) => {
+                              if (err) {
+                                next(err);
+                              } else {
+                                res.status(200).send();
+                              }
+                            }
+                          );
+                        }
+                      }
+                    }
+                  );
+                } else {
+                  res.status(403).json({ msg: "Invalid user" });
+                }
+              } else {
+                res.status(404).json({ msg: "Tournament not found" });
+              }
+            }
+          }
+        );
+      } else {
+        res.status(404).json({ msg: "Match not found" });
+      }
     }
   });
 });
