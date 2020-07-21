@@ -41,6 +41,11 @@ const Login = (props) => {
             isSubmitting: false,
             errorMessage: error.message || error.statusText,
           });
+          if (error.respone !== undefined && error.response.status === 401)
+            setData({
+              ...data,
+              errorMessage: "invalid credentials",
+            });
         });
     } else {
       setData({

@@ -76,7 +76,10 @@ const TeamsTable = (props) => {
                               if (response.status === 200) {
                                 props.notify("Sucessfully Removed Team.");
                               } else {
-                                props.notify("Something went wrong.");
+                                props.notify(
+                                  response.response.data.msg ||
+                                    "Something went wrong."
+                                );
                               }
                             }
                           );

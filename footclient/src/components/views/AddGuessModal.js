@@ -5,7 +5,7 @@ import FetchUnguessedMatches from "../functional/FetchUnguessedMatches";
 import AddGuess from "../functional/AddGuess";
 
 const AddGuessModal = (props) => {
-  const [state] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState();
   const [teamAguess, setTeamAguess] = useState();
@@ -18,32 +18,38 @@ const AddGuessModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (teamAguess !== undefined && teamBguess !== undefined) {
-      AddGuess(teamAguess, teamBguess, selectedMatch._id, state.selectedTourId)
-        .then((response) => {
-          if (response !== undefined && response.status === 201) {
-            props.notify("Successfully Added Guess.");
-          } else {
-            props.notify("Something went wrong.");
-          }
-        })
-        .catch((error) => {
+      AddGuess(
+        dispatch,
+        state,
+        props.round,
+        teamAguess,
+        teamBguess,
+        selectedMatch._id,
+        state.selectedTourId
+      ).then((response) => {
+        if (response !== undefined && response.status === 201) {
+          props.notify("Successfully Added Guess.");
+        } else {
           props.notify("Something went wrong.");
-        });
+        }
+      });
 
       setTeamAguess(undefined);
       setTeamBguess(undefined);
       setSelectedMatch(undefined);
-      props.handler(); // update parent
     } else {
-      props.notify("Guesses must be numbers");
+      props.notify("Guesses must entered");
     }
   };
 
   useEffect(() => {
-    FetchUnguessedMatches(state, props.round).then((response) => {
-      setMatches(response);
-    });
-  }, [show, state, props.round]);
+    if (state.selectedTourId !== undefined)
+      FetchUnguessedMatches(state.selectedTourId, props.round).then(
+        (response) => {
+          setMatches(response);
+        }
+      );
+  }, [show, state.guesses, props.round]);
 
   return (
     <>
@@ -106,12 +112,56 @@ const AddGuessModal = (props) => {
                   onChange={(e) => {
                     setTeamAguess(e.target.value);
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (
+                        teamAguess !== "" &&
+                        teamBguess !== "" &&
+                        teamAguess !== undefined &&
+                        teamBguess !== undefined
+                      ) {
+                        if (
+                          /^\d*$/.test(teamAguess) &&
+                          /^\d*$/.test(teamBguess)
+                        )
+                          handleSubmit(e);
+                        else {
+                          props.notify("Fields must be numbers");
+                        }
+                      } else {
+                        props.notify("Fields cannot be empty.");
+                      }
+                    }
+                  }}
                   style={{ width: "15%" }}
                 ></Form.Control>
                 <p className="mt-auto mb-auto font-weight-bold ml-3 mr-3">X</p>
                 <Form.Control
                   onChange={(e) => {
                     setTeamBguess(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (
+                        teamAguess !== "" &&
+                        teamBguess !== "" &&
+                        teamAguess !== undefined &&
+                        teamBguess !== undefined
+                      ) {
+                        if (
+                          /^\d*$/.test(teamAguess) &&
+                          /^\d*$/.test(teamBguess)
+                        )
+                          handleSubmit(e);
+                        else {
+                          props.notify("Fields must be numbers");
+                        }
+                      } else {
+                        props.notify("Fields cannot be empty.");
+                      }
+                    }
                   }}
                   style={{ width: "15%" }}
                 ></Form.Control>
@@ -133,7 +183,11 @@ const AddGuessModal = (props) => {
                 teamAguess !== undefined &&
                 teamBguess !== undefined
               ) {
-                handleSubmit(e);
+                if (/^\d*$/.test(teamAguess) && /^\d*$/.test(teamBguess))
+                  handleSubmit(e);
+                else {
+                  props.notify("Fields must be numbers");
+                }
               } else {
                 props.notify("Fields cannot be empty.");
               }
@@ -150,8 +204,11 @@ const AddGuessModal = (props) => {
                 teamAguess !== undefined &&
                 teamBguess !== undefined
               ) {
-                handleSubmit(e);
-                handleClose();
+                if (/^\d*$/.test(teamAguess) && /^\d*$/.test(teamBguess))
+                  handleSubmit(e);
+                else {
+                  props.notify("Fields must be numbers");
+                }
               } else {
                 props.notify("Fields cannot be empty.");
               }

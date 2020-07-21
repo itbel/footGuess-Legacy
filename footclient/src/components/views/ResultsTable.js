@@ -11,14 +11,6 @@ const ResultsTable = (props) => {
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
-  /* Temp Force render from child
-     Is not functioning at all times
-  */
-
-  const [update, setUpdate] = useState(false);
-  const handler = () => {
-    setUpdate(!update);
-  };
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
@@ -33,54 +25,51 @@ const ResultsTable = (props) => {
           setRounds([]);
         }
       });
-      FetchRound(state, round, dispatch).then((response) => {
-        if (response !== undefined && response.length > 0) {
-          let tempArr = [];
-          response.map((value, entry) => {
-            if (entry % 10 === 0) {
-              tempArr.push(response.slice(entry, entry + 10));
-            }
-            return null;
-          });
-          setMatches(tempArr);
-        } else {
-          setMatches([]);
-        }
-      });
+      FetchRound(state, round, dispatch);
+      if (state.results.length > 0) {
+        let tempArr = [];
+        state.results.map((value, entry) => {
+          if (entry % 10 === 0) {
+            tempArr.push(state.results.slice(entry, entry + 10));
+          }
+          return null;
+        });
+        setMatches(tempArr);
+      } else {
+        setMatches([]);
+      }
     }
-  }, [round, update]);
+  }, [state.results, round]);
   return (
     <>
       <Row className="justify-content-center">
-        {matches.length > 0 ? (
-          <Dropdown>
-            <Dropdown.Toggle
-              style={{
-                visibility: rounds.length === 0 ? "hidden" : "visible",
-              }}
-              size="sm"
-              variant="light"
-            >
-              <b>Round: {round}</b>
-            </Dropdown.Toggle>
-            <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-              {rounds.map((val, key) => {
-                return (
-                  <Dropdown.Item
-                    key={key}
-                    name={val}
-                    onClick={(e) => {
-                      setCurrentPage(0);
-                      setRound(parseInt(e.target.name));
-                    }}
-                  >
-                    {val}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown.Menu>
-          </Dropdown>
-        ) : null}
+        <Dropdown>
+          <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
+            size="sm"
+            variant="light"
+          >
+            <b>Round: {round}</b>
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+            {rounds.map((val, key) => {
+              return (
+                <Dropdown.Item
+                  key={key}
+                  name={val}
+                  onClick={(e) => {
+                    setCurrentPage(0);
+                    setRound(parseInt(e.target.name));
+                  }}
+                >
+                  {val}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
       </Row>
       <Row className="justify-content-center">
         {matches.length > 0 ? (
@@ -124,8 +113,8 @@ const ResultsTable = (props) => {
                       <td className="text-left">{val.teamBName}</td>
                       <td>
                         <ResultsModal
+                          selectedRound={round}
                           notify={props.notify}
-                          handler={handler}
                           selectedMatch={val}
                         ></ResultsModal>
                       </td>

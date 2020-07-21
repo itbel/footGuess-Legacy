@@ -17,13 +17,13 @@ const CreateTournament = (tourname, state, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      JoinTournament(response.data._id, state, dispatch);
+      JoinTournament(response.data.id, state, dispatch);
       FetchAll(dispatch);
       FetchOwned(state, dispatch);
       return response;
     })
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 

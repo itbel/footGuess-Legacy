@@ -1,5 +1,15 @@
 import Axios from "axios";
-const AddGuess = (teamAguess, teamBguess, matchid, tourid) => {
+import FetchUserGuesses from "../functional/FetchUserGuesses";
+
+const AddGuess = (
+  dispatch,
+  state,
+  round,
+  teamAguess,
+  teamBguess,
+  matchid,
+  tourid
+) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
@@ -14,7 +24,14 @@ const AddGuess = (teamAguess, teamBguess, matchid, tourid) => {
     },
     config,
     { timeout: 2000 }
-  );
+  )
+    .then((response) => {
+      FetchUserGuesses(dispatch, state, round);
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 export default AddGuess;

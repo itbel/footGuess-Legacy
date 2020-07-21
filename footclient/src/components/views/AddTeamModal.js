@@ -13,14 +13,41 @@ const AddTeamModal = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    AddTeam(state.selectedTourId, teamName, dispatch).then((response) => {
-      if (response !== undefined && response.status === 201) {
-        props.notify("Successfully Added Team.");
-      } else {
-        props.notify("Something went wrong.");
-      }
-    });
+    let errorMsg = "";
+    let teamisCharactersOrDash = /^[A-Za-z\s-]+$/.test(teamName);
+    let teamisRequiredLength = teamName.length > 0 && teamName.length <= 30;
+    let lessThanTwoWhitespace = !/\s{2,}/.test(teamName);
+    let teamIsJustSpace = teamName === " ";
+    if (!teamisCharactersOrDash)
+      errorMsg +=
+        "Team name must only be comprised of characters spaces and dashes\n";
+    if (!teamisRequiredLength)
+      errorMsg += "Team name must be between 1 and 30 characters\n";
+    if (!lessThanTwoWhitespace)
+      errorMsg += "Team name must not have consecutive spaces\n";
+    if (teamIsJustSpace) errorMsg += "Team name must be more just one space\n";
+    if (
+      teamisCharactersOrDash &&
+      teamisRequiredLength &&
+      lessThanTwoWhitespace &&
+      !teamIsJustSpace
+    ) {
+      AddTeam(state.selectedTourId, teamName, dispatch).then((response) => {
+        if (response !== undefined) {
+          if (response.status === 201) {
+            props.notify("Successfully Added Team.");
+          } else {
+            props.notify(response.response.data.msg || "Something went wrong.");
+          }
+        } else {
+          props.notify("Something went wrong.");
+        }
+      });
+    } else {
+      props.notify(errorMsg);
+    }
     setTeamName("");
+    errorMsg = "";
   };
 
   return (
@@ -56,7 +83,18 @@ const AddTeamModal = (props) => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
-                        handleSubmit(e);
+                        let rege = new RegExp(/^[A-Za-z\s-]+$/);
+                        if (teamName !== undefined && teamName !== "") {
+                          if (rege.test(teamName)) {
+                            handleSubmit(e);
+                          } else {
+                            props.notify(
+                              "Team name must contain letters dashes or spaces"
+                            );
+                          }
+                        } else {
+                          props.notify("Field cannot be empty");
+                        }
                       }
                     }}
                     onChange={(e) => {
@@ -73,7 +111,18 @@ const AddTeamModal = (props) => {
         <Modal.Footer>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
+              let rege = new RegExp(/^[A-Za-z\s-]+$/);
+              if (teamName !== undefined && teamName !== "") {
+                if (rege.test(teamName)) {
+                  handleSubmit(e);
+                } else {
+                  props.notify(
+                    "Team name must contain letters dashes or spaces"
+                  );
+                }
+              } else {
+                props.notify("Field cannot be empty");
+              }
             }}
             variant="dark"
           >
@@ -81,8 +130,19 @@ const AddTeamModal = (props) => {
           </Button>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
-              handleClose();
+              let rege = new RegExp(/^[A-Za-z\s-]+$/);
+              if (teamName !== undefined && teamName !== "") {
+                if (rege.test(teamName)) {
+                  handleSubmit(e);
+                  handleClose();
+                } else {
+                  props.notify(
+                    "Team name must contain letters dashes or spaces"
+                  );
+                }
+              } else {
+                props.notify("Field cannot be empty");
+              }
             }}
             variant="dark"
           >

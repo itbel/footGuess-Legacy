@@ -132,6 +132,21 @@ body {
   border-bottom: solid 1px black;
 }
 
+.tournamentsTable {
+  text-align: center;
+  margin-top: 16px;
+  width: 60%;
+  background-color: #efefef;
+  color: black;
+  font-size: 1.2em;
+}
+.tournamentsTable th {
+  border: solid 1px black;
+}
+.tournamentsTable td {
+  border: solid 1px black;
+}
+
 /* =========== Side Nav ============*/
 .sideNav {
   border-radius: 4px 4px 4px 4px;
@@ -168,6 +183,11 @@ body {
   .matchesTable {
     width: 100%;
     padding: 0;
+    font-size: 1em;
+  }
+
+  .tournamentsTable {
+    width: 100%;
     font-size: 1em;
   }
 

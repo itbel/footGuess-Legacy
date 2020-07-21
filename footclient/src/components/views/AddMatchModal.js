@@ -21,7 +21,7 @@ const AddMatchModal = (props) => {
         if (response !== undefined && response.status === 201) {
           props.notify("Successfully Created Match.");
         } else {
-          props.notify("Something went wrong.");
+          props.notify(response.response.data.msg || "Something went wrong.");
         }
       }
     );
@@ -124,7 +124,15 @@ const AddMatchModal = (props) => {
         <Modal.Footer>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
+              if (/^\d*$/.test(round)) {
+                if (teamA === "" || teamB === "") {
+                  props.notify("Teams must be selected");
+                } else {
+                  handleSubmit(e);
+                }
+              } else {
+                props.notify("Round must be a number");
+              }
             }}
             variant="dark"
           >
@@ -132,8 +140,16 @@ const AddMatchModal = (props) => {
           </Button>
           <Button
             onClick={(e) => {
-              handleSubmit(e);
-              handleClose();
+              if (/^\d*$/.test(round)) {
+                if (teamA === "" || teamB === "") {
+                  props.notify("Teams must be selected");
+                } else {
+                  handleSubmit(e);
+                  handleClose();
+                }
+              } else {
+                props.notify("Round must be a number");
+              }
             }}
             variant="dark"
           >

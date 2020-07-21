@@ -11,11 +11,6 @@ const GuessTable = (props) => {
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
-  /* Temp Force render from child*/
-  const [update, setUpdate] = useState(false);
-  const handler = () => {
-    setUpdate(!update);
-  };
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
@@ -28,55 +23,52 @@ const GuessTable = (props) => {
           setRounds(tempArr);
         }
       });
-      FetchUserGuesses(state, round).then((response) => {
-        if (response !== undefined) {
-          let tempArr = [];
-          response.map((value, entry) => {
-            if (entry % 10 === 0) {
-              tempArr.push(response.slice(entry, entry + 10));
-            }
-            return null;
-          });
-          setMatches(tempArr);
-        } else {
-          setMatches([]);
-        }
-      });
+      FetchUserGuesses(dispatch, state, round);
+      if (state.guesses !== undefined) {
+        let tempArr = [];
+        state.guesses.map((value, entry) => {
+          if (entry % 10 === 0) {
+            tempArr.push(state.guesses.slice(entry, entry + 10));
+          }
+          return null;
+        });
+        setMatches(tempArr);
+      } else {
+        setMatches([]);
+      }
     }
-  }, [round, update]);
+  }, [round, state.guesses]);
   return (
     <>
       <Row className="justify-content-center">
-        {matches.length > 0 ? (
-          <Dropdown className="pl-2">
-            <Dropdown.Toggle
-              style={{
-                visibility: rounds.length === 0 ? "hidden" : "visible",
-              }}
-              disabled={rounds.length === 0}
-              size="sm"
-              variant="light"
-            >
-              <b>Round: {round}</b>
-            </Dropdown.Toggle>
-            <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-              {rounds.map((val, key) => {
-                return (
-                  <Dropdown.Item
-                    key={key}
-                    name={val}
-                    onClick={(e) => {
-                      setCurrentPage(0);
-                      setRound(parseInt(e.target.name));
-                    }}
-                  >
-                    {val}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown.Menu>
-          </Dropdown>
-        ) : null}
+        <Dropdown className="pl-2">
+          <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
+            disabled={rounds.length === 0}
+            size="sm"
+            variant="light"
+          >
+            <b>Round: {round}</b>
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+            {rounds.map((val, key) => {
+              return (
+                <Dropdown.Item
+                  key={key}
+                  name={val}
+                  onClick={(e) => {
+                    setCurrentPage(0);
+                    setRound(parseInt(e.target.name));
+                  }}
+                >
+                  {val}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
       </Row>
       <Row className="justify-content-center">
         {matches.length > 0 ? (
@@ -157,11 +149,7 @@ const GuessTable = (props) => {
         )}
       </Row>
       <Row className="justify-content-center pt-1">
-        <AddGuessModal
-          notify={props.notify}
-          handler={handler}
-          round={round}
-        ></AddGuessModal>
+        <AddGuessModal notify={props.notify} round={round}></AddGuessModal>
       </Row>
     </>
   );

@@ -12,7 +12,9 @@ const FetchRound = (state, selectedRound, dispatch) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      dispatch({ type: "UPDATING", payload: false });
+      if (JSON.stringify(state.results) !== JSON.stringify(response.data)) {
+        dispatch({ type: "FETCH_RESULTS", payload: response.data });
+      }
       return response.data;
     })
     .catch((error) => {
