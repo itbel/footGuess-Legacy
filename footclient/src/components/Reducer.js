@@ -26,7 +26,11 @@ const Reducer = (state, action) => {
         ...state,
         results: action.payload,
       };
-
+    case "FETCH_GUESSES":
+      return {
+        ...state,
+        guesses: action.payload,
+      };
     case "SELECT_TOURNAMENT":
       if (state.selectedTourId !== action.payload.tournamentid) {
         return {

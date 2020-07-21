@@ -13,6 +13,7 @@ const initialState = {
   teams: [],
   matches: [],
   results: [],
+  guesses: [],
   isUpdating: false,
   players: [],
 };

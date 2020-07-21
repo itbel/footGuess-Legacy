@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const FetchUserGuesses = (state, round) => {
+const FetchUserGuesses = (dispatch, state, round) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
@@ -11,6 +11,9 @@ const FetchUserGuesses = (state, round) => {
     { timeout: 2000 }
   )
     .then((response) => {
+      if (JSON.stringify(state.guesses) !== JSON.stringify(response.data)) {
+        dispatch({ type: "FETCH_GUESSES", payload: response.data });
+      }
       return response.data;
     })
     .catch((error) => {

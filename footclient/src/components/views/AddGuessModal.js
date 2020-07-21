@@ -19,27 +19,24 @@ const AddGuessModal = (props) => {
     event.preventDefault();
     if (teamAguess !== undefined && teamBguess !== undefined) {
       AddGuess(
+        dispatch,
+        state,
+        props.round,
         teamAguess,
         teamBguess,
         selectedMatch._id,
-        state.selectedTourId,
-        dispatch
-      )
-        .then((response) => {
-          if (response !== undefined && response.status === 201) {
-            props.notify("Successfully Added Guess.");
-          } else {
-            props.notify("Something went wrong.");
-          }
-        })
-        .catch((error) => {
+        state.selectedTourId
+      ).then((response) => {
+        if (response !== undefined && response.status === 201) {
+          props.notify("Successfully Added Guess.");
+        } else {
           props.notify("Something went wrong.");
-        });
+        }
+      });
 
       setTeamAguess(undefined);
       setTeamBguess(undefined);
       setSelectedMatch(undefined);
-      props.handler(); // update parent
     } else {
       props.notify("Guesses must entered");
     }
@@ -52,7 +49,7 @@ const AddGuessModal = (props) => {
           setMatches(response);
         }
       );
-  }, [show, state, props.round]);
+  }, [show, state.guesses, props.round]);
 
   return (
     <>
