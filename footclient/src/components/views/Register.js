@@ -36,42 +36,55 @@ const Register = (props) => {
     let hasNoWhitespace = !/\s/.test(pass);
     return isRequiredLength && hasNoWhitespace;
   };
+  const isValidName = (name) => {
+    let isRequiredLength = name.length > 0 && name.length < 10;
+    let hasNoWhitespace = !/\s/.test(name);
+    let hasNoSymbols = !/[!@#~$%^&*()_+=[{\]};:<>\\|.`/?,-]/.test(name);
+    return isRequiredLength && hasNoWhitespace && hasNoSymbols;
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (isValidUser(data.user)) {
       if (isValidPass(data.pass)) {
-        setData({
-          ...data,
-          isSubmitting: true,
-          errorMessage: "",
-        });
-        Axios.post(
-          `${BASE_URL}/api/users/register`,
-          {
-            username: data.user,
-            password: data.pass,
-            name: data.name,
-            email: data.email,
-          },
-          { timeout: 2000 }
-        )
-          .then((response) => {
-            setData({
-              ...data,
-              isSubmitting: false,
-            });
-            history.push("/");
-            notify("Successfully registered.");
-          })
-          .catch((error) => {
-            setData({
-              ...data,
-              isSubmitting: false,
-              errorMessage:
-                error.response.data.msg || error.message || error.statusText,
-            });
+        if (isValidName(data.name)) {
+          setData({
+            ...data,
+            isSubmitting: true,
+            errorMessage: "",
           });
+          Axios.post(
+            `${BASE_URL}/api/users/register`,
+            {
+              username: data.user,
+              password: data.pass,
+              name: data.name,
+              email: data.email,
+            },
+            { timeout: 2000 }
+          )
+            .then((response) => {
+              setData({
+                ...data,
+                isSubmitting: false,
+              });
+              history.push("/");
+              notify("Successfully registered.");
+            })
+            .catch((error) => {
+              setData({
+                ...data,
+                isSubmitting: false,
+                errorMessage:
+                  error.response.data.msg || error.message || error.statusText,
+              });
+            });
+        } else {
+          setData({
+            ...data,
+            errorMessage: "Invalid name.",
+          });
+        }
       } else {
         setData({
           ...data,
@@ -95,7 +108,7 @@ const Register = (props) => {
           <h1 style={{ textAlign: "center" }}>Register</h1>
           <Form>
             <Form.Group>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Username *</Form.Label>
               <Form.Control
                 name="user"
                 onChange={(e) => {
@@ -110,7 +123,7 @@ const Register = (props) => {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Password *</Form.Label>
               <Form.Control
                 name="pass"
                 onChange={(e) => {
@@ -124,7 +137,7 @@ const Register = (props) => {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Name *</Form.Label>
               <Form.Control
                 name="name"
                 onChange={(e) => {
