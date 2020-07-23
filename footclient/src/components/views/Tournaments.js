@@ -92,7 +92,11 @@ const Tournaments = (props) => {
                                     "Sucessfully Joined Tournament."
                                   );
                                 } else {
-                                  props.notify("Something went wrong.");
+                                  if (response.response.status === 401)
+                                    props.notify("You must login again");
+                                  else {
+                                    props.notify("Something went wrong.");
+                                  }
                                 }
                               });
                             }}
@@ -121,7 +125,11 @@ const Tournaments = (props) => {
                                 ) {
                                   props.notify("Sucessfully Left Tournament.");
                                 } else {
-                                  props.notify("Something went wrong.");
+                                  if (response.response.status === 401)
+                                    props.notify("You must login again");
+                                  else {
+                                    props.notify("Something went wrong.");
+                                  }
                                 }
                               });
                               if (val.name === state.selectedTourName) {
@@ -169,7 +177,11 @@ const Tournaments = (props) => {
                                     "Sucessfully Removed Tournament."
                                   );
                                 } else {
-                                  props.notify("Something went wrong.");
+                                  if (response.response.status === 401)
+                                    props.notify("You must login again");
+                                  else {
+                                    props.notify("Something went wrong.");
+                                  }
                                 }
                               });
                               if (val.name === state.selectedTourName) {

@@ -14,28 +14,34 @@ const GuessTable = (props) => {
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchHighestRound(state.selectedTourId, dispatch).then((response) => {
-        if (response !== undefined && response.length > 0) {
-          let tempArr = [];
-          for (let i = 1; i <= response[0].round; i++) {
-            tempArr.push(i);
+      FetchHighestRound(state, state.selectedTourId, dispatch).then(
+        (response) => {
+          if (
+            response !== undefined &&
+            response.length > 0 &&
+            response.status !== 401
+          ) {
+            let tempArr = [];
+            for (let i = 1; i <= response[0].round; i++) {
+              tempArr.push(i);
+            }
+            setRounds(tempArr);
+            FetchUserGuesses(dispatch, state, round);
+            if (state.guesses !== undefined) {
+              let tempArr = [];
+              state.guesses.map((value, entry) => {
+                if (entry % 10 === 0) {
+                  tempArr.push(state.guesses.slice(entry, entry + 10));
+                }
+                return null;
+              });
+              setMatches(tempArr);
+            } else {
+              setMatches([]);
+            }
           }
-          setRounds(tempArr);
         }
-      });
-      FetchUserGuesses(dispatch, state, round);
-      if (state.guesses !== undefined) {
-        let tempArr = [];
-        state.guesses.map((value, entry) => {
-          if (entry % 10 === 0) {
-            tempArr.push(state.guesses.slice(entry, entry + 10));
-          }
-          return null;
-        });
-        setMatches(tempArr);
-      } else {
-        setMatches([]);
-      }
+      );
     }
   }, [round, state.guesses]);
   return (

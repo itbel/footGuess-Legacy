@@ -52,7 +52,6 @@ router.patch("/join", verify, (req, res, next) => {
     (err, doc) => {
       if (err) next(err);
       else {
-        console.log(doc);
         res.status(204).send();
       }
     }

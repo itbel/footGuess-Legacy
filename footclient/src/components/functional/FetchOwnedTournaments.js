@@ -7,7 +7,7 @@ const FetchOwnedTournaments = (state, dispatch) => {
     Axios.get(
       `${BASE_URL}/api/tournaments/owned`,
       {
-        headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+        headers: { "auth-token": `${state.jwtToken}` },
       },
       {
         timeout: 2000,
@@ -21,7 +21,10 @@ const FetchOwnedTournaments = (state, dispatch) => {
         dispatch({ type: "UPDATING", payload: false });
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+          dispatch({ type: "LOGOUT" });
+        }
+        dispatch({ type: "UPDATING", payload: false });
       });
   }
 };

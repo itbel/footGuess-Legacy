@@ -12,7 +12,7 @@ const AddResult = (
 ) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   return Axios.patch(
     `${BASE_URL}/api/matches/manage`,
@@ -30,6 +30,9 @@ const AddResult = (
       return response;
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
       return error;
     });
 };

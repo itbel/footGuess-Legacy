@@ -1,9 +1,9 @@
 import Axios from "axios";
 
-const FetchHighestRound = (tournamentid, dispatch) => {
+const FetchHighestRound = (state, tournamentid, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   dispatch({ type: "UPDATING", payload: true });
   return Axios.get(`${BASE_URL}/api/matches/maxround/${tournamentid}`, config, {
@@ -14,7 +14,10 @@ const FetchHighestRound = (tournamentid, dispatch) => {
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      dispatch({ type: "UPDATING", payload: false });
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
     });
 };
 

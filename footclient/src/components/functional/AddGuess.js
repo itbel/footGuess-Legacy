@@ -12,7 +12,7 @@ const AddGuess = (
 ) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   return Axios.post(
     `${BASE_URL}/api/guesses/manage`,
@@ -30,6 +30,9 @@ const AddGuess = (
       return response;
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
       return error;
     });
 };

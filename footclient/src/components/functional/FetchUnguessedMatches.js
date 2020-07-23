@@ -1,9 +1,9 @@
 import Axios from "axios";
 
-const FetchUnguessedMatches = (tourid, round) => {
+const FetchUnguessedMatches = (state, dispatch, tourid, round) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
-    headers: { "auth-token": `${localStorage.getItem("jwtToken")}` },
+    headers: { "auth-token": `${state.jwtToken}` },
   };
   return Axios.get(
     `${BASE_URL}/api/matches/unguessed/${tourid}&${round}`,
@@ -11,10 +11,13 @@ const FetchUnguessedMatches = (tourid, round) => {
     { timeout: 2000 }
   )
     .then((response) => {
-      return response.data;
+      return response;
     })
     .catch((error) => {
-      console.log(error);
+      if (error.response.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      }
+      return error;
     });
 };
 

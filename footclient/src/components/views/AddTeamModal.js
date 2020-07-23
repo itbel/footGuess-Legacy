@@ -32,17 +32,21 @@ const AddTeamModal = (props) => {
       lessThanTwoWhitespace &&
       !teamIsJustSpace
     ) {
-      AddTeam(state.selectedTourId, teamName, dispatch).then((response) => {
-        if (response !== undefined) {
-          if (response.status === 201) {
-            props.notify("Successfully Added Team.");
+      AddTeam(state, state.selectedTourId, teamName, dispatch).then(
+        (response) => {
+          if (response !== undefined) {
+            if (response.status === 201) {
+              props.notify("Successfully Added Team.");
+            } else {
+              props.notify(
+                response.response.data.msg || "Something went wrong."
+              );
+            }
           } else {
-            props.notify(response.response.data.msg || "Something went wrong.");
+            props.notify("Something went wrong.");
           }
-        } else {
-          props.notify("Something went wrong.");
         }
-      });
+      );
     } else {
       props.notify(errorMsg);
     }

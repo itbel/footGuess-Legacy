@@ -15,17 +15,19 @@ const MatchesTable = (props) => {
 
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
-      FetchHighestRound(state.selectedTourId, dispatch).then((response) => {
-        if (response !== undefined && response.length > 0) {
-          let tempArr = [];
-          for (let i = 1; i <= response[0].round; i++) {
-            tempArr.push(i);
+      FetchHighestRound(state, state.selectedTourId, dispatch).then(
+        (response) => {
+          if (response !== undefined && response.length > 0) {
+            let tempArr = [];
+            for (let i = 1; i <= response[0].round; i++) {
+              tempArr.push(i);
+            }
+            setRounds(tempArr);
+          } else {
+            setRounds([]);
           }
-          setRounds(tempArr);
-        } else {
-          setRounds([]);
         }
-      });
+      );
       if (state.teams.length === 0) FetchTeams(state, dispatch);
       FetchMatches(state, dispatch, round);
       if (state.matches.length > 0) {

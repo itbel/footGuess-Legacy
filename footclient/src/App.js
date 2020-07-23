@@ -29,7 +29,7 @@ const App = () => {
             <Context.Consumer>
               {(ctr) => (
                 <Route path="/">
-                  {!ctr[0].isAuthenticated ? <Login /> : <Dashboard />}
+                  {ctr[0].isAuthenticated ? <Dashboard /> : <Login />}
                 </Route>
               )}
             </Context.Consumer>

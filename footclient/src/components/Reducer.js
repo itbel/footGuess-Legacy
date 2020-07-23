@@ -1,16 +1,29 @@
 const Reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("jwtToken", action.payload);
       return {
         ...state,
         isAuthenticated: true,
+        jwtToken: action.payload,
       };
     case "LOGOUT":
-      localStorage.clear();
       return {
         ...state,
         isAuthenticated: false,
+        jwtToken: "",
+        user: undefined,
+        userid: undefined,
+        selectedTourName: undefined,
+        selectedTourId: undefined,
+        joinedTournaments: [],
+        allTournaments: [],
+        ownedTournaments: [],
+        teams: [],
+        matches: [],
+        results: [],
+        guesses: [],
+        isUpdating: false,
+        players: [],
       };
     case "FETCH_ALL_TOURNAMENTS":
       if (state.allTournaments !== action.payload) {
