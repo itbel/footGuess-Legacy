@@ -2,7 +2,7 @@ body {
   font-family: "Lato";
 }
 
-/* =========== Login ============*/
+/* =========== Login ============ */
 .login {
   background-image: url("./components/media/stadium.jpg");
   background-repeat: no-repeat;
@@ -32,7 +32,7 @@ body {
   width: 35vw;
   height: 35vh;
 }
-/* =========== Top Nav ============*/
+/* =========== Top Nav ============ */
 .topNav {
   font-size: 1.1em;
 }
@@ -55,7 +55,7 @@ body {
   text-decoration: none;
 }
 
-/* =========== Tables ============*/
+/* =========== Tables ============ */
 .teamsTable {
   width: 60%;
   margin: auto;
@@ -74,22 +74,22 @@ body {
 
 .rankingTable {
   margin: auto;
-  width: 80%;
+  width: 100%;
   background-color: #efefef;
   color: black;
   font-size: 1.2em;
 }
 
 .rankingTable td {
+  padding: 0;
   text-align: left;
-  padding-left: 16px;
-  padding-right: 16px;
 }
 
 .rankingTable th {
   border: solid 1px black;
   text-align: center;
 }
+
 .rankingTable .results {
   border: solid 1px black;
   text-align: center;
@@ -147,7 +147,7 @@ body {
   border: solid 1px black;
 }
 
-/* =========== Side Nav ============*/
+/* =========== Side Nav ============ */
 .sideNav {
   border-radius: 4px 4px 4px 4px;
   display: block;
@@ -176,10 +176,10 @@ body {
   z-index: 9999;
 }
 
-/* =========== Media Queries ============*/
+/* =========== Media Queries ============ */
 
 @media only screen and (max-width: 800px) {
-  /* =========== Tables ============*/
+  /* =========== Tables ============ */
   .matchesTable {
     width: 100%;
     padding: 0;
@@ -206,15 +206,20 @@ body {
     padding: 0;
     font-size: 1em;
   }
-
+  .rankingTable th {
+    font-size: 0.8em;
+  }
   .rankingTable {
     width: 100%;
-    font-size: 1em;
     padding: 0;
   }
 
   .rankingTable td {
+    min-width: 8ch;
     padding: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 0.8em;
   }
 
   .guessTable {
@@ -225,11 +230,12 @@ body {
   .guessTable td {
     padding: 0;
   }
-  /* =========== Side Nav ============*/
+  /* =========== Side Nav ============ */
   .sideNav {
     display: inline;
     padding: 8px;
     background-color: #131313;
+    font-size: 0.8em;
   }
 
   .side {
@@ -238,7 +244,7 @@ body {
     padding: 8px;
   }
   .topNav {
-    font-size: 0.9em;
+    font-size: 0.7em;
     height: 6%;
   }
 }

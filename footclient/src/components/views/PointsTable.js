@@ -1,4 +1,4 @@
-import { Row, Dropdown } from "react-bootstrap";
+import { Row, Dropdown, Col } from "react-bootstrap";
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../Store";
 import FetchRoundResult from "../functional/FetchRoundResult";
@@ -45,8 +45,8 @@ const PointsTable = () => {
     }
   }, [round]);
   return (
-    <>
-      <Row className="justify-content-center">
+    <div>
+      <Row className="justify-content-center pb-1">
         {matches.length > 0 ? (
           <Dropdown className="pl-2">
             <Dropdown.Toggle
@@ -76,13 +76,12 @@ const PointsTable = () => {
           </Dropdown>
         ) : null}
       </Row>
-      <Row className="justify-content-center">
+      <div style={{ maxHeight: "60vh", overflow: "auto" }}>
         {matches.length > 0 ? (
-          <table className="rankingTable" style={{ marginTop: "16px" }}>
+          <table className="rankingTable">
             <thead>
               <tr>
                 <th>Match</th>
-                <th>Result</th>
                 {matches !== undefined && players !== undefined
                   ? players.map((entry1, key) => {
                       return <th key={key}>{entry1}</th>;
@@ -100,18 +99,51 @@ const PointsTable = () => {
                       }}
                       key={key}
                     >
-                      <td style={{ textAlign: "center" }} className="results">
-                        {match.teamAName} X {match.teamBName}
-                      </td>
                       <td className="results">
-                        {match.teamAResult !== undefined ? (
-                          <b>{match.teamAResult} X </b>
-                        ) : null}
+                        <Row className="justify-content-center">
+                          <Col>
+                            <Row sm={12} className="justify-content-center">
+                              {match.teamAName}
+                            </Row>
 
-                        {match.teamBResult !== undefined ? (
-                          <b>{match.teamBResult}</b>
-                        ) : null}
+                            <Row
+                              sm={12}
+                              className="justify-content-center font-weight-bold"
+                            >
+                              {match.teamAResult !== undefined
+                                ? match.teamAResult
+                                : ""}
+                              X
+                              {match.teamBResult !== undefined
+                                ? match.teamBResult
+                                : ""}
+                            </Row>
+
+                            <Row sm={12} className="justify-content-center">
+                              {match.teamBName}
+                            </Row>
+                          </Col>
+                        </Row>
                       </td>
+                      {/*                      <td className="results">
+                        <Row>
+                          <Col className="p-0 text-right">
+                            {match.teamAName}
+                          </Col>
+
+                          <Col style={{ fontWeight: "bold" }} className="p-0">
+                            {match.teamAResult !== undefined
+                              ? match.teamAResult
+                              : ""}
+                            X
+                            {match.teamBResult !== undefined
+                              ? match.teamBResult
+                              : ""}
+                          </Col>
+
+                          <Col className="p-0 text-left">{match.teamBName}</Col>
+                        </Row>
+                      </td> */}
                       {players.map((player, key2) => {
                         for (let i = 0; i < players.length; i++) {
                           let found = match.guesses.find(
@@ -122,7 +154,7 @@ const PointsTable = () => {
                               {found !== undefined
                                 ? `${found.teamAguess} X ${found.teamBguess} ${
                                     found.points !== 0
-                                      ? `+(${found.points})`
+                                      ? `(${found.points})`
                                       : "(0)"
                                   }`
                                 : ""}
@@ -140,7 +172,7 @@ const PointsTable = () => {
               )}
               <tr className="font-weight-bold">
                 <td className="justify-content-center d-flex">Points</td>
-                <td></td>
+
                 {players.map((player, key) => {
                   let playerPoints = 0;
                   for (let i = 0; i < matches.length; i++) {
@@ -163,8 +195,8 @@ const PointsTable = () => {
         ) : (
           <h1>No matches found</h1>
         )}
-      </Row>
-    </>
+      </div>
+    </div>
   );
 };
 

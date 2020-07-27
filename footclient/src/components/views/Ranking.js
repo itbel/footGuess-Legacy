@@ -14,15 +14,11 @@ const Ranking = () => {
         color: "#efefef",
       }}
     >
-      <Container>
-        <Row className="justify-content-center">
-          <h1>Ranking</h1>
+      <Container className="p-0">
+        <Row className="text-center d-none d-sm-block justify-content-center">
+          <h1>Round</h1>
         </Row>
-        <Row>
-          <Col sm={12}>
-            <PointsTable />
-          </Col>
-        </Row>
+        <PointsTable />
       </Container>
     </div>
   );
