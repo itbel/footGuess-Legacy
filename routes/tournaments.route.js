@@ -20,6 +20,7 @@ router.post("/manage", verify, (req, res, next) => {
             {
               name: req.body.name,
               owner: req.user._id,
+              status: "ACTIVE",
             },
             (err2, doc2) => {
               if (err2) next(err2);
@@ -56,6 +57,60 @@ router.patch("/join", verify, (req, res, next) => {
       }
     }
   );
+});
+
+router.patch("/end", verify, (req, res, next) => {
+  console.log(`========== ENDING TOURNAMENT ==========`);
+  tournamentModel.findOne({ _id: req.body.id }, (err1, doc1) => {
+    if (err1) next(err1);
+    else {
+      if (req.user._id.toString() === doc1.owner.toString()) {
+        tournamentModel.updateOne(
+          { _id: req.body.id },
+          { status: "ENDED" },
+          (err2, doc2) => {
+            if (err2) next(err2);
+            else {
+              tournamentModel.findOne(
+                { _id: req.body.id },
+                {
+                  users: [],
+                },
+                (err3, doc3) => {
+                  if (err3) next(err3);
+                  else {
+                    if (doc3 !== null) {
+                      let highestNum = 0;
+                      doc3.users.map((val, key) => {
+                        if (val.points > highestNum) highestNum = key;
+                      });
+                      userModel.findByIdAndUpdate(
+                        { _id: doc3.users[highestNum].userid },
+                        {
+                          $addToSet: {
+                            tournaments: doc1._id,
+                          },
+                        },
+                        (err4, doc4) => {
+                          if (err4) next(err4);
+                          else {
+                            console.log(doc4);
+                            res.status(204).send();
+                          }
+                        }
+                      );
+                    }
+                  }
+                }
+              );
+            }
+          }
+        );
+      } else {
+        res.status(403).send();
+      }
+    }
+  });
 });
 
 router.patch("/leave", verify, (req, res, next) => {
@@ -147,7 +202,7 @@ router.get("/owned", verify, (req, res, next) => {
 router.get("/all", (req, res, next) => {
   console.log(`========== FETCHING ALL TOURNAMENTS ==========`);
   tournamentModel
-    .find({})
+    .find({ status: "ACTIVE" })
     .populate({ path: "owner" })
     .exec((err, doc) => {
       if (err) next(err);

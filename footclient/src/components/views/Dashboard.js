@@ -41,13 +41,13 @@ const Dashboard = (props) => {
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   const fetchData = () => {
     FetchJoinedTournaments(state, dispatch);
-    FetchAll(dispatch);
+    FetchAll(state, dispatch);
     FetchOwned(state, dispatch);
   };
   useEffect(() => {
     fetchData();
     history.push("/home");
-  }, [history]);
+  }, [history, state.allTournaments]);
 
   return (
     <animated.div style={fade}>

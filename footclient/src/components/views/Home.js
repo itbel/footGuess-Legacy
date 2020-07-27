@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Context } from "../Store";
 import RankingTable from "../views/RankingTable";
+import TotalWins from "../views/TotalWins";
+
 const Home = (props) => {
   const [state, dispatch] = useContext(Context);
 
@@ -27,6 +29,7 @@ const Home = (props) => {
           <div>
             <h1>Bolao-APP</h1>
             <p>Join a tournament to be able to select one.</p>
+            <TotalWins></TotalWins>
           </div>
         )}
       </Row>

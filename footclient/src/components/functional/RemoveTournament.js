@@ -14,7 +14,7 @@ const RemoveTournament = (tourid, state, dispatch) => {
   })
     .then((response) => {
       FetchJoinedTournaments(state, dispatch);
-      FetchAll(dispatch);
+      FetchAll(state, dispatch);
       FetchOwned(state, dispatch);
       return response;
     })

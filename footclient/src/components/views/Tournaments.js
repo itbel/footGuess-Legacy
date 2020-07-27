@@ -6,7 +6,7 @@ import JoinTournament from "../functional/JoinTournament";
 import LeaveTournament from "../functional/LeaveTournament";
 import CreateTournamentModal from "../views/CreateTournamentModal";
 import RemoveTournament from "../functional/RemoveTournament";
-
+import EndTournament from "../functional/EndTournament";
 const Tournaments = (props) => {
   const [state, dispatch] = useContext(Context);
   const [tournaments, setTournaments] = useState([]);
@@ -196,6 +196,29 @@ const Tournaments = (props) => {
                             }}
                           >
                             Delete
+                          </Button>
+                          <Button
+                            disabled={
+                              state.ownedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? true
+                                : false
+                            }
+                            hidden={
+                              state.ownedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? true
+                                : false
+                            }
+                            style={{ marginLeft: "8px" }}
+                            variant="success"
+                            onClick={() => {
+                              EndTournament(val.tournamentid, state, dispatch);
+                            }}
+                          >
+                            End
                           </Button>
                         </td>
                       </tr>
