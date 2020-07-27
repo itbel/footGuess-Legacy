@@ -222,6 +222,27 @@ router.get("/all", (req, res, next) => {
     });
 });
 
+router.get("/wins", (req, res, next) => {
+  console.log("======== GETTING MOST WINS =========");
+  userModel.find({}, (err, doc) => {
+    if (err) next(err);
+    else {
+      if (doc !== null) {
+        let users = [];
+        doc.map((val, key) => {
+          users.push({ player: val.name, wins: val.tournaments.length });
+        });
+        users.sort((a, b) => {
+          return b.wins - a.wins;
+        });
+        res.status(200).send(users.slice(0, 5));
+      } else {
+        res.status(404).send();
+      }
+    }
+  });
+});
+
 router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING TOURNAMENT ==========`);
   tournamentModel.findOne({ _id: req.params.id }, (err1, doc1) => {
