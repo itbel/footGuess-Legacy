@@ -1,6 +1,10 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { Context } from "../Store";
+import RankingTable from "../views/RankingTable";
 const Home = (props) => {
+  const [state, dispatch] = useContext(Context);
+
   return (
     <div
       style={{
@@ -12,7 +16,19 @@ const Home = (props) => {
         color: "#efefef",
       }}
     >
-      <h1>Home</h1>
+      <Container>
+        <Row className="justify-content-center">
+          <h1>Home</h1>
+        </Row>
+        <Row className="justify-content-center">
+          {state.selectedTourName !== undefined ? (
+            <>
+              <h1>{state.selectedTourName}</h1>
+              <RankingTable></RankingTable>
+            </>
+          ) : null}
+        </Row>
+      </Container>
     </div>
   );
 };

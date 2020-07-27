@@ -10,8 +10,9 @@ const User = new Schema({
     minlength: 4,
   },
   password: { type: String, required: true, trim: true, minlength: 4 },
-  name: { type: String },
+  name: { type: String, required: true },
   email: { type: String },
+  wins: { type: Number },
 });
 
 module.exports = mongoose.model("user", User);
