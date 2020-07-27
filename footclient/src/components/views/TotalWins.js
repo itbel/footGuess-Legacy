@@ -17,7 +17,7 @@ const TotalWins = () => {
       });
   }, [state.allTournaments]);
   return (
-    <table className="rankingTable">
+    <table className="winsTable">
       <thead>
         <tr>
           <th colSpan={2}>Overall Ranking</th>

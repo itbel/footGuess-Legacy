@@ -80,6 +80,24 @@ body {
   font-size: 1.2em;
 }
 
+.winsTable {
+  margin: auto;
+  width: 100%;
+  background-color: #efefef;
+  color: black;
+  font-size: 1.2em;
+}
+
+.winsTable td {
+  padding: 0;
+  border: 1px solid black;
+  text-align: center;
+}
+.winsTable th {
+  border: solid 1px black;
+  text-align: center;
+}
+
 .rankingTable td {
   padding: 0;
   text-align: left;

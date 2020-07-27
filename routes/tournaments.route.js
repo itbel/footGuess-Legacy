@@ -94,7 +94,8 @@ router.patch("/end", verify, (req, res, next) => {
                         (err4, doc4) => {
                           if (err4) next(err4);
                           else {
-                            console.log(doc4);
+                            doc3.users = undefined;
+                            doc3.save();
                             res.status(204).send();
                           }
                         }
@@ -140,21 +141,24 @@ router.patch("/leave", verify, (req, res, next) => {
 
 router.get("/joined", verify, (req, res, next) => {
   console.log(`========== FETCHING USER JOINED TOURNAMENTS ==========`);
-  tournamentModel.find({ "users.userid": req.user._id }, (err, doc) => {
-    if (err) next(err);
-    else {
-      let entries = Object.entries(doc);
-      let i = 0;
-      for (let entry of entries) {
-        doc[i] = {
-          name: entry[1].name,
-          tournamentid: entry[1]._id,
-        };
-        i++;
+  tournamentModel.find(
+    { "users.userid": req.user._id, status: "ACTIVE" },
+    (err, doc) => {
+      if (err) next(err);
+      else {
+        let entries = Object.entries(doc);
+        let i = 0;
+        for (let entry of entries) {
+          doc[i] = {
+            name: entry[1].name,
+            tournamentid: entry[1]._id,
+          };
+          i++;
+        }
+        res.status(200).json(doc);
       }
-      res.status(200).json(doc);
     }
-  });
+  );
 });
 
 router.get("/players/:id", verify, (req, res, next) => {
