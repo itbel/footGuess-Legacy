@@ -47,7 +47,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     fetchData();
     history.push("/home");
-  }, [history, state.allTournaments]);
+  }, [history]);
 
   return (
     <animated.div style={fade}>
