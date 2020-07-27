@@ -1,6 +1,6 @@
 import React from "react";
 import PointsTable from "../views/PointsTable";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Container } from "react-bootstrap";
 
 const Ranking = () => {
   return (

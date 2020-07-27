@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Context } from "../Store";
 import RankingTable from "../views/RankingTable";
 const Home = (props) => {
@@ -16,19 +16,20 @@ const Home = (props) => {
         color: "#efefef",
       }}
     >
-      <Container>
-        <Row className="justify-content-center">
-          <h1>Home</h1>
-        </Row>
-        <Row className="justify-content-center">
-          {state.selectedTourName !== undefined ? (
-            <>
-              <h1>{state.selectedTourName}</h1>
-              <RankingTable></RankingTable>
-            </>
-          ) : null}
-        </Row>
-      </Container>
+      <Row className="justify-content-center">
+        {state.selectedTourName !== undefined ? (
+          <div className="w-100 text-center">
+            <h1>{state.selectedTourName}</h1>
+            <h3>Tournament Standings</h3>
+            <RankingTable></RankingTable>
+          </div>
+        ) : (
+          <div>
+            <h1>Bolao-APP</h1>
+            <p>Join a tournament to be able to select one.</p>
+          </div>
+        )}
+      </Row>
     </div>
   );
 };
