@@ -74,7 +74,7 @@ body {
 
 .rankingTable {
   margin: auto;
-  width: 60%;
+  min-width: 100%;
   background-color: #efefef;
   color: black;
   font-size: 1.2em;
