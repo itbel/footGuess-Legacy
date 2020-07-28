@@ -262,7 +262,9 @@ const Tournaments = (props) => {
             </tfoot>
           </table>
         ) : (
-          <h1>No tournaments found</h1>
+          <Row className="justify-content-center">
+            <h1>No tournaments found</h1>
+          </Row>
         )}
       </Row>
       <Row className="justify-content-center">
