@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const verify = require("./verifyToken");
 const validateTournament = require("./validateTournament");
+const Axios = require("axios");
+const partidas = require("./partidas");
+const tourneios = require("./tourneios");
 
 let tournamentModel = require("../models/tournament.model");
 let userModel = require("../models/user.model");
@@ -112,6 +115,60 @@ router.patch("/end", verify, (req, res, next) => {
       }
     }
   });
+});
+router.get("/select", (req, res, next) => {
+  /*
+  Axios.get("https://api.api-futebol.com.br/v1/campeonatos", {
+    headers: {
+      Authorization: "Bearer live_7247c750c08258e8dd7d86194c3566",
+    },
+  })
+    .then((response) => {
+      res.status(200).send(response.data);
+    })
+    .catch((error) => {
+      next(error);
+    });
+    */
+  const obj = tourneios;
+  let builtTours = [];
+  obj.map((value) => {
+    let singleTour = {};
+    if (
+      value.nome === "Campeonato Brasileiro" ||
+      value.nome === "Copa do Brasil"
+    ) {
+      singleTour.id = value.campeonato_id;
+      singleTour.name = value.nome;
+      singleTour.year = value.edicao_atual.temporada;
+      singleTour.status = value.status;
+      builtTours.push(singleTour);
+    }
+  });
+  res.json(builtTours);
+});
+
+router.post("/addtour", (req, res, next) => {
+  let obj = partidas;
+  let rodadas = [];
+  let matches = [];
+  for (const [key, value] of Object.entries(obj.partidas["fase-unica"])) {
+    for (const [key2, value2] of Object.entries(value)) {
+      matches.push({
+        partida_id: value2.partida_id,
+        placar: value2.placar,
+        time_mandante: value2.time_mandante,
+        time_visitante: value2.time_visitante,
+        placar_mandante: value2.placar_mandante,
+        placar_visitante: value2.placar_visitante,
+        data_realizacao_iso: value2.data_realizacao_iso,
+        estadio: value2.estadio,
+      });
+    }
+    rodadas.push(matches);
+    matches = [];
+  }
+  res.json(rodadas);
 });
 
 router.patch("/leave", verify, (req, res, next) => {

@@ -19,6 +19,7 @@ import Results from "./Results";
 import OverallRanking from "./OverallRanking";
 import WinRanking from "./WinRanking";
 import ReactLoading from "react-loading";
+import Experimental from "./Experimental";
 
 // Functionals
 import FetchAll from "../functional/FetchAllTournaments";
@@ -168,6 +169,7 @@ const Dashboard = (props) => {
                   />
                   <Route path={"/allranking"} component={OverallRanking} />
                   <Route path={"/winranking"} component={WinRanking} />
+                  <Route path={"/exp"} component={Experimental} />
                 </Switch>
               </Col>
             </Row>
