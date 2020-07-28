@@ -117,19 +117,6 @@ router.patch("/end", verify, (req, res, next) => {
   });
 });
 router.get("/select", (req, res, next) => {
-  /*
-  Axios.get("https://api.api-futebol.com.br/v1/campeonatos", {
-    headers: {
-      Authorization: "Bearer live_7247c750c08258e8dd7d86194c3566",
-    },
-  })
-    .then((response) => {
-      res.status(200).send(response.data);
-    })
-    .catch((error) => {
-      next(error);
-    });
-    */
   const obj = tourneios;
   let builtTours = [];
   obj.map((value) => {
