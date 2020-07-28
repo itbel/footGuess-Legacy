@@ -169,7 +169,6 @@ const Dashboard = (props) => {
                   />
                   <Route path={"/allranking"} component={OverallRanking} />
                   <Route path={"/winranking"} component={WinRanking} />
-                  <Route path={"/exp"} component={Experimental} />
                 </Switch>
               </Col>
             </Row>

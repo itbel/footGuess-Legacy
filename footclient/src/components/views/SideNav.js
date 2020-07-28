@@ -20,9 +20,6 @@ const SideNav = () => {
       <Link className="side" to="/winranking">
         Total Wins Ranking
       </Link>
-      <Link className="side" to="/exp">
-        Experimental
-      </Link>
     </Row>
   );
 };
