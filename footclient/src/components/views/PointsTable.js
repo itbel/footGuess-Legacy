@@ -170,6 +170,8 @@ const PointsTable = () => {
                   <td>Nothing</td>
                 </tr>
               )}
+            </tbody>
+            <tfoot>
               <tr className="font-weight-bold">
                 <td className="justify-content-center d-flex">Points</td>
 
@@ -190,7 +192,7 @@ const PointsTable = () => {
                   );
                 })}
               </tr>
-            </tbody>
+            </tfoot>
           </table>
         ) : (
           <h3 className="text-center">No matches found</h3>
