@@ -254,6 +254,7 @@ body {
     padding: 8px;
     background-color: #131313;
     font-size: 0.8em;
+    text-align: center;
   }
 
   .side {
@@ -262,7 +263,6 @@ body {
     padding: 8px;
   }
   .topNav {
-    font-size: 0.7em;
-    height: 6%;
+    font-size: 0.8em;
   }
 }
