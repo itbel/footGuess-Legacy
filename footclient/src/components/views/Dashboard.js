@@ -17,7 +17,9 @@ import Tournaments from "./Tournaments";
 import Teams from "./Teams";
 import Results from "./Results";
 import OverallRanking from "./OverallRanking";
+import WinRanking from "./WinRanking";
 import ReactLoading from "react-loading";
+import Experimental from "./Experimental";
 
 // Functionals
 import FetchAll from "../functional/FetchAllTournaments";
@@ -41,7 +43,7 @@ const Dashboard = (props) => {
   const [isLeagueSet, setIsLeagueSet] = useState(false);
   const fetchData = () => {
     FetchJoinedTournaments(state, dispatch);
-    FetchAll(dispatch);
+    FetchAll(state, dispatch);
     FetchOwned(state, dispatch);
   };
   useEffect(() => {
@@ -166,6 +168,8 @@ const Dashboard = (props) => {
                     render={(props) => <Results notify={notify}></Results>}
                   />
                   <Route path={"/allranking"} component={OverallRanking} />
+                  <Route path={"/winranking"} component={WinRanking} />
+                  <Route path={"/exp"} component={Experimental} />
                 </Switch>
               </Col>
             </Row>

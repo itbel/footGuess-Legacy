@@ -1,23 +1,24 @@
 import Axios from "axios";
-import FetchAll from "../functional/FetchAllTournaments";
-import JoinTournament from "../functional/JoinTournament";
-import FetchOwned from "../functional/FetchOwnedTournaments";
+import FetchAll from "./FetchAllTournaments";
+import FetchOwned from "./FetchOwnedTournaments";
+import FetchJoinedTournaments from "./FetchJoinedTournaments";
 
-const CreateTournament = (tourname, state, dispatch) => {
+const EndTournament = (tournamentid, state, dispatch) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const config = {
     headers: { "auth-token": `${state.jwtToken}` },
   };
-  return Axios.post(
-    `${BASE_URL}/api/tournaments/manage`,
+
+  return Axios.patch(
+    `${BASE_URL}/api/tournaments/end`,
     {
-      name: tourname,
+      id: tournamentid,
     },
     config,
     { timeout: 2000 }
   )
     .then((response) => {
-      JoinTournament(response.data.id, state, dispatch);
+      FetchJoinedTournaments(state, dispatch);
       FetchAll(state, dispatch);
       FetchOwned(state, dispatch);
       return response;
@@ -29,5 +30,4 @@ const CreateTournament = (tourname, state, dispatch) => {
       return error;
     });
 };
-
-export default CreateTournament;
+export default EndTournament;

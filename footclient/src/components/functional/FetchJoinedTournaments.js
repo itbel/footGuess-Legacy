@@ -11,10 +11,15 @@ const FetchJoinedTournaments = (state, dispatch) => {
       timeout: 2000,
     })
       .then((response) => {
-        dispatch({
-          type: "FETCH_JOINED_TOURNAMENTS",
-          payload: response.data,
-        });
+        if (
+          JSON.stringify(state.joinedTournaments) !==
+          JSON.stringify(response.data)
+        ) {
+          dispatch({
+            type: "FETCH_JOINED_TOURNAMENTS",
+            payload: response.data,
+          });
+        }
         dispatch({ type: "UPDATING", payload: false });
       })
       .catch((error) => {

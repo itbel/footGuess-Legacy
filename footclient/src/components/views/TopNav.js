@@ -13,7 +13,7 @@ const TopNav = () => {
       arr.push(entry[1].name);
     }
     setTournaments(arr);
-  }, [state.ownedTournaments]);
+  }, [state.ownedTournaments, state.allTournaments]);
   return (
     <Navbar
       bg="dark"

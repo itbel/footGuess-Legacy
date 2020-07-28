@@ -14,10 +14,16 @@ const FetchOwnedTournaments = (state, dispatch) => {
       }
     )
       .then((response) => {
-        dispatch({
-          type: "FETCH_OWNED_TOURNAMENTS",
-          payload: response.data,
-        });
+        if (
+          JSON.stringify(state.ownedTournaments) !==
+          JSON.stringify(response.data)
+        ) {
+          dispatch({
+            type: "FETCH_OWNED_TOURNAMENTS",
+            payload: response.data,
+          });
+        }
+
         dispatch({ type: "UPDATING", payload: false });
       })
       .catch((error) => {
