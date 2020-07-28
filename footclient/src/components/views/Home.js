@@ -23,7 +23,11 @@ const Home = (props) => {
           <div className="w-100 text-center">
             <h1>{state.selectedTourName}</h1>
             <h3>Tournament Standings</h3>
-            <RankingTable></RankingTable>
+            <Row className="justify-content-center">
+              <Col sm={12} lg={4}>
+                <RankingTable></RankingTable>
+              </Col>
+            </Row>
           </div>
         ) : (
           <div>

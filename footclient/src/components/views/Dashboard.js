@@ -17,6 +17,7 @@ import Tournaments from "./Tournaments";
 import Teams from "./Teams";
 import Results from "./Results";
 import OverallRanking from "./OverallRanking";
+import WinRanking from "./WinRanking";
 import ReactLoading from "react-loading";
 
 // Functionals
@@ -166,6 +167,7 @@ const Dashboard = (props) => {
                     render={(props) => <Results notify={notify}></Results>}
                   />
                   <Route path={"/allranking"} component={OverallRanking} />
+                  <Route path={"/winranking"} component={WinRanking} />
                 </Switch>
               </Col>
             </Row>

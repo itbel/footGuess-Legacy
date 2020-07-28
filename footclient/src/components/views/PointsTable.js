@@ -193,7 +193,7 @@ const PointsTable = () => {
             </tbody>
           </table>
         ) : (
-          <h1>No matches found</h1>
+          <h1 className="text-center">No matches found</h1>
         )}
       </div>
     </div>

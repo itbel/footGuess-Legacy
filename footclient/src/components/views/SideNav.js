@@ -15,7 +15,10 @@ const SideNav = () => {
         Round Ranking
       </Link>
       <Link className="side" to="/allranking">
-        Overall Ranking
+        Tournament Ranking
+      </Link>
+      <Link className="side" to="/winranking">
+        Total Wins Ranking
       </Link>
     </Row>
   );
