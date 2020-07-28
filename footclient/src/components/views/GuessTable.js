@@ -151,7 +151,7 @@ const GuessTable = (props) => {
             </tfoot>
           </table>
         ) : (
-          <h1>No guesses found</h1>
+          <h3>No guesses found</h3>
         )}
       </Row>
       <Row className="justify-content-center pt-1">

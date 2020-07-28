@@ -124,7 +124,7 @@ const TeamsTable = (props) => {
           </tfoot>
         </table>
       ) : (
-        <h1>No teams found</h1>
+        <h3>No teams found</h3>
       )}
     </Row>
   );

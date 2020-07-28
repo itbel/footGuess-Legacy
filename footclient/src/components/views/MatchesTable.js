@@ -191,7 +191,7 @@ const MatchesTable = (props) => {
             </tfoot>
           </table>
         ) : (
-          <h1>No matches found</h1>
+          <h3>No matches found</h3>
         )}
       </Row>
     </>
