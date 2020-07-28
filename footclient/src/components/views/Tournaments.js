@@ -71,6 +71,13 @@ const Tournaments = (props) => {
                         <td>{val.owner}</td>
                         <td className="d-table-cell">
                           <Button
+                            hidden={
+                              state.ownedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? false
+                                : true
+                            }
                             disabled={
                               state.joinedTournaments.find(
                                 (el) => el.name === val.name
@@ -106,6 +113,13 @@ const Tournaments = (props) => {
                           </Button>
                           <Button
                             style={{ marginLeft: "8px" }}
+                            hidden={
+                              state.ownedTournaments.find(
+                                (el) => el.name === val.name
+                              ) === undefined
+                                ? false
+                                : true
+                            }
                             disabled={
                               state.joinedTournaments.find(
                                 (el) => el.name === val.name
