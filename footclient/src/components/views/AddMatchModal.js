@@ -115,7 +115,6 @@ const AddMatchModal = (props) => {
                     setRound(e.target.value);
                   }}
                   className="justify-content-start pt-0"
-                  style={{ width: "40%" }}
                 ></Form.Control>
               </Col>
             </Row>
