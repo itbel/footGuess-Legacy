@@ -125,10 +125,14 @@ const AddMatchModal = (props) => {
           <Button
             onClick={(e) => {
               if (/^\d*$/.test(round)) {
-                if (teamA === "" || teamB === "") {
-                  props.notify("Teams must be selected");
-                } else {
-                  handleSubmit(e);
+                if (round < 45)
+                  if (teamA === "" || teamB === "") {
+                    props.notify("Teams must be selected");
+                  } else {
+                    handleSubmit(e);
+                  }
+                else {
+                  props.notify("Round must be under 45!");
                 }
               } else {
                 props.notify("Round must be a number");
@@ -141,11 +145,15 @@ const AddMatchModal = (props) => {
           <Button
             onClick={(e) => {
               if (/^\d*$/.test(round)) {
-                if (teamA === "" || teamB === "") {
-                  props.notify("Teams must be selected");
-                } else {
-                  handleSubmit(e);
-                  handleClose();
+                if (round < 45)
+                  if (teamA === "" || teamB === "") {
+                    props.notify("Teams must be selected");
+                  } else {
+                    handleSubmit(e);
+                    handleClose();
+                  }
+                else {
+                  props.notify("Round must be under 45!");
                 }
               } else {
                 props.notify("Round must be a number");

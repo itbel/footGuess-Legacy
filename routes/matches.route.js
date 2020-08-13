@@ -13,18 +13,22 @@ router.post("/manage", verify, (req, res, next) => {
     else {
       if (doc !== null) {
         if (doc.owner.toString() === req.user._id.toString()) {
-          matchModel.create(
-            {
-              tournamentid: req.body.tournamentid,
-              round: req.body.round,
-              teamAName: req.body.teamA,
-              teamBName: req.body.teamB,
-            },
-            (err, doc) => {
-              if (err) next(err);
-              else res.status(201).send();
-            }
-          );
+          if (req.body.round < 45) {
+            matchModel.create(
+              {
+                tournamentid: req.body.tournamentid,
+                round: req.body.round,
+                teamAName: req.body.teamA,
+                teamBName: req.body.teamB,
+              },
+              (err, doc) => {
+                if (err) next(err);
+                else res.status(201).send();
+              }
+            );
+          } else {
+            res.status(400).json({ msg: "Round needs to be under 45" });
+          }
         } else {
           res.status(403).json({ msg: "Invalid user" });
         }
