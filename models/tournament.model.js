@@ -11,6 +11,7 @@ const Tournament = new Schema({
       points: Number,
     },
   ],
+  currentRound: { type: Number },
 });
 
 module.exports = mongoose.model("tournament", Tournament);

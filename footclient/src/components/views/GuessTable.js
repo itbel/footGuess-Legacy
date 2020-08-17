@@ -84,7 +84,6 @@ const GuessTable = (props) => {
                 <th>#</th>
                 <th className="text-center">Match</th>
                 <th>Guess</th>
-                <th>Result</th>
               </tr>
             </thead>
             <tbody>
@@ -98,19 +97,21 @@ const GuessTable = (props) => {
                           : key + 1 + currentPage * 10}
                       </td>
                       <td className="text-center">
-                        {val.teamAName} X {val.teamBName}
+                        {val.teamAName + " "}
+                        <b>
+                          {typeof val.teamAResult !== undefined
+                            ? val.teamAResult
+                            : null}
+                          X
+                          {typeof val.teamBResult !== undefined
+                            ? val.teamBResult
+                            : null}
+                        </b>
+                        {" " + val.teamBName}
                       </td>
                       <td>
                         {val.teamAguess} X {val.teamBguess}
                       </td>
-                      {typeof val.teamAResult !== undefined &&
-                      typeof val.teamBResult !== undefined ? (
-                        <td>
-                          {val.teamAResult} X {val.teamBResult}
-                        </td>
-                      ) : (
-                        <td></td>
-                      )}
                     </tr>
                   );
                 })
