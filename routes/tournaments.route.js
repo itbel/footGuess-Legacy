@@ -291,6 +291,19 @@ router.get("/wins", (req, res, next) => {
   });
 });
 
+router.get("/latestround/:id", (req, res, next) => {
+  tournamentModel.findOne({ _id: req.params.id }).exec((err, doc) => {
+    if (err) next(err);
+    else {
+      if (doc !== null) {
+        res.json({ currentRound: doc.currentRound });
+      } else {
+        res.json({ msg: "No users found" });
+      }
+    }
+  });
+});
+
 router.delete("/manage/:id", verify, (req, res, next) => {
   console.log(`========== REMOVING TOURNAMENT ==========`);
   tournamentModel.findOne({ _id: req.params.id }, (err1, doc1) => {

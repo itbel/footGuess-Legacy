@@ -4,6 +4,7 @@ import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
 import AddGuessModal from "../views/AddGuessModal";
+import FetchLatestRound from "../functional/FetchLatestRound";
 
 const GuessTable = (props) => {
   const [state, dispatch] = useContext(Context);
@@ -39,11 +40,19 @@ const GuessTable = (props) => {
             } else {
               setMatches([]);
             }
+            FetchLatestRound(state, dispatch)
+              .then((returnedround) => {
+                if (returnedround.currentRound !== round)
+                  setRound(returnedround.currentRound);
+              })
+              .catch((error) => {
+                console.log("Something went wrong");
+              });
           }
         }
       );
     }
-  }, [round, state.guesses]);
+  }, [round, state.guesses, state.latestRound]);
   return (
     <>
       <Row className="justify-content-center">

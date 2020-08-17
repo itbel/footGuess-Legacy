@@ -19,6 +19,7 @@ const Reducer = (state, action) => {
         allTournaments: [],
         ownedTournaments: [],
         teams: [],
+        latestRound: undefined,
         matches: [],
         results: [],
         guesses: [],
@@ -43,6 +44,11 @@ const Reducer = (state, action) => {
       return {
         ...state,
         guesses: action.payload,
+      };
+    case "FETCH_LATESTROUND":
+      return {
+        ...state,
+        latestRound: action.payload,
       };
     case "SELECT_TOURNAMENT":
       if (state.selectedTourId !== action.payload.tournamentid) {
