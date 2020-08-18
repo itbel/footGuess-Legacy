@@ -11,6 +11,7 @@ const initialState = {
   joinedTournaments: [],
   allTournaments: [],
   ownedTournaments: [],
+  latestRound: undefined,
   teams: [],
   matches: [],
   results: [],

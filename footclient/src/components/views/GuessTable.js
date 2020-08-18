@@ -4,6 +4,7 @@ import { Context } from "../Store";
 import FetchUserGuesses from "../functional/FetchUserGuesses";
 import FetchHighestRound from "../functional/FetchHighestRound";
 import AddGuessModal from "../views/AddGuessModal";
+import FetchLatestRound from "../functional/FetchLatestRound";
 
 const GuessTable = (props) => {
   const [state, dispatch] = useContext(Context);
@@ -11,9 +12,14 @@ const GuessTable = (props) => {
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
-
+  const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
+      if (initialLoad) {
+        FetchLatestRound(state, dispatch);
+        setRound(state.latestRound);
+        if (state.latestRound !== undefined) setInitialLoad(false);
+      }
       FetchHighestRound(state, state.selectedTourId, dispatch).then(
         (response) => {
           if (
@@ -43,7 +49,7 @@ const GuessTable = (props) => {
         }
       );
     }
-  }, [round, state.guesses]);
+  }, [round, state.latestRound, state.guesses]);
   return (
     <>
       <Row className="justify-content-center">
@@ -84,7 +90,6 @@ const GuessTable = (props) => {
                 <th>#</th>
                 <th className="text-center">Match</th>
                 <th>Guess</th>
-                <th>Result</th>
               </tr>
             </thead>
             <tbody>
@@ -98,19 +103,21 @@ const GuessTable = (props) => {
                           : key + 1 + currentPage * 10}
                       </td>
                       <td className="text-center">
-                        {val.teamAName} X {val.teamBName}
+                        {val.teamAName + " "}
+                        <b>
+                          {typeof val.teamAResult !== undefined
+                            ? val.teamAResult
+                            : null}
+                          X
+                          {typeof val.teamBResult !== undefined
+                            ? val.teamBResult
+                            : null}
+                        </b>
+                        {" " + val.teamBName}
                       </td>
                       <td>
                         {val.teamAguess} X {val.teamBguess}
                       </td>
-                      {typeof val.teamAResult !== undefined &&
-                      typeof val.teamBResult !== undefined ? (
-                        <td>
-                          {val.teamAResult} X {val.teamBResult}
-                        </td>
-                      ) : (
-                        <td></td>
-                      )}
                     </tr>
                   );
                 })

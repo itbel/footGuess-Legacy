@@ -62,6 +62,21 @@ router.patch("/manage", verify, (req, res, next) => {
                     req.body.tourid.toString() &&
                   req.user._id.toString() === doc.owner.toString()
                 ) {
+                  console.log(updatedMatch); // CAN ADD A CONDITION HERE TO PREVENT UPDATING currentRound TO PREVIOUS ROUND
+                  tournamentModel
+                    .findOneAndUpdate(
+                      { _id: req.body.tourid },
+                      { currentRound: updatedMatch.round }
+                    )
+                    .exec((roundUpdateError, updatedTour) => {
+                      if (roundUpdateError) next(roundUpdateError);
+                      else {
+                        console.log(
+                          "Updated tournament current round to " +
+                            updatedTour.currentRound
+                        );
+                      }
+                    });
                   matchModel
                     .find({ tournamentid: req.body.tourid })
                     .populate({
@@ -143,6 +158,7 @@ router.patch("/manage", verify, (req, res, next) => {
                           );
                         });
                       }
+
                       res.status(200).send();
                     });
                 } else {
