@@ -12,9 +12,14 @@ const GuessTable = (props) => {
   const [matches, setMatches] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
-
+  const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
+      if (initialLoad) {
+        FetchLatestRound(state, dispatch);
+        setRound(state.latestRound);
+        if (state.latestRound !== undefined) setInitialLoad(false);
+      }
       FetchHighestRound(state, state.selectedTourId, dispatch).then(
         (response) => {
           if (
@@ -40,19 +45,11 @@ const GuessTable = (props) => {
             } else {
               setMatches([]);
             }
-            FetchLatestRound(state, dispatch)
-              .then((returnedround) => {
-                if (returnedround.currentRound !== round)
-                  setRound(returnedround.currentRound);
-              })
-              .catch((error) => {
-                console.log("Something went wrong");
-              });
           }
         }
       );
     }
-  }, [round, state.guesses, state.latestRound]);
+  }, [round, state.latestRound, state.guesses]);
   return (
     <>
       <Row className="justify-content-center">

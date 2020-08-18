@@ -7,7 +7,7 @@ const FetchLatestRound = (state, dispatch) => {
   };
   dispatch({ type: "UPDATING", payload: true });
   if (state.selectedTourId !== undefined)
-    return Axios.get(
+    Axios.get(
       `${BASE_URL}/api/tournaments/latestround/${state.selectedTourId}`,
       config,
       { timeout: 2000 }
@@ -23,7 +23,6 @@ const FetchLatestRound = (state, dispatch) => {
           });
         }
         dispatch({ type: "UPDATING", payload: false });
-        return response.data;
       })
       .catch((error) => {
         if (error.response.status === 401) {

@@ -25,7 +25,6 @@ import Experimental from "./Experimental";
 import FetchAll from "../functional/FetchAllTournaments";
 import FetchOwned from "../functional/FetchOwnedTournaments";
 import FetchJoinedTournaments from "../functional/FetchJoinedTournaments";
-import FetchLatestRound from "../functional/FetchLatestRound";
 toast.configure();
 const notify = (msg) => {
   toast(msg, { position: toast.POSITION.BOTTOM_CENTER });
