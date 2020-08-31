@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../Store";
 import FetchRoundResult from "../functional/FetchRoundResult";
 import FetchHighestRound from "../functional/FetchHighestRound";
+import FetchLatestRound from "../functional/FetchLatestRound";
 
 const PointsTable = () => {
   const [state, dispatch] = useContext(Context);
@@ -10,8 +11,15 @@ const PointsTable = () => {
   const [players, setPlayers] = useState([]);
   const [round, setRound] = useState(1);
   const [rounds, setRounds] = useState([]);
+  const [initialLoad, setInitialLoad] = useState(true);
+
   useEffect(() => {
     if (state.selectedTourId !== undefined) {
+      if (initialLoad) {
+        FetchLatestRound(state, dispatch);
+        setRound(state.latestRound);
+        if (state.latestRound !== undefined) setInitialLoad(false);
+      }
       FetchHighestRound(state, state.selectedTourId, dispatch).then(
         (response) => {
           if (response !== undefined && response.length > 0) {
@@ -43,7 +51,7 @@ const PointsTable = () => {
         }
       );
     }
-  }, [round]);
+  }, [round, state.latestRound]);
   return (
     <div>
       <Row className="justify-content-center pb-1">
