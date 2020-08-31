@@ -78,8 +78,16 @@ body {
   background-color: #efefef;
   color: black;
   font-size: 1.2em;
+  position: relative;
+  border-collapse: collapse;
 }
-
+.rankingTable th {
+  z-index: 1;
+  top: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  background: white;
+}
 .winsTable {
   margin: auto;
   width: 100%;
