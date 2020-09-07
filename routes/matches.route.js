@@ -63,7 +63,7 @@ router.patch("/manage", verify, (req, res, next) => {
                   req.user._id.toString() === doc.owner.toString()
                 ) {
                   console.log(updatedMatch); // CAN ADD A CONDITION HERE TO PREVENT UPDATING currentRound TO PREVIOUS ROUND
-                  if (updatedMatch.round !== 38) updatedMatch.round += 1;
+                  //if (updatedMatch.round !== 38) updatedMatch.round += 1;
                   tournamentModel
                     .findOneAndUpdate(
                       { _id: req.body.tourid },

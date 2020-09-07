@@ -55,34 +55,32 @@ const PointsTable = () => {
   return (
     <div>
       <Row className="justify-content-center pb-1">
-        {matches.length > 0 ? (
-          <Dropdown className="pl-2">
-            <Dropdown.Toggle
-              style={{
-                visibility: rounds.length === 0 ? "hidden" : "visible",
-              }}
-              size="sm"
-              variant="light"
-            >
-              <b>Round: {round}</b>
-            </Dropdown.Toggle>
-            <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
-              {rounds.map((val, key) => {
-                return (
-                  <Dropdown.Item
-                    key={key}
-                    name={val}
-                    onClick={(e) => {
-                      setRound(parseInt(e.target.name));
-                    }}
-                  >
-                    {val}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown.Menu>
-          </Dropdown>
-        ) : null}
+        <Dropdown className="pl-2">
+          <Dropdown.Toggle
+            style={{
+              visibility: rounds.length === 0 ? "hidden" : "visible",
+            }}
+            size="sm"
+            variant="light"
+          >
+            <b>Round: {round}</b>
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ maxHeight: "35vh", overflowY: "auto" }}>
+            {rounds.map((val, key) => {
+              return (
+                <Dropdown.Item
+                  key={key}
+                  name={val}
+                  onClick={(e) => {
+                    setRound(parseInt(e.target.name));
+                  }}
+                >
+                  {val}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
       </Row>
       <div style={{ maxHeight: "60vh", overflow: "auto" }}>
         {matches.length > 0 ? (
