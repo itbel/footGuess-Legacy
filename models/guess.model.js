@@ -19,6 +19,7 @@ const Guess = new Schema({
     ref: "user",
     required: true,
   },
+  points: { type: Number }
 });
 
 module.exports = mongoose.model("guess", Guess);

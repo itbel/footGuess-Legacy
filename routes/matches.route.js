@@ -59,7 +59,7 @@ router.patch("/manage", verify, (req, res, next) => {
               else {
                 if (
                   updatedMatch.tournamentid.toString() ===
-                    req.body.tourid.toString() &&
+                  req.body.tourid.toString() &&
                   req.user._id.toString() === doc.owner.toString()
                 ) {
                   console.log(updatedMatch); // CAN ADD A CONDITION HERE TO PREVENT UPDATING currentRound TO PREVIOUS ROUND
@@ -74,7 +74,7 @@ router.patch("/manage", verify, (req, res, next) => {
                       else {
                         console.log(
                           "Updated tournament current round to " +
-                            updatedTour.currentRound
+                          updatedTour.currentRound
                         );
                       }
                     });
@@ -116,9 +116,9 @@ router.patch("/manage", verify, (req, res, next) => {
                                   );
                                   if (
                                     match.guesses.guessid[i].teamAguess !==
-                                      undefined &&
+                                    undefined &&
                                     match.guesses.guessid[i].teamBguess !==
-                                      undefined
+                                    undefined
                                   ) {
                                     // this might be better if done with IDs
                                     let found = players.find(
@@ -370,6 +370,88 @@ router.get("/all/:id&:round", verify, (req, res, next) => {
       else res.status(200).json(doc);
     }
   );
+});
+
+router.get("/maxround/:id", verify, (req, res, next) => {
+  matchModel
+    .find({ tournamentid: req.params.id })
+    .sort({ round: -1 })
+    .limit(1)
+    .exec((err, doc) => {
+      if (err) next(err);
+      else {
+        doc._id = undefined;
+        doc.tournamentid = undefined;
+        res.status(200).json(doc);
+      }
+    });
+});
+
+
+
+/* REACT-NATIVE ROUTES */
+router.get("/allmatches/:id", verify, (req, res, next) => {
+  matchModel
+    .find({ tournamentid: req.params.id })
+    .populate({
+      path: "guesses.guessid",
+      populate: {
+        path: "userid",
+        select: "_id name",
+      },
+    }).lean()
+    .exec((err, doc) => {
+      if (err) next(err);
+      else {
+        let rounds = [];
+        let index;
+        for (let x = 0; x < doc.length; x++) {
+          index = rounds.findIndex((round) => round.round === doc[x].round)
+          if (index === -1)
+            rounds.push({ round: doc[x].round, matches: [] })
+        }
+        for (let i = 0; i < doc.length; i++) {
+          index = rounds.findIndex((round) => round.round === doc[i].round)
+          if (index !== -1) {
+            rounds[index].matches.push({
+              teamAName: doc[i].teamAName,
+              teamBName: doc[i].teamBName,
+              teamAResult: doc[i].teamAResult,
+              teamBResult: doc[i].teamBResult,
+              guesses: doc[i].guesses.map(
+                (guess) => {
+                  if (guess?.guessid) {
+                    if (doc[i].teamAResult !== undefined && doc[i].teamBResult !== undefined) {
+                      return {
+                        teamAguess: guess.guessid.teamAguess,
+                        teamBguess: guess.guessid.teamBguess,
+                        name: guess.guessid.userid.name,
+                        guessid: guess.guessid._id,
+                        points: verifyMatch(
+                          guess.guessid.teamAguess,
+                          guess.guessid.teamBguess,
+                          doc[i].teamAResult,
+                          doc[i].teamBResult
+                        )
+                      }
+                    }
+                    else {
+                      return {
+                        teamAguess: guess.guessid.teamAguess,
+                        teamBguess: guess.guessid.teamBguess,
+                        name: guess.guessid.userid.name,
+                        guessid: guess.guessid._id
+                      }
+                    }
+                  }
+                })
+            })
+          }
+        }
+        res.status(200).json(rounds.reverse());
+      }
+    }
+    );
 });
 
 module.exports = router;

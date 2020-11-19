@@ -18,7 +18,7 @@ server.route("/login").post((req, res, next) => {
                 { _id: doc._id, name: doc.name },
                 process.env.SECRET,
                 {
-                  expiresIn: 900,
+                  expiresIn: 9000,
                 }
               );
               res.header("auth-token", token).send(token);

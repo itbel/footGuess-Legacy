@@ -46,10 +46,10 @@ app.use((err, req, res, next) => {
   res.status(500).send("Internal Server Error!");
 });
 
-app.use(express.static("footclient/build"));
+/* app.use(express.static("footclient/build"));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "footclient", "build", "index.html"));
-});
+}); */
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port: ${process.env.PORT}`);
