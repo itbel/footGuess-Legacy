@@ -454,4 +454,52 @@ router.get("/allmatches/:id", verify, (req, res, next) => {
     );
 });
 
+router.get("/unguessed/:id", verify, (req, res, next) => {
+  console.log("========== FETCHING UNGUESSED MATCHES ==========");
+  matchModel.find(
+    { tournamentid: req.params.id },
+    (err, allmatches) => {
+      if (err) next(err);
+      else {
+        guessModel.find(
+          { matchid: { $in: allmatches }, userid: req.user._id },
+          (err, guessedmatches) => {
+            if (err) next(err);
+            else {
+              for (let x = 0; x < guessedmatches.length; x++) {
+                for (let i = 0; i < allmatches.length; i++) {
+                  if (
+                    guessedmatches[x].matchid.toString() ===
+                    allmatches[i]._id.toString()
+                  ) {
+                    allmatches.splice(i, 1);
+                  }
+                }
+              }
+              let rounds = [];
+              let index;
+              for (let x = 0; x < allmatches.length; x++) {
+                index = rounds.findIndex((round) => round.round === allmatches[x].round)
+                if (index === -1)
+                  rounds.push({ round: allmatches[x].round, matches: [] })
+              }
+              for (let i = 0; i < allmatches.length; i++) {
+                index = rounds.findIndex((round) => round.round === allmatches[i].round)
+                if (index !== -1) {
+                  rounds[index].matches.push({
+                    teamAName: allmatches[i].teamAName,
+                    teamBName: allmatches[i].teamBName,
+                  })
+                }
+              }
+              res.status(200).json(rounds);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+
 module.exports = router;
