@@ -418,7 +418,7 @@ router.get("/allmatches/:id", verify, (req, res, next) => {
               teamBName: doc[i].teamBName,
               teamAResult: doc[i].teamAResult,
               teamBResult: doc[i].teamBResult,
-              guesses: doc[i].guesses.map(
+              guesses: doc[i]?.guesses ? doc[i]?.guesses.map(
                 (guess) => {
                   if (guess?.guessid) {
                     if (doc[i].teamAResult !== undefined && doc[i].teamBResult !== undefined) {
@@ -444,7 +444,7 @@ router.get("/allmatches/:id", verify, (req, res, next) => {
                       }
                     }
                   }
-                })
+                }) : []
             })
           }
         }
