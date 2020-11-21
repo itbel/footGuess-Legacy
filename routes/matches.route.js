@@ -22,7 +22,7 @@ router.post("/manage", verify, (req, res, next) => {
                 teamBName: req.body.teamB,
               },
               (err, doc) => {
-                if (err) next(err);
+                if (err) next(err)
                 else res.status(201).send();
               }
             );
@@ -488,7 +488,10 @@ router.get("/unguessed/:id", verify, (req, res, next) => {
                 if (index !== -1) {
                   rounds[index].matches.push({
                     teamAName: allmatches[i].teamAName,
+                    teamAguess: allmatches[i].teamAguess,
+                    teamBguess: allmatches[i].teamBguess,
                     teamBName: allmatches[i].teamBName,
+                    matchid: allmatches[i]._id
                   })
                 }
               }

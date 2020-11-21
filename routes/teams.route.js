@@ -16,7 +16,7 @@ router.post("/manage", verify, (req, res, next) => {
       else {
         if (doc !== null) {
           if (doc.owner.toString() === req.user._id.toString()) {
-            teamModel.findOne({ teamName: req.body.teamName }, (err2, doc2) => {
+            teamModel.findOne({ teamName: req.body.teamName, tournamentid: req.body.tournamentid }, (err2, doc2) => {
               if (err2) next(err2);
               else {
                 if (doc2 === null) {
