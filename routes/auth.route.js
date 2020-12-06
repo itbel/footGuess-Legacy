@@ -21,7 +21,7 @@ server.route("/login").post((req, res, next) => {
                   expiresIn: 9000,
                 }
               );
-              res.header("auth-token", token).send(token);
+              res.header("auth-token", token).send({ token: token, name: doc.name });
             } else res.status(401).json({ msg: "Invalid Password" });
           });
         } else {
@@ -74,4 +74,5 @@ server.route("/register").post((req, res, next) => {
     }
   });
 });
+
 module.exports = server;

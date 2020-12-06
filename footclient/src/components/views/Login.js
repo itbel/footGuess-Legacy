@@ -31,7 +31,7 @@ const Login = (props) => {
           } else {
             dispatch({
               type: "LOGIN",
-              payload: response.data,
+              payload: response.data.token,
             });
           }
         })
