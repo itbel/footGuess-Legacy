@@ -486,16 +486,23 @@ router.get("/unguessed/:id", verify, (req, res, next) => {
               for (let i = 0; i < allmatches.length; i++) {
                 index = rounds.findIndex((round) => round.round === allmatches[i].round)
                 if (index !== -1) {
-                  rounds[index].matches.push({
-                    teamAName: allmatches[i].teamAName,
-                    teamAguess: allmatches[i].teamAguess,
-                    teamBguess: allmatches[i].teamBguess,
-                    teamBName: allmatches[i].teamBName,
-                    matchid: allmatches[i]._id
-                  })
+                  if (allmatches[i].teamAResult || allmatches[i].teamBResult) {
+
+                  } else {
+                    rounds[index].matches.push({
+                      teamAResult: allmatches[i].teamAResult,
+                      teamBResult: allmatches[i].teamBResult,
+                      teamAName: allmatches[i].teamAName,
+                      teamAguess: allmatches[i].teamAguess,
+                      teamBguess: allmatches[i].teamBguess,
+                      teamBName: allmatches[i].teamBName,
+                      matchid: allmatches[i]._id
+                    })
+                  }
+
                 }
               }
-              res.status(200).json(rounds);
+              res.status(200).json(rounds.filter((round) => round?.matches?.length !== 0))
             }
           }
         );
