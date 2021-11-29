@@ -39,7 +39,7 @@ const AddTeamModal = (props) => {
               props.notify("Successfully Added Team.");
             } else {
               props.notify(
-                response.response.data.msg || "Something went wrong."
+                response?.response?.data.msg || "Something went wrong."
               );
             }
           } else {

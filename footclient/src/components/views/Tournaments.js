@@ -93,13 +93,13 @@ const Tournaments = (props) => {
                               ).then((response) => {
                                 if (
                                   response !== undefined &&
-                                  response.status === 204
+                                  response?.status === 204
                                 ) {
                                   props.notify(
                                     "Sucessfully Joined Tournament."
                                   );
                                 } else {
-                                  if (response.response.status === 401)
+                                  if (response?.response?.status === 401)
                                     props.notify("You must login again");
                                   else {
                                     props.notify("Something went wrong.");
@@ -139,7 +139,7 @@ const Tournaments = (props) => {
                                 ) {
                                   props.notify("Sucessfully Left Tournament.");
                                 } else {
-                                  if (response.response.status === 401)
+                                  if (response?.response?.status === 401)
                                     props.notify("You must login again");
                                   else {
                                     props.notify("Something went wrong.");
@@ -191,7 +191,7 @@ const Tournaments = (props) => {
                                     "Sucessfully Removed Tournament."
                                   );
                                 } else {
-                                  if (response.response.status === 401)
+                                  if (response?.response?.status === 401)
                                     props.notify("You must login again");
                                   else {
                                     props.notify("Something went wrong.");

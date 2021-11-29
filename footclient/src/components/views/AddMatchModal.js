@@ -21,7 +21,7 @@ const AddMatchModal = (props) => {
         if (response !== undefined && response.status === 201) {
           props.notify("Successfully Created Match.");
         } else {
-          props.notify(response.response.data.msg || "Something went wrong.");
+          props.notify(response?.response?.data.msg || "Something went wrong.");
         }
       }
     );

@@ -142,7 +142,7 @@ const MatchesTable = (props) => {
                                   props.notify("Sucessfully Removed Match.");
                                 } else {
                                   props.notify(
-                                    response.response.data.msg ||
+                                    response?.response?.data.msg ||
                                       "Something went wrong."
                                   );
                                 }

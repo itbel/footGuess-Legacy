@@ -13,12 +13,14 @@ const CreateTournamentModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     CreateTournament(name, state, dispatch).then((response) => {
-      if (response !== undefined && response.status === 200) {
+      console.log({response})
+      if (response !== undefined && response?.status === 200) {
         props.notify("Sucessfully Created Tournament");
         setName("");
         handleClose();
       } else {
-        props.notify(response.response.data.msg || "Something went wrong");
+        console.log({response})
+        props.notify(response?.error?.response?.data?.msg || "Something went wrong");
       }
     });
   };

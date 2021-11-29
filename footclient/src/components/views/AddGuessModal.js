@@ -30,7 +30,7 @@ const AddGuessModal = (props) => {
         if (response !== undefined && response.status === 201) {
           props.notify("Successfully Added Guess.");
         } else {
-          props.notify(response.response.data.msg || "Something went wrong.");
+          props.notify(response?.response.data.msg || "Something went wrong.");
         }
       });
 
@@ -53,9 +53,9 @@ const AddGuessModal = (props) => {
         if (response !== undefined) {
           if (response.data !== undefined) setMatches(response.data);
           else {
-            if (response.response.status === 401) {
+            if (response?.response?.status === 401) {
               props.notify(
-                response.response.data.msg || "Something went wrong."
+                response?.response?.data.msg || "Something went wrong."
               );
             }
           }

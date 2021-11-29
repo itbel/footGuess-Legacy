@@ -31,7 +31,7 @@ const ResultModal = (props) => {
       if (response !== undefined && response.status === 200) {
         props.notify("Sucessfully Added Result.");
       } else {
-        props.notify(response.response.data.msg || "Something went wrong.");
+        props.notify(response?.response?.data.msg || "Something went wrong.");
       }
     });
     handleClose();
